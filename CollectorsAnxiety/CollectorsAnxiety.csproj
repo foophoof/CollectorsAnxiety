@@ -1,0 +1,119 @@
+<Project Sdk="Microsoft.NET.Sdk">
+    <PropertyGroup>
+        <Product>Collector's Anxiety</Product>
+        <Authors>Kaz Wolfe</Authors>
+        <Company>Blacksite Technologies</Company>
+        <Version>0.0.1</Version>
+
+        <AssemblyName>CollectorsAnxiety</AssemblyName>
+
+        <Description>A Dalamud plugin that helps players manage collectable items in FFXIV.</Description>
+        <Copyright>(c) 2022, KazWolfe</Copyright>
+        <IsPackable>false</IsPackable>
+        <NeutralLanguage>en</NeutralLanguage>
+        <Nullable>enable</Nullable>
+        <PackageLicenseExpression>AGPL-1.0</PackageLicenseExpression>
+    </PropertyGroup>
+
+    <PropertyGroup Label="Target">
+        <PlatformTarget>x64</PlatformTarget>
+        <TargetFramework>net5.0-windows</TargetFramework>
+        <LangVersion>10</LangVersion>
+        <Platforms>x64</Platforms>
+        <Configurations>Debug;Release</Configurations>
+    </PropertyGroup>
+    <PropertyGroup Label="Build">
+        <OutputType>Library</OutputType>
+        <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+        <AppendPlatformToOutputPath>false</AppendPlatformToOutputPath>
+        <DebugSymbols>true</DebugSymbols>
+        <DebugType>full</DebugType>
+        <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
+        <RestorePackagesWithLockFile>true</RestorePackagesWithLockFile>
+    </PropertyGroup>
+    <PropertyGroup Label="Feature">
+        <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    </PropertyGroup>
+    <PropertyGroup>
+        <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+        <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+        <PublishTrimmed>true</PublishTrimmed>
+    </PropertyGroup>
+
+    <PropertyGroup Condition="'$(Configuration)' == 'Release'">
+        <PathMap>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)'))=S:\</PathMap>
+    </PropertyGroup>
+
+    <PropertyGroup>
+        <DalamudLibPath>$(appdata)\XIVLauncher\addon\Hooks\dev\</DalamudLibPath>
+    </PropertyGroup>
+    
+    <ItemGroup>
+        <!-- Dalamud things -->
+        <PackageReference Include="DalamudPackager" Version="2.1.7" GeneratePathProperty="false" />
+        <Reference Include="FFXIVClientStructs">
+            <HintPath>$(DalamudLibPath)FFXIVClientStructs.dll</HintPath>
+            <Private>false</Private>
+        </Reference>
+        <Reference Include="Newtonsoft.Json">
+            <HintPath>$(DalamudLibPath)Newtonsoft.Json.dll</HintPath>
+            <Private>false</Private>
+        </Reference>
+        <Reference Include="Dalamud">
+            <HintPath>$(DalamudLibPath)Dalamud.dll</HintPath>
+            <Private>false</Private>
+        </Reference>
+        <Reference Include="ImGui.NET">
+            <HintPath>$(DalamudLibPath)ImGui.NET.dll</HintPath>
+            <Private>false</Private>
+        </Reference>
+        <Reference Include="ImGuiScene">
+            <HintPath>$(DalamudLibPath)ImGuiScene.dll</HintPath>
+            <Private>false</Private>
+        </Reference>
+        <Reference Include="Lumina">
+            <HintPath>$(DalamudLibPath)Lumina.dll</HintPath>
+            <Private>false</Private>
+        </Reference>
+        <Reference Include="Lumina.Excel">
+            <HintPath>$(DalamudLibPath)Lumina.Excel.dll</HintPath>
+            <Private>false</Private>
+        </Reference>
+    </ItemGroup>
+
+    <ItemGroup>
+        <Content Include="../assets/icon.png">
+            <Link>images/icon.png</Link>
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </Content>
+    </ItemGroup>
+
+    <!-- Localization -->
+    <ItemGroup>
+        <!-- Do not include pseudo-localization files in the release build -->
+        <EmbeddedResource Remove="Resources\Localization\PluginStrings.qps-ploc.resx" Condition="'$(Configuration)' == 'Release'" />
+        <None Include="Resources\Localization\PluginStrings.qps-ploc.resx" Condition="'$(Configuration)' == 'Release'" />
+
+        <EmbeddedResource Update="Resources\Localization\PluginStrings.resx">
+            <Generator>ResXFileCodeGenerator</Generator>
+            <LastGenOutput>PluginStrings.Designer.cs</LastGenOutput>
+        </EmbeddedResource>
+        <Compile Update="Resources\Localization\PluginStrings.Designer.cs">
+            <DesignTime>True</DesignTime>
+            <AutoGen>True</AutoGen>
+            <DependentUpon>PluginStrings.Designer.cs</DependentUpon>
+        </Compile>
+    </ItemGroup>
+
+    <!-- Build steps -->
+    
+
+    <Target Name="PackagePluginRelease" AfterTargets="Build" Condition="'$(Configuration)' == 'Release'">
+        <DalamudPackager ProjectDir="$(ProjectDir)" OutputPath="$(OutputPath)" AssemblyName="$(AssemblyName)" MakeZip="true" VersionComponents="3" />
+    </Target>
+
+    <Target Name="PackagePluginDebug" AfterTargets="Build" Condition="'$(Configuration)' == 'Debug'">
+        <DalamudPackager ProjectDir="$(ProjectDir)" OutputPath="$(TargetDir)" AssemblyName="$(AssemblyName)" MakeZip="false" VersionComponents="3" />
+    </Target>
+
+</Project>

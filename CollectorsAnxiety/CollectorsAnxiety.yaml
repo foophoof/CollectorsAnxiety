@@ -1,0 +1,11 @@
+name: Collector's Anxiety
+author: Kaz Wolfe
+punchline: Hey guys, Famous YouTuber here. Do you ever get Collector's Anxiety?
+description: |-
+  Collector's Anxiety helps completionists or players with a hobby for collecting in-game things keep track of what they do or don't have in an easy-to-use checklist format. Data is loaded live from the game, so collection statuses are updated in real-time.
+  
+  Note that this plugin is currently in DEVELOPMENT PREVIEW and *will* change significantly between now and the full release. Please send any feedback and feature requests to the Goat Place Discord or by using the Feedback button below.
+repo_url: https://github.com/KazWolfe/CollectorsAnxiety/
+tags:
+  - collection
+  - information

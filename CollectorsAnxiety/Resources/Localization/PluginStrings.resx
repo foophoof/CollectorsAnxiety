@@ -1,0 +1,75 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<root>
+    <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+        <xsd:element name="root" msdata:IsDataSet="true">
+            
+        </xsd:element>
+    </xsd:schema>
+    <resheader name="resmimetype">
+        <value>text/microsoft-resx</value>
+    </resheader>
+    <resheader name="version">
+        <value>1.3</value>
+    </resheader>
+    <resheader name="reader">
+        <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+    <resheader name="writer">
+        <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+    <data name="CollectorsAnxiety_Title" xml:space="preserve">
+        <value>Collector's Anxiety</value>
+    </data>
+    <data name="ImGuiUtil_CompletionProgressBarLabel" xml:space="preserve">
+        <value>{0:P} Complete ({1} / {2})</value>
+    </data>
+    <data name="ArmoireTab_Name" xml:space="preserve">
+        <value>Armoire</value>
+        <comment>The name used to refer to the game's "Armoire", singular.</comment>
+    </data>
+    <data name="BuddyEquipTab_Name" xml:space="preserve">
+        <value>Barding</value>
+        <comment>Tab title for showing chocobo barding collection.</comment>
+    </data>
+    <data name="EmoteTab_Name" xml:space="preserve">
+        <value>Emotes</value>
+        <comment>The name for the tab showing the collection of emotes. Note that this should be translated following the game's own language information.</comment>
+    </data>
+    <data name="HairstyleTab_Name" xml:space="preserve">
+        <value>Hairstyles</value>
+    </data>
+    <data name="MinionTab_Name" xml:space="preserve">
+        <value>Minions</value>
+    </data>
+    <data name="MountTab_Name" xml:space="preserve">
+        <value>Mounts</value>
+    </data>
+    <data name="OrchestrionTab_Name" xml:space="preserve">
+        <value>Orchestrion Rolls</value>
+    </data>
+    <data name="OrnamentTab_Name" xml:space="preserve">
+        <value>Fashion Accessories</value>
+    </data>
+    <data name="TomesTab_Name" xml:space="preserve">
+        <value>Tomes</value>
+    </data>
+    <data name="OverviewTab_Name" xml:space="preserve">
+        <value>Overview</value>
+    </data>
+    <data name="SettingsTab_Name" xml:space="preserve">
+        <value>Settings</value>
+    </data>
+    <data name="ArmoireTab_ArmoireNotLoadedError_Title" xml:space="preserve">
+        <value>The Armoire is currently not loaded.</value>
+    </data>
+    <data name="ArmoireTab_ArmoireNotLoadedError_Message" xml:space="preserve">
+        <value>To refresh information and see collection statistics, please visit an Inn Room and open your Armoire. Collector's Anxiety will automatically refresh this page with the relevant information.</value>
+    </data>
+    <data name="ArmoireTab_ArmoireNote" xml:space="preserve">
+        <value>Note: The Armoire tab will only show items stored within the Armoire. Any items in the Glamour Dresser will not be reflected in the below list.</value>
+    </data>
+    <data name="CollectorWindow_NoUserLoggedInWarning" xml:space="preserve">
+        <value>WARNING: A player is not logged in. Data may be invalid or incomplete.</value>
+    </data>
+</root>

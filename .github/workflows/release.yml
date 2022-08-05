@@ -1,0 +1,37 @@
+﻿name: Build Collector's Anxiety
+
+on:
+  release:
+    types: [published]
+    
+jobs:
+  build-ffxivplugin:
+    name: Build Collector's Anxiety Plugin
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          submodules: recursive
+      - name: Set up .NET
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: 6.0.x
+      - name: Restore Dependencies
+        run: dotnet restore
+      - name: Download Dalamud
+        run: |
+          Invoke-WebRequest -Uri https://goatcorp.github.io/dalamud-distrib/latest.zip -OutFile latest.zip
+          Expand-Archive -Force latest.zip "$env:AppData\XIVLauncher\addon\Hooks\dev"
+      - name: Build Plugin
+        run: |
+          $ver = '${{ github.ref }}' -replace 'refs/tags/v',''
+          invoke-expression 'dotnet build --no-restore --configuration Release --nologo -p:AssemblyVersion=$ver -p:Version=$ver -p:FileVersion=$ver FFXIVPlugin'
+      - name: Report Build Hash
+        run: |
+          $fileHashInfo = Get-FileHash .\CollectorsAnxiety\bin\Release\CollectorsAnxiety\latest.zip;
+          Write-Output "Hash of CollectorsAnxiety: $($fileHashInfo.Hash)";
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: CollectorsAnxiety
+          path: .\CollectorsAnxiety\bin\Release\CollectorsAnxiety\
