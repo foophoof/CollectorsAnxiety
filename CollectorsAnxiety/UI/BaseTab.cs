@@ -5,6 +5,7 @@ using System.Numerics;
 using CollectorsAnxiety.Data;
 using CollectorsAnxiety.Util;
 using Dalamud.Interface.Colors;
+using Dalamud.Interface.Components;
 using ImGuiNET;
 using Lumina.Excel;
 
@@ -78,6 +79,8 @@ public class BaseTab<TEntry, TSheet> : IDataTab where TEntry : DataEntry<TSheet>
             if (this._displayFilter == FilterMode.ShowHiddenOnly)
                 this._displayFilter = FilterMode.ShowAll;
         }
+        ImGuiComponents.HelpMarker("To hide an item from a collection list, right-click the checkbox next to " +
+                                   "an item and \"Hide Item\".");
         
         // load in items early so we can cache and operate on the subset.
         var totalVisibleItems = 0;
