@@ -19,78 +19,78 @@
         <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
     </resheader>
     <data name="CollectorsAnxiety_Title" xml:space="preserve">
-        <value>Collector's Anxiety</value>
+        <value>« Çöllééçtör´s Åñxîîétý »</value>
     </data>
     <data name="ImGuiUtil_CompletionProgressBarLabel" xml:space="preserve">
-        <value>{0:P} Complete ({1} / {2})</value>
+        <value>« {0:P} Çöömþþléété ({1} / {2}) »</value>
     </data>
     <data name="ArmoireTab_Name" xml:space="preserve">
-        <value>Armoire</value>
+        <value>« Årmmöîréé »</value>
     </data>
     <data name="BuddyEquipTab_Name" xml:space="preserve">
-        <value>Barding</value>
+        <value>« Båårddîñg »</value>
     </data>
     <data name="EmoteTab_Name" xml:space="preserve">
-        <value>Emotes</value>
+        <value>« Émööötés »</value>
     </data>
     <data name="HairstyleTab_Name" xml:space="preserve">
-        <value>Hairstyles</value>
+        <value>« Håîîrstýýlés »</value>
     </data>
     <data name="MinionTab_Name" xml:space="preserve">
-        <value>Minions</value>
+        <value>« Mîññîöööñs »</value>
     </data>
     <data name="MountTab_Name" xml:space="preserve">
-        <value>Mounts</value>
+        <value>« Möûûñts »</value>
     </data>
     <data name="OrchestrionTab_Name" xml:space="preserve">
-        <value>Orchestrion Rolls</value>
+        <value>« Örçhhhééstrîööñ Rölllls »</value>
     </data>
     <data name="OrnamentTab_Name" xml:space="preserve">
-        <value>Fashion Accessories</value>
+        <value>« Fåshhîööñ Åççççésssörîîés »</value>
     </data>
     <data name="TomesTab_Name" xml:space="preserve">
-        <value>Tomes</value>
+        <value>« Tömméss »</value>
     </data>
     <data name="OverviewTab_Name" xml:space="preserve">
-        <value>Overview</value>
+        <value>« Övérvvvîéw »</value>
     </data>
     <data name="SettingsTab_Name" xml:space="preserve">
-        <value>Settings</value>
+        <value>« Séetttîñgs »</value>
     </data>
     <data name="ArmoireTab_ArmoireNotLoadedError_Title" xml:space="preserve">
-        <value>The Armoire is currently not loaded.</value>
+        <value>« Théx Årmmöîîré îs çûrrrréñtlý ñöt löåådéd· »</value>
     </data>
     <data name="ArmoireTab_ArmoireNotLoadedError_Message" xml:space="preserve">
-        <value>To refresh information and see collection statistics, please visit an Inn Room and open your Armoire. Collector's Anxiety will automatically refresh this page with the relevant information.</value>
+        <value>« Töö réffréésh îñförmåtîîöñ åññd séé çölllléçttîööñ ståtîîstîçs, þléåsé vîîsît åñ Îñññ Röööm åññd öþþéñ ýöûrrr Årmmöîré. Çöllééçtör'ssss Åñxxxîéétý wîll åûtömååtîçåållý réfrrrrésh thîs þågé wîîth thée rélévvåñt îñfööörmåtîöñ· »</value>
     </data>
     <data name="ArmoireTab_ArmoireNote" xml:space="preserve">
-        <value>Note: The Armoire tab will only show items stored within the Armoire. Any items in the Glamour Dresser will not be reflected in the below list.</value>
+        <value>« Ñööté∶ Thé Årmmöîré tååb wîlll öñññlý shööww îtéms stöööréd wîthîîñ thhé Årmmöîréé· Åññý îttéms îñ thé Ĝlåååmöûr Ðréééssér wîîll ñööt bé réfffléçtéd îñ thhé bélöööw lîst· »</value>
     </data>
     <data name="CollectorWindow_NoUserLoggedInWarning" xml:space="preserve">
-        <value>WARNING: A player is not logged in. Data may be invalid or incomplete.</value>
+        <value>« ŴÅRRÑÎÑÑĜ∶ Å þlååýér îs ñööt löööggéd îñ. Ðååtå måý béé îñvållîd ör îñçömmmþlété. »</value>
     </data>
     <data name="BaseTab_FilterShowAll" xml:space="preserve">
-        <value>Show All</value>
+        <value>« Shhöw Ålll »</value>
     </data>
     <data name="BaseTab_FilterShowComplete" xml:space="preserve">
-        <value>Show Complete</value>
+        <value>« Shhöw Çömþlééété »</value>
     </data>
     <data name="BaseTab_FilterShowIncomplete" xml:space="preserve">
-        <value>Show Incomplete</value>
+        <value>« Shhöw Îñçömmþllété »</value>
     </data>
     <data name="BaseTab_FilterHiddenOnly" xml:space="preserve">
-        <value>Show Hidden Only</value>
+        <value>« Shhöw Hîîddéññ Öñllý »</value>
     </data>
     <data name="BaseTab_HiddenHelp" xml:space="preserve">
-        <value>To hide an item from a collection list, right-click the checkbox next to an item and "Hide Item".</value>
+        <value>« Töx hîddé åñ îtéém frööm å çölléçtîîîöñ lîst, rîîîght‐çlîççķ thhé çhéçķbböx ñéxxt tö åñ îtéém åññd "Hîddé Îtém" »</value>
     </data>
     <data name="BaseTab_FilterShowHidden" xml:space="preserve">
-        <value>Show Hidden</value>
+        <value>« Shhöw  Hîddéñxx »</value>
     </data>
     <data name="BaseTab_HideItem" xml:space="preserve">
-        <value>Hide Item</value>
+        <value>« Hîddé Îtéém »</value>
     </data>
     <data name="BaseTab_HiddenTag" xml:space="preserve">
-        <value>(Hidden)</value>
+        <value>« (Hîîddééñ) »</value>
     </data>
 </root>

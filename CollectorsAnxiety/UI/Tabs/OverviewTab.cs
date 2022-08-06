@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Diagnostics;
-using System.Numerics;
+﻿using System.Linq;
 using CollectorsAnxiety.Resources.Localization;
 using CollectorsAnxiety.UI.Windows;
 using CollectorsAnxiety.Util;
@@ -10,24 +8,22 @@ using ImGuiNET;
 namespace CollectorsAnxiety.UI.Tabs; 
 
 public class OverviewTab : ITab {
-    private CollectorWindow _baseWindow;
+    private readonly CollectorWindow _baseWindow;
 
     public OverviewTab(CollectorWindow window) {
         this._baseWindow = window;
     }
 
-    public void Dispose() {
-        
-    }
-    
     public string Name => PluginStrings.OverviewTab_Name;
     public void Draw() {
         var grandTotalUnlocked = 0;
         var grandTotalItems = 0;
         var tainted = false;
+
+        var labelWidth = this._baseWindow.DataTabs.Max(t => ImGui.CalcTextSize(t.Name).X) + 10;
         
         if (ImGui.BeginTable("##overview", 2)) {
-            ImGui.TableSetupColumn("Label", ImGuiTableColumnFlags.WidthFixed, 128);
+            ImGui.TableSetupColumn("Label", ImGuiTableColumnFlags.WidthFixed, labelWidth);
             ImGui.TableSetupColumn("ProgressBar");
             // ImGui.TableHeadersRow();
             ImGui.TableNextRow();

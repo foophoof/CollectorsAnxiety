@@ -14,7 +14,7 @@ using ImGuiNET;
 namespace CollectorsAnxiety.UI.Windows; 
 
 public class CollectorWindow : Window {
-    public static readonly string WindowKey = PluginStrings.CollectorsAnxiety_Title;
+    public static readonly string WindowKey = "###mainWindow";
 
     public CollectorWindow() : base(WindowKey, ImGuiWindowFlags.None, true) {
         this.SizeCondition = ImGuiCond.FirstUseEver;
@@ -41,9 +41,7 @@ public class CollectorWindow : Window {
     
     public override void OnOpen() {
         base.OnOpen();
-
-        this.WindowName = PluginStrings.CollectorsAnxiety_Title;
-
+        
         // Load in tabs if none are found, somehow.
         if (this._tabs.Count == 0) {
             this._tabs.Add(new OverviewTab(this));
@@ -53,8 +51,9 @@ public class CollectorWindow : Window {
     }
 
     public override void Draw() {
-        var pbs = ImGuiHelpers.GetButtonSize("placeholder");
-        
+        this.WindowName = $"{PluginStrings.CollectorsAnxiety_Title}{WindowKey}";
+        var pbs = ImGuiHelpers.GetButtonSize(".");
+
         if (!Injections.ClientState.IsLoggedIn || Injections.ClientState.LocalPlayer == null) {
             ImGui.PushStyleColor(ImGuiCol.Text, ImGuiColors.DalamudOrange);
             ImGuiUtil.TextHorizCentered(PluginStrings.CollectorWindow_NoUserLoggedInWarning);
@@ -64,9 +63,11 @@ public class CollectorWindow : Window {
         ImGui.BeginTabBar("mainBar", ImGuiTabBarFlags.FittingPolicyScroll | ImGuiTabBarFlags.TabListPopupButton);
 
         foreach (var tab in this._tabs) {
-            if (ImGui.BeginTabItem(tab.Name)) {
+            if (ImGui.BeginTabItem($"{tab.Name}###{tab.GetType().Name}")) {
                 var childSize = ImGui.GetContentRegionAvail();
-                ImGui.BeginChild($"##tabChild-{tab.Name}", childSize with {Y = childSize.Y - pbs.Y - 6});
+                var style = ImGui.GetStyle();
+                var paddedY = childSize.Y - pbs.Y - 3 * style.ItemSpacing.Y + 2 * style.FramePadding.Y;
+                ImGui.BeginChild($"##tabChild-{tab.GetType().Name}", childSize with {Y = paddedY});
                 
                 this._stopwatch.Start();
                 tab.Draw();
@@ -82,10 +83,13 @@ public class CollectorWindow : Window {
         
         ImGui.Separator();
         
-        ImGui.TextColored(ImGuiColors.DalamudGrey2, $"v{VersionUtil.GetCurrentMajMinBuild()} DEVELOPMENT PREVIEW");
+        ImGui.TextColored(ImGuiColors.DalamudGrey2, $"v{VersionUtil.GetCurrentMajMinBuild()}");
         ImGui.SameLine();
-        double stopwatchTime = this._stopwatch.ElapsedTicks / (double) 10000;
-        ImGui.Text($"TAB RENDER: {stopwatchTime:F4}ms ({stopwatchTime / ((double)1000/144):F2} frames @ 144fps)");
+        ImGui.TextColored(ImGuiColors.DalamudOrange, "DEVELOPMENT PREVIEW");
+        ImGui.SameLine();
+        var stopwatchTime = this._stopwatch.ElapsedTicks / (double) 10000;
+        var framerate = ImGui.GetIO().Framerate;
+        ImGui.Text($"TAB RENDER: {stopwatchTime:F4}ms ({stopwatchTime / (1000/framerate):F2} frames @ {framerate:F0}fps)");
         this._stopwatch.Reset();
     }
 }

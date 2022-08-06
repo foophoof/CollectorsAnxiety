@@ -36,7 +36,7 @@ public class HairstyleEntry : DataEntry<CharaMakeCustomize> {
 public class HairstyleController : Controller<HairstyleEntry, CharaMakeCustomize> {
     private ImmutableList<HairstyleEntry>? _itemCache;
 
-    public override ImmutableList<HairstyleEntry> GetItems(bool useCache = false) {
+    public override ImmutableList<HairstyleEntry> GetItems(bool useCache = true) {
         if (this._itemCache != null && useCache)
             return this._itemCache;
         

@@ -8,6 +8,15 @@ using Lumina.Excel;
 namespace CollectorsAnxiety.Data;
 
 public interface IController {
+    /// <summary>
+    /// Get a named tuple of unlocked and total item counts for this controller object.
+    ///
+    /// This method is combined like this (probably much to the frustration of a few people) in order to prevent
+    /// multiple iterations over the item list. The implementation for this method will iterate over the full list
+    /// *once*, and count everything at the same time.
+    /// </summary>
+    /// <param name="respectHidden">Respect the Hidden Items list, defaults to true.</param>
+    /// <returns>Returns a named tuple of unlocked and total counts.</returns>
     public (int UnlockedCount, int TotalCount) GetCounts(bool respectHidden = true);
     
     public bool ParseTainted { get; }

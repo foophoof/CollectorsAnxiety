@@ -1,5 +1,4 @@
 ﻿using System;
-using CollectorsAnxiety.Base;
 using Dalamud.Utility.Signatures;
 using FFXIVClientStructs.FFXIV.Client.Game.UI;
 using FFXIVClientStructs.FFXIV.Component.Exd;

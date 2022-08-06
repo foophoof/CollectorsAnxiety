@@ -16,7 +16,7 @@ public class MountEntry : DataEntry<Mount> {
     public int NumberSeats => 1 + this.LuminaEntry.ExtraSeats;
     
     public override bool IsUnlocked() {
-        return CollectorsAnxietyPlugin.Instance.GameState.IsMountUnlocked((uint) this.Id);
+        return CollectorsAnxietyPlugin.Instance.GameState.IsMountUnlocked(this.Id);
     }
 
     public override bool IsValid() {

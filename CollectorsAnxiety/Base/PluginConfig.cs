@@ -1,8 +1,7 @@
-﻿using System;
+﻿
 using System.Collections.Generic;
 using CollectorsAnxiety.Data;
 using Dalamud.Configuration;
-using Dalamud.Logging;
 
 namespace CollectorsAnxiety.Base; 
 

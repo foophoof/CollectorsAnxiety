@@ -1,23 +1,23 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Threading.Tasks;
 using CollectorsAnxiety.Base;
 using Dalamud;
 using Dalamud.Logging;
-using Dalamud.Plugin;
 using Dalamud.Utility;
 using ImGuiScene;
 using Lumina.Data.Files;
 
-namespace CollectorsAnxiety.Game; 
+namespace CollectorsAnxiety.Game;
 
 public class IconManager : IDisposable {
     private const string IconFileFormat = "ui/icon/{0:D3}000/{1}{2:D6}{3}.tex";
 
     private bool _disposed;
     private readonly Dictionary<(int, bool), TextureWrap?> _iconTextures = new();
-    
+
     public void Dispose() {
         this._disposed = true;
         var c = 0;
@@ -30,7 +30,7 @@ public class IconManager : IDisposable {
         PluginLog.Log($"Disposed {c} icon textures.");
         this._iconTextures.Clear();
     }
-        
+
     private void LoadIconTexture(int iconId, bool hq = false) {
         Task.Run(() => {
             try {
@@ -49,23 +49,23 @@ public class IconManager : IDisposable {
             }
         });
     }
-        
+
     public TexFile? GetIcon(int iconId, bool hq = false) => this.GetIcon(Injections.DataManager.Language, iconId, hq);
-    
+
     public TexFile? GetIcon(ClientLanguage iconLanguage, int iconId, bool hq = false) {
         string type = iconLanguage switch {
             ClientLanguage.Japanese => "ja/",
             ClientLanguage.English => "en/",
             ClientLanguage.German => "de/",
             ClientLanguage.French => "fr/",
-            _ => throw new ArgumentOutOfRangeException("Language",
-                "Unknown Language: " + Injections.DataManager.Language.ToString())
+            _ => throw new ArgumentOutOfRangeException(nameof(iconLanguage),
+                $@"Unknown Language: {Injections.DataManager.Language}")
         };
-        return this.GetIcon(type, iconId, hq); 
+        return this.GetIcon(type, iconId, hq);
     }
-    
+
     public static string GetIconPath(string lang, int iconId, bool hq = false, bool highres = true, bool forceOriginal = false) {
-        var path = string.Format(IconFileFormat, 
+        var path = string.Format(IconFileFormat,
             iconId / 1000, (hq ? "hq/" : "") + lang, iconId, highres ? "_hr1" : "");
 
         /*
@@ -74,14 +74,15 @@ public class IconManager : IDisposable {
 
         return path;
     }
-        
+
+    [SuppressMessage("ReSharper", "TailRecursiveCall", Justification = "Method is easier to read with recursion.")]
     public TexFile? GetIcon(string lang, int iconId, bool hq = false, bool highres = false) {
         TexFile? texFile;
-        
+
         if (lang.Length > 0 && !lang.EndsWith("/"))
             lang += "/";
-        
-        var texPath = GetIconPath(lang, iconId, hq, true);
+
+        var texPath = GetIconPath(lang, iconId, hq);
 
         if (texPath.Substring(1, 2) == ":\\") {
             PluginLog.Verbose($"Using on-disk asset {texPath}");
