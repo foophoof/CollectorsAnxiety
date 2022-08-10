@@ -93,4 +93,16 @@
     <data name="BaseTab_HiddenTag" xml:space="preserve">
         <value>(Hidden)</value>
     </data>
+    <data name="SettingsTab_SpoilerFreeMode_HelpText" xml:space="preserve">
+        <value>When enabled, this feature will mask all non-collected items with a special icon and spoiler text. Uncollected items will still show in counts. Turning this off may reveal items that are not yet available or otherwise spoil certain experiences.</value>
+    </data>
+    <data name="SettingsTab_SpoilerFreeMode" xml:space="preserve">
+        <value>Spoiler-Free Mode</value>
+    </data>
+    <data name="BaseTab_SpoilerMask" xml:space="preserve">
+        <value>Not yet obtained!</value>
+    </data>
+    <data name="SettingsTab_ClearHiddenItemList" xml:space="preserve">
+        <value>Unhide All Items</value>
+    </data>
 </root>

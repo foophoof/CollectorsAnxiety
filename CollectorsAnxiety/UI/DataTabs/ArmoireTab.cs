@@ -25,4 +25,6 @@ public class ArmoireTab : BaseTab<ArmoireEntry, Cabinet> {
         ImGui.TextWrapped(PluginStrings.ArmoireTab_ArmoireNote);
         base.Draw();
     }
+
+    protected override string GetTagline(ArmoireEntry entry) => entry.Category;
 }

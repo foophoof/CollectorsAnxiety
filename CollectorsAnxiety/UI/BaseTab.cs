@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Numerics;
 using CollectorsAnxiety.Data;
 using CollectorsAnxiety.Resources.Localization;
@@ -6,6 +7,7 @@ using CollectorsAnxiety.Util;
 using Dalamud.Interface.Colors;
 using Dalamud.Interface.Components;
 using ImGuiNET;
+using ImGuiScene;
 using Lumina.Excel;
 
 namespace CollectorsAnxiety.UI;
@@ -29,6 +31,18 @@ public enum FilterMode {
     ShowHiddenOnly,
 }
 
+public class TableColumn {
+    public string Name { get; }
+    public ImGuiTableColumnFlags Flags { get; }
+    public int Width { get; }
+
+    public TableColumn(string name, ImGuiTableColumnFlags flags = ImGuiTableColumnFlags.None, int width = -1) {
+        this.Name = name;
+        this.Flags = flags;
+        this.Width = width;
+    }
+}
+
 public class BaseTab<TEntry, TSheet> : IDataTab where TEntry : DataEntry<TSheet> where TSheet : ExcelRow {
     private const int IconSize = 48;
     
@@ -37,12 +51,14 @@ public class BaseTab<TEntry, TSheet> : IDataTab where TEntry : DataEntry<TSheet>
 
     protected Controller<TEntry, TSheet> Controller;
 
-    protected virtual (string Name, ImGuiTableColumnFlags Flags, int Width)[] TableColumns => new[] {
-        ("Unlocked", ImGuiTableColumnFlags.WidthFixed | ImGuiTableColumnFlags.NoHeaderLabel, 32),
-        ("Icon", ImGuiTableColumnFlags.WidthFixed, 48),
-        ("Number", ImGuiTableColumnFlags.WidthFixed, 48),
-        ("Name", ImGuiTableColumnFlags.None, -1),
+    private readonly TableColumn[] _tableColumns = {
+        new("Unlocked", ImGuiTableColumnFlags.WidthFixed | ImGuiTableColumnFlags.NoHeaderLabel, 32),
+        new("Icon", ImGuiTableColumnFlags.WidthFixed, 48),
+        new("Number", ImGuiTableColumnFlags.WidthFixed, 48),
+        new("Name")
     };
+
+    protected virtual TableColumn[]? ExtraColumns => null;
 
     private FilterMode _displayFilter = FilterMode.ShowAll;
     private bool _showHidden;
@@ -66,6 +82,11 @@ public class BaseTab<TEntry, TSheet> : IDataTab where TEntry : DataEntry<TSheet>
     }
 
     public virtual void Draw() {
+        var hideSpoilers = CollectorsAnxietyPlugin.Instance.Configuration.HideSpoilers;
+        TextureWrap? spoilerIcon = null;
+        if (hideSpoilers)
+            spoilerIcon = CollectorsAnxietyPlugin.Instance.IconManager.GetIconTexture(000786);
+
         var displayMode = (int) this._displayFilter;
         var filterLabels = new List<string> {
             PluginStrings.BaseTab_FilterShowAll, 
@@ -118,10 +139,15 @@ public class BaseTab<TEntry, TSheet> : IDataTab where TEntry : DataEntry<TSheet>
 
         ImGuiUtil.CompletionProgressBar(unlockedVisibleItems, totalVisibleItems);
 
-        if (ImGui.BeginTable($"##TabTable_{this.GetType().Name}", this.TableColumns.Length,
+        var applicableColumns = this._tableColumns;
+        if (this.ExtraColumns != null) {
+            applicableColumns = applicableColumns.Concat(this.ExtraColumns).ToArray();
+        }
+
+        if (ImGui.BeginTable($"##TabTable_{this.GetType().Name}", applicableColumns.Length,
                 ImGuiTableFlags.Borders | ImGuiTableFlags.ScrollY)) {
             ImGui.TableSetupScrollFreeze(0, 1);
-            foreach (var col in this.TableColumns) {
+            foreach (var col in applicableColumns) {
                 ImGui.TableSetupColumn(col.Name, col.Flags, col.Width);
             }
 
@@ -135,6 +161,8 @@ public class BaseTab<TEntry, TSheet> : IDataTab where TEntry : DataEntry<TSheet>
                 for (var index = this._clipperPtr.DisplayStart; index < this._clipperPtr.DisplayEnd; index++) {
                     var (unlocked, hidden, item) = itemsToRender[index];
                     ImGui.TableNextRow(ImGuiTableRowFlags.None, IconSize);
+
+                    var censorItem = (!unlocked && hideSpoilers);
 
                     ImGui.TableSetColumnIndex(0);
                     ImGui.Dummy(new Vector2(0, 8));
@@ -152,7 +180,7 @@ public class BaseTab<TEntry, TSheet> : IDataTab where TEntry : DataEntry<TSheet>
                     }
 
                     ImGui.TableSetColumnIndex(1);
-                    var icon = item.Icon;
+                    var icon = censorItem ? spoilerIcon : item.Icon;
                     if (icon != null)
                         ImGui.Image(icon.ImGuiHandle, new Vector2(IconSize));
 
@@ -160,15 +188,26 @@ public class BaseTab<TEntry, TSheet> : IDataTab where TEntry : DataEntry<TSheet>
                     ImGui.Text($"#{item.Id}");
 
                     ImGui.TableSetColumnIndex(3);
-                    ImGui.Text(item.Name);
+                    ImGui.Text(censorItem ? PluginStrings.BaseTab_SpoilerMask : item.Name);
                     if (hidden) {
                         ImGui.SameLine();
                         ImGui.TextColored(ImGuiColors.DalamudGrey3, PluginStrings.BaseTab_HiddenTag);
                     }
+
+                    var tagline = this.GetTagline(item);
+                    if (tagline != null) {
+                        ImGui.TextColored(ImGuiColors.DalamudGrey2, tagline);
+                    }
+
+                    this.DrawExtraColumns(item);
                 }
             }
 
             ImGui.EndTable();
         }
     }
+
+    protected virtual void DrawExtraColumns(TEntry entry) { }
+
+    protected virtual string? GetTagline(TEntry entry) => null;
 }

@@ -9,6 +9,8 @@ public class PluginConfig : IPluginConfiguration {
     public int Version { get; set; } = 1;
     
     public Dictionary<string, HashSet<uint>> HiddenItems = new();
+
+    public bool HideSpoilers { get; set; } = true;
     
     public void Save() {
         Injections.PluginInterface.SavePluginConfig(this);

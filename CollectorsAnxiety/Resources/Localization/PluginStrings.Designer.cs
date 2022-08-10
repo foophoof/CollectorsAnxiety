@@ -168,6 +168,15 @@ namespace CollectorsAnxiety.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Not yet obtained!.
+        /// </summary>
+        internal static string BaseTab_SpoilerMask {
+            get {
+                return ResourceManager.GetString("BaseTab_SpoilerMask", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Barding.
         /// </summary>
         internal static string BuddyEquipTab_Name {
@@ -267,11 +276,38 @@ namespace CollectorsAnxiety.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Unhide All Items.
+        /// </summary>
+        internal static string SettingsTab_ClearHiddenItemList {
+            get {
+                return ResourceManager.GetString("SettingsTab_ClearHiddenItemList", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Settings.
         /// </summary>
         internal static string SettingsTab_Name {
             get {
                 return ResourceManager.GetString("SettingsTab_Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Spoiler-Free Mode.
+        /// </summary>
+        internal static string SettingsTab_SpoilerFreeMode {
+            get {
+                return ResourceManager.GetString("SettingsTab_SpoilerFreeMode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to When enabled, this feature will mask all non-collected items with a special icon and spoiler text. Uncollected items will still show in counts. Turning this off may reveal items that are not yet available or otherwise spoil certain experiences..
+        /// </summary>
+        internal static string SettingsTab_SpoilerFreeMode_HelpText {
+            get {
+                return ResourceManager.GetString("SettingsTab_SpoilerFreeMode_HelpText", resourceCulture);
             }
         }
         
