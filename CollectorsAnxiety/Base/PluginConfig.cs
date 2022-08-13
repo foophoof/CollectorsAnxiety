@@ -11,6 +11,7 @@ public class PluginConfig : IPluginConfiguration {
     public Dictionary<string, HashSet<uint>> HiddenItems = new();
 
     public bool HideSpoilers { get; set; } = true;
+    public bool CountHiddenItemsInOverview { get; set; } = false;
     
     public void Save() {
         Injections.PluginInterface.SavePluginConfig(this);

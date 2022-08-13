@@ -21,6 +21,7 @@ public class OverviewTab : ITab {
         var tainted = false;
 
         var labelWidth = this._baseWindow.DataTabs.Max(t => ImGui.CalcTextSize(t.Name).X) + 10;
+        var forceShowHidden = CollectorsAnxietyPlugin.Instance.Configuration.CountHiddenItemsInOverview;
         
         if (ImGui.BeginTable("##overview", 2)) {
             ImGui.TableSetupColumn("Label", ImGuiTableColumnFlags.WidthFixed, labelWidth);
@@ -32,13 +33,13 @@ public class OverviewTab : ITab {
                 if (!tab.ShowInOverview) continue;
 
                 var controller = tab.GetController();
-                var counts = controller.GetCounts();
+                var counts = controller.GetCounts(!forceShowHidden);
                 
                 var percentage = counts.UnlockedCount / (double) counts.TotalCount;
 
                 ImGui.TableSetColumnIndex(0);
                 ImGui.TextColored(ImGuiUtil.GetBarseColor(percentage), tab.Name);
-                if (controller.ParseTainted) {
+                if (!forceShowHidden && controller.ParseTainted) {
                     ImGui.SameLine();
                     ImGui.TextColored(ImGuiColors.DalamudRed, "*");
                     tainted = true;

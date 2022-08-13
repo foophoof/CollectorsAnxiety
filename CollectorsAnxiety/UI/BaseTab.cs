@@ -122,8 +122,8 @@ public class BaseTab<TEntry, TSheet> : IDataTab where TEntry : DataEntry<TSheet>
             var isItemUnlocked = item.IsUnlocked();
             var isItemHidden = CollectorsAnxietyPlugin.Instance.Configuration.IsItemHidden(item);
 
-            if (!isItemHidden) totalVisibleItems += 1;
-            if (isItemUnlocked && !isItemHidden) unlockedVisibleItems += 1;
+            if ((!isItemHidden || this._showHidden)) totalVisibleItems += 1;
+            if (isItemUnlocked && (!isItemHidden || this._showHidden)) unlockedVisibleItems += 1;
 
             if (isItemHidden && !this._showHidden) continue;
 

@@ -24,8 +24,6 @@ public sealed class CollectorsAnxietyPlugin : IDalamudPlugin {
     internal WindowSystem WindowSystem { get; }
     internal GameState GameState { get; }
     internal IconManager IconManager { get; }
-
-    internal Dictionary<Type, IController> ControllerCache = new();
     
     private DalamudPluginInterface PluginInterface { get; }
     
