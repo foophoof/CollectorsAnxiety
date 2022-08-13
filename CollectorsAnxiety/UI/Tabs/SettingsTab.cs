@@ -2,6 +2,7 @@
 using System.Numerics;
 using CollectorsAnxiety.Base;
 using CollectorsAnxiety.Resources.Localization;
+using Dalamud.Interface;
 using Dalamud.Interface.Colors;
 using Dalamud.Interface.Components;
 using ImGuiNET;
@@ -9,7 +10,7 @@ using ImGuiNET;
 namespace CollectorsAnxiety.UI.Tabs; 
 
 public class SettingsTab : ITab {
-    public string Name => $"{PluginStrings.SettingsTab_Name}###{nameof(SettingsTab)}";
+    public string Name => $"{UIStrings.SettingsTab_Name}###{nameof(SettingsTab)}";
 
     private PluginConfig _config;
     
@@ -39,14 +40,13 @@ public class SettingsTab : ITab {
         ImGui.TextColored(ImGuiColors.DalamudRed, "=== DEV TOOLS ===");
         
         if (ImGui.Button("Pseudo-Localize"))
-            PluginStrings.Culture = new CultureInfo("qps-ploc");
+            UIStrings.Culture = new CultureInfo("qps-ploc");
 
         ImGui.SameLine();
         if (ImGui.Button("Reset Localization"))
-            PluginStrings.Culture = new CultureInfo(Injections.PluginInterface.UiLanguage);
+            UIStrings.Culture = new CultureInfo(Injections.PluginInterface.UiLanguage);
 
 #endif
-    }
 
 
 }

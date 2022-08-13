@@ -51,12 +51,12 @@ public class CollectorWindow : Window {
     }
 
     public override void Draw() {
-        this.WindowName = $"{PluginStrings.CollectorsAnxiety_Title}{WindowKey}";
+        this.WindowName = $"{UIStrings.CollectorsAnxiety_Title}{WindowKey}";
         var pbs = ImGuiHelpers.GetButtonSize(".");
         
         if (!Injections.ClientState.IsLoggedIn || Injections.ClientState.LocalPlayer == null) {
             ImGui.PushStyleColor(ImGuiCol.Text, ImGuiColors.DalamudOrange);
-            ImGuiUtil.TextHorizCentered(PluginStrings.CollectorWindow_NoUserLoggedInWarning);
+            ImGuiUtil.TextHorizCentered(UIStrings.CollectorWindow_NoUserLoggedInWarning);
             ImGui.PopStyleColor();
         }
 

@@ -13,7 +13,7 @@ public static class ImGuiUtil {
         var sizeVec = new Vector2(ImGui.GetContentRegionAvail().X, height);
         
         var percentage = progress / (float) total;
-        var label = string.Format(PluginStrings.ImGuiUtil_CompletionProgressBarLabel, percentage, progress, total);
+        var label = string.Format(UIStrings.ImGuiUtil_CompletionProgressBarLabel, percentage, progress, total);
         var labelSize = ImGui.CalcTextSize(label);
         
         if (parseColors) ImGui.PushStyleColor(ImGuiCol.PlotHistogram, GetBarseColor(percentage));

@@ -5,5 +5,5 @@ using Lumina.Excel.GeneratedSheets;
 namespace CollectorsAnxiety.UI.DataTabs; 
 
 public class MinionTab : BaseTab<MinionEntry, Companion> {
-    public override string Name => PluginStrings.MinionTab_Name;
+    public override string Name => UIStrings.MinionTab_Name;
 }

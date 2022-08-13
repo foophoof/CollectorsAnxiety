@@ -9,5 +9,5 @@ public class HairstyleTab : BaseTab<HairstyleEntry, CharaMakeCustomize> {
         this.Controller = new HairstyleController();
     }
     
-    public override string Name => PluginStrings.HairstyleTab_Name;
+    public override string Name => UIStrings.HairstyleTab_Name;
 }

@@ -5,5 +5,5 @@ using Lumina.Excel.GeneratedSheets;
 namespace CollectorsAnxiety.UI.DataTabs; 
 
 public class TomesTab : BaseTab<TomeEntry, Item> {
-    public override string Name => PluginStrings.TomesTab_Name;
+    public override string Name => UIStrings.TomesTab_Name;
 }

@@ -18,7 +18,7 @@ public sealed class CollectorsAnxietyPlugin : IDalamudPlugin {
     
     internal static CollectorsAnxietyPlugin Instance { get; private set; } = null!;
 
-    public string Name => PluginStrings.CollectorsAnxiety_Title;
+    public string Name => UIStrings.CollectorsAnxiety_Title;
 
     internal PluginConfig Configuration { get; }
     internal WindowSystem WindowSystem { get; }
@@ -80,6 +80,6 @@ public sealed class CollectorsAnxietyPlugin : IDalamudPlugin {
     }
 
     private void UpdateLang(string langCode) {
-        PluginStrings.Culture = new CultureInfo(langCode);
+        UIStrings.Culture = new CultureInfo(langCode);
     }
 }

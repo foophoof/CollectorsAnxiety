@@ -5,5 +5,5 @@ using Lumina.Excel.GeneratedSheets;
 namespace CollectorsAnxiety.UI.DataTabs; 
 
 public class BuddyEquipTab : BaseTab<BardingEntry, BuddyEquip> {
-    public override string Name => PluginStrings.BuddyEquipTab_Name;
+    public override string Name => UIStrings.BuddyEquipTab_Name;
 }

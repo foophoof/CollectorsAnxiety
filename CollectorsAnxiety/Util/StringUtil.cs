@@ -6,7 +6,7 @@ namespace CollectorsAnxiety.Util;
 
 public static class StringUtil {
     public static string ToTitleCase(this string str) {
-        return ToTitleCase(str, PluginStrings.Culture);
+        return ToTitleCase(str, UIStrings.Culture);
     }
 
     public static string ToTitleCase(this SeString seString) {

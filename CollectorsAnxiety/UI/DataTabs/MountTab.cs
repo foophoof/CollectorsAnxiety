@@ -10,7 +10,7 @@ public class MountTab : BaseTab<MountEntry, Mount> {
         new("Seats", ImGuiTableColumnFlags.WidthFixed, 48),
     };
 
-    public override string Name => PluginStrings.MountTab_Name;
+    public override string Name => UIStrings.MountTab_Name;
     
     protected override void DrawExtraColumns(MountEntry entry) {
         ImGui.TableSetColumnIndex(4);

@@ -89,11 +89,11 @@ public class BaseTab<TEntry, TSheet> : IDataTab where TEntry : DataEntry<TSheet>
 
         var displayMode = (int) this._displayFilter;
         var filterLabels = new List<string> {
-            PluginStrings.BaseTab_FilterShowAll, 
-            PluginStrings.BaseTab_FilterShowComplete,
-            PluginStrings.BaseTab_FilterShowIncomplete
+            UIStrings.BaseTab_FilterShowAll, 
+            UIStrings.BaseTab_FilterShowComplete,
+            UIStrings.BaseTab_FilterShowIncomplete
         };
-        if (this._showHidden) filterLabels.Add(PluginStrings.BaseTab_FilterHiddenOnly);
+        if (this._showHidden) filterLabels.Add(UIStrings.BaseTab_FilterHiddenOnly);
         if (ImGui.Combo("###filter", ref displayMode, filterLabels.ToArray(), filterLabels.Count)) {
             this._displayFilter = (FilterMode) displayMode;
         }
@@ -101,12 +101,12 @@ public class BaseTab<TEntry, TSheet> : IDataTab where TEntry : DataEntry<TSheet>
         ImGui.SameLine();
         ImGui.Dummy(new Vector2(10, 0));
         ImGui.SameLine();
-        if (ImGui.Checkbox(PluginStrings.BaseTab_FilterShowHidden, ref this._showHidden)) {
+        if (ImGui.Checkbox(UIStrings.BaseTab_FilterShowHidden, ref this._showHidden)) {
             if (this._displayFilter == FilterMode.ShowHiddenOnly)
                 this._displayFilter = FilterMode.ShowAll;
         }
 
-        ImGuiComponents.HelpMarker(PluginStrings.BaseTab_HiddenHelp);
+        ImGuiComponents.HelpMarker(UIStrings.BaseTab_HiddenHelp);
 
         // load in items early so we can cache and operate on the subset.
         var totalVisibleItems = 0;
@@ -168,7 +168,7 @@ public class BaseTab<TEntry, TSheet> : IDataTab where TEntry : DataEntry<TSheet>
                     ImGui.Dummy(new Vector2(0, 8));
                     ImGui.Checkbox("", ref unlocked);
                     if (ImGui.BeginPopupContextItem($"context_{this.GetType().Name}#{item.Id}")) {
-                        if (ImGui.MenuItem(PluginStrings.BaseTab_HideItem, "", hidden)) {
+                        if (ImGui.MenuItem(UIStrings.BaseTab_HideItem, "", hidden)) {
                             if (!hidden) {
                                 CollectorsAnxietyPlugin.Instance.Configuration.HideItem(item);
                             } else {
@@ -188,10 +188,10 @@ public class BaseTab<TEntry, TSheet> : IDataTab where TEntry : DataEntry<TSheet>
                     ImGui.Text($"#{item.Id}");
 
                     ImGui.TableSetColumnIndex(3);
-                    ImGui.Text(censorItem ? PluginStrings.BaseTab_SpoilerMask : item.Name);
+                    ImGui.Text(censorItem ? UIStrings.BaseTab_SpoilerMask : item.Name);
                     if (hidden) {
                         ImGui.SameLine();
-                        ImGui.TextColored(ImGuiColors.DalamudGrey3, PluginStrings.BaseTab_HiddenTag);
+                        ImGui.TextColored(ImGuiColors.DalamudGrey3, UIStrings.BaseTab_HiddenTag);
                     }
 
                     var tagline = this.GetTagline(item);

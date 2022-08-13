@@ -14,7 +14,7 @@ public class OverviewTab : ITab {
         this._baseWindow = window;
     }
 
-    public string Name => PluginStrings.OverviewTab_Name;
+    public string Name => UIStrings.OverviewTab_Name;
     public void Draw() {
         var grandTotalUnlocked = 0;
         var grandTotalItems = 0;

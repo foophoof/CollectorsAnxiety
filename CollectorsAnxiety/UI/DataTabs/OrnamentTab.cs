@@ -5,5 +5,5 @@ using Lumina.Excel.GeneratedSheets;
 namespace CollectorsAnxiety.UI.DataTabs; 
 
 public class OrnamentTab : BaseTab<OrnamentEntry, Ornament> {
-    public override string Name => PluginStrings.OrnamentTab_Name;
+    public override string Name => UIStrings.OrnamentTab_Name;
 }
