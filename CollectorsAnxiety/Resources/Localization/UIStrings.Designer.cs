@@ -285,6 +285,60 @@ namespace CollectorsAnxiety.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Maintenance.
+        /// </summary>
+        internal static string SettingsTab_Heading_Maintenance {
+            get {
+                return ResourceManager.GetString("SettingsTab_Heading_Maintenance", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to System Options.
+        /// </summary>
+        internal static string SettingsTab_Heading_SystemOptions {
+            get {
+                return ResourceManager.GetString("SettingsTab_Heading_SystemOptions", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Count Hidden Items in Overview.
+        /// </summary>
+        internal static string SettingsTab_HiddenItemsInOverview {
+            get {
+                return ResourceManager.GetString("SettingsTab_HiddenItemsInOverview", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to When enabled, the Overview tab will include hidden items in the totals displayed and won&apos;t invalidate your parses. This option does not affect the progress bars on each individual tab..
+        /// </summary>
+        internal static string SettingsTab_HiddenItemsInOverview_HelpText {
+            get {
+                return ResourceManager.GetString("SettingsTab_HiddenItemsInOverview_HelpText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Help Translate!.
+        /// </summary>
+        internal static string SettingsTab_Links_Crowdin {
+            get {
+                return ResourceManager.GetString("SettingsTab_Links_Crowdin", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Plugin GitHub.
+        /// </summary>
+        internal static string SettingsTab_Links_Github {
+            get {
+                return ResourceManager.GetString("SettingsTab_Links_Github", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Settings.
         /// </summary>
         internal static string SettingsTab_Name {

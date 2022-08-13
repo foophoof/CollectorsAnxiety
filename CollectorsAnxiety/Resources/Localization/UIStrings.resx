@@ -105,4 +105,22 @@
     <data name="SettingsTab_ClearHiddenItemList" xml:space="preserve">
         <value>Unhide All Items</value>
     </data>
+    <data name="SettingsTab_Heading_SystemOptions" xml:space="preserve">
+        <value>System Options</value>
+    </data>
+    <data name="SettingsTab_Heading_Maintenance" xml:space="preserve">
+        <value>Maintenance</value>
+    </data>
+    <data name="SettingsTab_HiddenItemsInOverview" xml:space="preserve">
+        <value>Count Hidden Items in Overview</value>
+    </data>
+    <data name="SettingsTab_HiddenItemsInOverview_HelpText" xml:space="preserve">
+        <value>When enabled, the Overview tab will include hidden items in the totals displayed and won't invalidate your parses. This option does not affect the progress bars on each individual tab.</value>
+    </data>
+    <data name="SettingsTab_Links_Github" xml:space="preserve">
+        <value>Plugin GitHub</value>
+    </data>
+    <data name="SettingsTab_Links_Crowdin" xml:space="preserve">
+        <value>Help Translate!</value>
+    </data>
 </root>

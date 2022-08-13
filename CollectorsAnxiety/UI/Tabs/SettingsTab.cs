@@ -33,7 +33,7 @@ public class SettingsTab : ITab {
         var paddedY = childSize.Y - pbs.Y - 3 * style.ItemSpacing.Y + 2 * style.FramePadding.Y;
         ImGui.BeginChild("SettingsPane", childSize with {Y = paddedY});
         
-        ImGui.Text("System Options");
+        ImGui.Text(UIStrings.SettingsTab_Heading_SystemOptions);
         ImGui.Indent();
 
         if (ImGui.Checkbox(UIStrings.SettingsTab_SpoilerFreeMode, ref this._hideSpoilers)) {
@@ -43,19 +43,17 @@ public class SettingsTab : ITab {
 
         ImGuiComponents.HelpMarker(UIStrings.SettingsTab_SpoilerFreeMode_HelpText);
         
-        if (ImGui.Checkbox("Count Hidden Items in Overview", ref this._hiddenItemsInOverview)) {
+        if (ImGui.Checkbox(UIStrings.SettingsTab_HiddenItemsInOverview, ref this._hiddenItemsInOverview)) {
             this._config.CountHiddenItemsInOverview = this._hiddenItemsInOverview;
             this._config.Save();
         }
 
-        ImGuiComponents.HelpMarker("When enabled, the Overview tab will include hidden items in the totals " +
-                                   "displayed and won't invalidate your parses. This option does not affect the " +
-                                   "progress bars on each individual tab.");
+        ImGuiComponents.HelpMarker(UIStrings.SettingsTab_HiddenItemsInOverview_HelpText);
         
         ImGui.Unindent();
         ImGui.Spacing();
         
-        ImGui.Text("Maintenance");
+        ImGui.Text(UIStrings.SettingsTab_Heading_Maintenance);
         ImGui.Indent();
 
         if (ImGui.Button(UIStrings.SettingsTab_ClearHiddenItemList)) {
@@ -83,8 +81,8 @@ public class SettingsTab : ITab {
         ImGui.EndChild();
         
         // Footer buttons
-        if (ImGui.Button("Plugin GitHub")) Dalamud.Utility.Util.OpenLink(Constants.GITHUB_URL);
+        if (ImGui.Button(UIStrings.SettingsTab_Links_Github)) Dalamud.Utility.Util.OpenLink(Constants.GITHUB_URL);
         ImGui.SameLine();
-        if (ImGui.Button("Help Translate!")) Dalamud.Utility.Util.OpenLink(Constants.CROWDIN_URL);
+        if (ImGui.Button(UIStrings.SettingsTab_Links_Crowdin)) Dalamud.Utility.Util.OpenLink(Constants.CROWDIN_URL);
     }
 }
