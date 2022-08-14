@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
+using CollectorsAnxiety.Base;
 using CollectorsAnxiety.Data;
 using CollectorsAnxiety.Resources.Localization;
 using CollectorsAnxiety.Util;
@@ -46,7 +47,7 @@ public class TableColumn {
 
 public class BaseTab<TEntry, TSheet> : IDataTab where TEntry : DataEntry<TSheet> where TSheet : ExcelRow {
     private const int IconSize = 48;
-    
+
     public virtual string Name => "Tab";
     public virtual bool ShowInOverview => true;
 
@@ -90,7 +91,7 @@ public class BaseTab<TEntry, TSheet> : IDataTab where TEntry : DataEntry<TSheet>
 
         var displayMode = (int) this._displayFilter;
         var filterLabels = new List<string> {
-            UIStrings.BaseTab_FilterShowAll, 
+            UIStrings.BaseTab_FilterShowAll,
             UIStrings.BaseTab_FilterShowComplete,
             UIStrings.BaseTab_FilterShowIncomplete
         };
@@ -169,12 +170,33 @@ public class BaseTab<TEntry, TSheet> : IDataTab where TEntry : DataEntry<TSheet>
                     ImGui.Dummy(new Vector2(0, 8));
                     ImGui.Checkbox("", ref unlocked);
                     if (ImGui.BeginPopupContextItem($"context_{this.GetType().Name}#{item.Id}")) {
-                        if (ImGui.MenuItem(UIStrings.BaseTab_HideItem, "", hidden)) {
+                        if (ImGui.MenuItem(UIStrings.BaseTab_ItemMenu_HideItem, "", hidden)) {
                             if (!hidden) {
                                 CollectorsAnxietyPlugin.Instance.Configuration.HideItem(item);
                             } else {
                                 CollectorsAnxietyPlugin.Instance.Configuration.UnhideItem(item);
                             }
+                        }
+
+                        if (item.UnlockItem != null && !censorItem) {
+                            ImGuiHelpers.ScaledDummy(2.0f);
+                            
+                            if (ImGui.MenuItem(UIStrings.BaseTab_ItemMenu_ViewInGarlandTools))
+                                ItemLinkUtil.OpenGarlandToolsLink(item.UnlockItem);
+
+                            if (ImGui.MenuItem(UIStrings.BaseTab_ItemMenu_ViewInTeamcraft))
+                                ItemLinkUtil.OpenTeamcraftLink(item.UnlockItem);
+
+                            if (Injections.ClientState.IsLoggedIn && ImGui.MenuItem(UIStrings.BaseTab_ItemMenu_LinkInChat))
+                                ItemLinkUtil.SendChatLink(item.UnlockItem);
+
+                            
+                        }
+
+                        if (Injections.PluginInterface.IsDevMenuOpen || Injections.PluginInterface.IsDev) {
+                            ImGuiHelpers.ScaledDummy(2.0f);
+                            ImGui.MenuItem("=== Developer ===", false);
+                            ImGui.MenuItem($"Unlock Item ID: {item.UnlockItem?.RowId.ToString() ?? "N/A"}", false);
                         }
 
                         ImGui.EndPopup();
@@ -197,7 +219,7 @@ public class BaseTab<TEntry, TSheet> : IDataTab where TEntry : DataEntry<TSheet>
 
                     if (!censorItem) {
                         this.DrawEntryIcons(item);
-                        
+
                         var tagline = this.GetTagline(item);
                         if (tagline != null) {
                             ImGui.TextColored(ImGuiColors.DalamudGrey2, tagline);
@@ -216,7 +238,7 @@ public class BaseTab<TEntry, TSheet> : IDataTab where TEntry : DataEntry<TSheet>
 
     protected virtual void DrawEntryIcons(TEntry entry) {
         var unlockItem = entry.UnlockItem;
-            
+
         if (unlockItem.IsMarketBoardEligible())
             ImGuiUtil.HoverMarker(FontAwesomeIcon.Coins, UIStrings.BaseTab_MarketBoardPurchaseable);
     }

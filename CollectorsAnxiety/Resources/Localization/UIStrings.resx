@@ -82,13 +82,13 @@
         <value>Show Hidden Only</value>
     </data>
     <data name="BaseTab_HiddenHelp" xml:space="preserve">
-        <value>To hide an item from a collection list, right-click the checkbox next to an item and "Hide Item".</value>
+        <value>To hide an entry from a collection list, right-click the checkbox next to an item and select "Hide Entry".</value>
     </data>
     <data name="BaseTab_FilterShowHidden" xml:space="preserve">
         <value>Show Hidden</value>
     </data>
-    <data name="BaseTab_HideItem" xml:space="preserve">
-        <value>Hide Item</value>
+    <data name="BaseTab_ItemMenu_HideItem" xml:space="preserve">
+        <value>Hide Entry</value>
     </data>
     <data name="BaseTab_HiddenTag" xml:space="preserve">
         <value>(Hidden)</value>
@@ -137,5 +137,14 @@
     </data>
     <data name="MountTab_HasExtraSeats" xml:space="preserve">
         <value>Mount holds {0} players</value>
+    </data>
+    <data name="BaseTab_ItemMenu_ViewInGarlandTools" xml:space="preserve">
+        <value>View in Garland Tools</value>
+    </data>
+    <data name="BaseTab_ItemMenu_ViewInTeamcraft" xml:space="preserve">
+        <value>View in Teamcraft</value>
+    </data>
+    <data name="BaseTab_ItemMenu_LinkInChat" xml:space="preserve">
+        <value>Link in Chat</value>
     </data>
 </root>

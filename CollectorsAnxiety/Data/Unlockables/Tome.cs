@@ -7,11 +7,13 @@ namespace CollectorsAnxiety.Data.Unlockables;
 public class TomeEntry : DataEntry<Item> {
     public TomeEntry(Item excelRow) : base(excelRow) {
         this.Id = excelRow.ItemAction.Value!.Data[0];
+        this.UnlockItem = excelRow;
     }
 
     public override uint Id { get; }
     public override string Name => this.LuminaEntry.Name.RawString.ToTitleCase();
-    
+    public override Item? UnlockItem { get; }
+
     public override TextureWrap? Icon => 
         CollectorsAnxietyPlugin.Instance.IconManager.GetIconTexture(this.LuminaEntry.Icon);
 

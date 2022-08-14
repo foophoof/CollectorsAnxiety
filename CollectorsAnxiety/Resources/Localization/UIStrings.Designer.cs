@@ -141,7 +141,7 @@ namespace CollectorsAnxiety.Resources.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to To hide an item from a collection list, right-click the checkbox next to an item and &quot;Hide Item&quot;..
+        ///   Looks up a localized string similar to To hide an entry from a collection list, right-click the checkbox next to an item and select &quot;Hide Entry&quot;..
         /// </summary>
         internal static string BaseTab_HiddenHelp {
             get {
@@ -159,11 +159,38 @@ namespace CollectorsAnxiety.Resources.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Hide Item.
+        ///   Looks up a localized string similar to Hide Entry.
         /// </summary>
-        internal static string BaseTab_HideItem {
+        internal static string BaseTab_ItemMenu_HideItem {
             get {
-                return ResourceManager.GetString("BaseTab_HideItem", resourceCulture);
+                return ResourceManager.GetString("BaseTab_ItemMenu_HideItem", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Link in Chat.
+        /// </summary>
+        internal static string BaseTab_ItemMenu_LinkInChat {
+            get {
+                return ResourceManager.GetString("BaseTab_ItemMenu_LinkInChat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to View in Garland Tools.
+        /// </summary>
+        internal static string BaseTab_ItemMenu_ViewInGarlandTools {
+            get {
+                return ResourceManager.GetString("BaseTab_ItemMenu_ViewInGarlandTools", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to View in Teamcraft.
+        /// </summary>
+        internal static string BaseTab_ItemMenu_ViewInTeamcraft {
+            get {
+                return ResourceManager.GetString("BaseTab_ItemMenu_ViewInTeamcraft", resourceCulture);
             }
         }
         
