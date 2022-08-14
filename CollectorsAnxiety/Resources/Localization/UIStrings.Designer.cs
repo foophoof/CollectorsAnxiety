@@ -168,6 +168,15 @@ namespace CollectorsAnxiety.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Can be purchased from the Market Board.
+        /// </summary>
+        internal static string BaseTab_MarketBoardPurchaseable {
+            get {
+                return ResourceManager.GetString("BaseTab_MarketBoardPurchaseable", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Not yet obtained!.
         /// </summary>
         internal static string BaseTab_SpoilerMask {
@@ -245,6 +254,33 @@ namespace CollectorsAnxiety.Resources.Localization {
         internal static string MinionTab_Name {
             get {
                 return ResourceManager.GetString("MinionTab_Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Mount has custom actions.
+        /// </summary>
+        internal static string MountTab_HasCustomActions {
+            get {
+                return ResourceManager.GetString("MountTab_HasCustomActions", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Mount holds {0} players.
+        /// </summary>
+        internal static string MountTab_HasExtraSeats {
+            get {
+                return ResourceManager.GetString("MountTab_HasExtraSeats", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Mount has unique music.
+        /// </summary>
+        internal static string MountTab_HasUniqueBGM {
+            get {
+                return ResourceManager.GetString("MountTab_HasUniqueBGM", resourceCulture);
             }
         }
         

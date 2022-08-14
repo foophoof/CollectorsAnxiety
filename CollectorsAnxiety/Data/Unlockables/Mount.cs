@@ -32,7 +32,7 @@ public class MountEntry : DataEntry<Mount> {
     public int NumberSeats { get; }
     public bool HasActions { get; }
 
-    public bool HasUniqueBGM => _uniqueMusicMounts.Contains(this.LuminaEntry);
+    public bool HasUniqueMusic => _uniqueMusicMounts.Contains(this.LuminaEntry);
 
     public override bool IsUnlocked() {
         return CollectorsAnxietyPlugin.Instance.GameState.IsMountUnlocked(this.Id);

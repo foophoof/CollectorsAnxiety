@@ -218,7 +218,7 @@ public class BaseTab<TEntry, TSheet> : IDataTab where TEntry : DataEntry<TSheet>
         var unlockItem = entry.UnlockItem;
             
         if (unlockItem.IsMarketboardEligible())
-            ImGuiUtil.HoverMarker(FontAwesomeIcon.Coins, "Can be purchased from Market Board");
+            ImGuiUtil.HoverMarker(FontAwesomeIcon.Coins, UIStrings.BaseTab_MarketBoardPurchaseable);
     }
 
     protected virtual string? GetTagline(TEntry entry) => null;

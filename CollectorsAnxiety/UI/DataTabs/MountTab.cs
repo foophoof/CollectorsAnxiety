@@ -14,12 +14,12 @@ public class MountTab : BaseTab<MountEntry, Mount> {
         base.DrawEntryIcons(entry);
         
         if (entry.HasActions)
-            ImGuiUtil.HoverMarker(FontAwesomeIcon.Cog, "Mount has custom actions");
+            ImGuiUtil.HoverMarker(FontAwesomeIcon.Cog, UIStrings.MountTab_HasCustomActions);
         
-        if (entry.HasUniqueBGM)
-            ImGuiUtil.HoverMarker(FontAwesomeIcon.Music, "Mount has unique music");
+        if (entry.HasUniqueMusic)
+            ImGuiUtil.HoverMarker(FontAwesomeIcon.Music, UIStrings.MountTab_HasUniqueBGM);
         
         if (entry.NumberSeats > 1)
-            ImGuiUtil.HoverMarker(FontAwesomeIcon.Users, $"Mount holds {entry.NumberSeats} players");
+            ImGuiUtil.HoverMarker(FontAwesomeIcon.Users, string.Format(UIStrings.MountTab_HasExtraSeats, entry.NumberSeats));
     }
 }
