@@ -49,16 +49,12 @@
     </PropertyGroup>
     
     <ItemGroup>
-        <Reference Include="FFXIVClientStructs">
-            <HintPath>C:\Users\Kaz\Developer\FFXIV\Goatcorp\FFXIVClientStructs\bin\Debug\FFXIVClientStructs.dll</HintPath>
-        </Reference>
-        
         <!-- Dalamud things -->
         <PackageReference Include="DalamudPackager" Version="2.1.7" GeneratePathProperty="false" />
-        <!-- <Reference Include="FFXIVClientStructs">
+        <Reference Include="FFXIVClientStructs">
             <HintPath>$(DalamudLibPath)FFXIVClientStructs.dll</HintPath>
             <Private>false</Private>
-        </Reference> -->
+        </Reference>
         <Reference Include="Newtonsoft.Json">
             <HintPath>$(DalamudLibPath)Newtonsoft.Json.dll</HintPath>
             <Private>false</Private>

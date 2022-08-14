@@ -31,7 +31,6 @@ public sealed class CollectorsAnxietyPlugin : IDalamudPlugin {
     public CollectorsAnxietyPlugin(DalamudPluginInterface pluginInterface) {
         pluginInterface.Create<Injections>();
         Instance = this;
-        FFXIVClientStructs.Resolver.Initialize();
 
         this.PluginInterface = pluginInterface;
 
