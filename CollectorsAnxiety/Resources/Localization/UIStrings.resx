@@ -123,4 +123,7 @@
     <data name="SettingsTab_Links_Crowdin" xml:space="preserve">
         <value>Help Translate!</value>
     </data>
+    <data name="ErrorHandling_Unknown" xml:space="preserve">
+        <value>Unknown</value>
+    </data>
 </root>

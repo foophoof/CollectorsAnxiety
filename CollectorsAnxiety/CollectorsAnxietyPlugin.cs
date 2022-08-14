@@ -23,6 +23,7 @@ public sealed class CollectorsAnxietyPlugin : IDalamudPlugin {
     internal PluginConfig Configuration { get; }
     internal WindowSystem WindowSystem { get; }
     internal GameState GameState { get; }
+    internal UnlockItemCache UnlockItemCache { get; }
     internal IconManager IconManager { get; }
     
     private DalamudPluginInterface PluginInterface { get; }
@@ -30,6 +31,7 @@ public sealed class CollectorsAnxietyPlugin : IDalamudPlugin {
     public CollectorsAnxietyPlugin(DalamudPluginInterface pluginInterface) {
         pluginInterface.Create<Injections>();
         Instance = this;
+        FFXIVClientStructs.Resolver.Initialize();
 
         this.PluginInterface = pluginInterface;
 
@@ -37,6 +39,7 @@ public sealed class CollectorsAnxietyPlugin : IDalamudPlugin {
 
         this.WindowSystem = new WindowSystem(this.Name);
         this.GameState = new GameState();
+        this.UnlockItemCache = new UnlockItemCache();
         this.IconManager = new IconManager();
 
         this.PluginInterface.UiBuilder.Draw += this.WindowSystem.Draw;

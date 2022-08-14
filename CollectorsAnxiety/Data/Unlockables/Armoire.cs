@@ -1,4 +1,5 @@
-﻿using CollectorsAnxiety.Util;
+﻿using CollectorsAnxiety.Resources.Localization;
+using CollectorsAnxiety.Util;
 using ImGuiScene;
 using Lumina.Excel.GeneratedSheets;
 
@@ -7,7 +8,7 @@ namespace CollectorsAnxiety.Data.Unlockables;
 public class ArmoireEntry : DataEntry<Cabinet> {
     public ArmoireEntry(Cabinet excelRow) : base(excelRow) { }
 
-    public override string Name => this.LuminaEntry.Item.Value?.Singular.RawString.ToTitleCase() ?? "Unknown";
+    public override string Name => this.LuminaEntry.Item.Value?.Singular.RawString.ToTitleCase() ?? UIStrings.ErrorHandling_Unknown;
     public string Category => this.LuminaEntry.Category.Value!.Category.Value!.Text.RawString;
 
     public override TextureWrap? Icon {

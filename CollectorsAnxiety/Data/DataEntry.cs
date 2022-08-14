@@ -1,5 +1,6 @@
 ﻿using ImGuiScene;
 using Lumina.Excel;
+using Lumina.Excel.GeneratedSheets;
 
 namespace CollectorsAnxiety.Data;
 
@@ -16,6 +17,8 @@ public abstract class DataEntry<T> : IDataEntry where T : ExcelRow {
     }
 
     public virtual uint Id { get; }
+
+    public virtual Item? UnlockItem { get; } = null;
 
     public abstract string Name { get; }
     public abstract TextureWrap? Icon { get; }

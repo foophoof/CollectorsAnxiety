@@ -6,9 +6,13 @@ using Lumina.Excel.GeneratedSheets;
 namespace CollectorsAnxiety.Data.Unlockables; 
 
 public class MinionEntry : DataEntry<Companion> {
-    public MinionEntry(Companion excelRow) : base(excelRow) { }
+    public MinionEntry(Companion excelRow) : base(excelRow) {
+        this.UnlockItem = CollectorsAnxietyPlugin.Instance.UnlockItemCache.GetItemForObject(excelRow);
+    }
     
     public override string Name => this.LuminaEntry.Singular.ToDalamudString().ToTitleCase();
+
+    public override Item? UnlockItem { get; }
 
     public override TextureWrap? Icon => 
         CollectorsAnxietyPlugin.Instance.IconManager.GetIconTexture(this.LuminaEntry.Icon);

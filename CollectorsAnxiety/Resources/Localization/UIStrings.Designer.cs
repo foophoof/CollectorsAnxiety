@@ -213,6 +213,15 @@ namespace CollectorsAnxiety.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Unknown.
+        /// </summary>
+        internal static string ErrorHandling_Unknown {
+            get {
+                return ResourceManager.GetString("ErrorHandling_Unknown", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Hairstyles.
         /// </summary>
         internal static string HairstyleTab_Name {

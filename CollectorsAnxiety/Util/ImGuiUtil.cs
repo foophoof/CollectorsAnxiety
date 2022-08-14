@@ -1,5 +1,6 @@
 ﻿using System.Numerics;
 using CollectorsAnxiety.Resources.Localization;
+using Dalamud.Interface;
 using Dalamud.Interface.Colors;
 using ImGuiNET;
 
@@ -57,5 +58,20 @@ public static class ImGuiUtil {
         ImGui.PushTextWrapPos(availableWidth - textIndentation);
         ImGui.TextWrapped(text);
         ImGui.PopTextWrapPos();
+    }
+    
+    public static void HoverMarker(FontAwesomeIcon icon, string helpText)
+    {
+        ImGui.SameLine();
+        ImGui.PushFont(UiBuilder.IconFont);
+        ImGui.TextDisabled(icon.ToIconString());
+        ImGui.PopFont();
+        if (!ImGui.IsItemHovered())
+            return;
+        ImGui.BeginTooltip();
+        ImGui.PushTextWrapPos(ImGui.GetFontSize() * 35f);
+        ImGui.TextUnformatted(helpText);
+        ImGui.PopTextWrapPos();
+        ImGui.EndTooltip();
     }
 }

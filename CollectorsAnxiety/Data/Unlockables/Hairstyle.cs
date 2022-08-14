@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Collections.Immutable;
+using CollectorsAnxiety.Resources.Localization;
 using ImGuiScene;
 using Lumina.Excel.GeneratedSheets;
 
@@ -8,6 +9,7 @@ namespace CollectorsAnxiety.Data.Unlockables;
 public class HairstyleEntry : DataEntry<CharaMakeCustomize> {
     public HairstyleEntry(CharaMakeCustomize excelRow) : base(excelRow) {
         this.Id = this.LuminaEntry.Data;
+        this.UnlockItem = CollectorsAnxietyPlugin.Instance.UnlockItemCache.GetItemForUnlockLink(excelRow.Data);
     }
 
     public override uint Id { get; }
@@ -16,7 +18,9 @@ public class HairstyleEntry : DataEntry<CharaMakeCustomize> {
     
     public override TextureWrap? Icon =>
         CollectorsAnxietyPlugin.Instance.IconManager.GetIconTexture((int) this.LuminaEntry.Icon);
-    
+
+    public override Item? UnlockItem { get; }
+
     public override bool IsUnlocked() {
         return CollectorsAnxietyPlugin.Instance.GameState.IsUnlockLinkUnlocked(this.Id);
     }
@@ -28,7 +32,7 @@ public class HairstyleEntry : DataEntry<CharaMakeCustomize> {
     private string GetName() {
         return this.LuminaEntry.Data switch {
             228 => "Eternal Bonding",
-            _ => this.LuminaEntry.HintItem.Value?.Name.RawString ?? "Unknown"
+            _ => this.LuminaEntry.HintItem.Value?.Name.RawString ?? UIStrings.ErrorHandling_Unknown
         };
     }
 }

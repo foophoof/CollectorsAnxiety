@@ -4,6 +4,7 @@ using System.Numerics;
 using CollectorsAnxiety.Data;
 using CollectorsAnxiety.Resources.Localization;
 using CollectorsAnxiety.Util;
+using Dalamud.Interface;
 using Dalamud.Interface.Colors;
 using Dalamud.Interface.Components;
 using ImGuiNET;
@@ -194,9 +195,13 @@ public class BaseTab<TEntry, TSheet> : IDataTab where TEntry : DataEntry<TSheet>
                         ImGui.TextColored(ImGuiColors.DalamudGrey3, UIStrings.BaseTab_HiddenTag);
                     }
 
-                    var tagline = this.GetTagline(item);
-                    if (tagline != null) {
-                        ImGui.TextColored(ImGuiColors.DalamudGrey2, tagline);
+                    if (!censorItem) {
+                        this.DrawEntryIcons(item);
+                        
+                        var tagline = this.GetTagline(item);
+                        if (tagline != null) {
+                            ImGui.TextColored(ImGuiColors.DalamudGrey2, tagline);
+                        }
                     }
 
                     this.DrawExtraColumns(item);
@@ -208,6 +213,13 @@ public class BaseTab<TEntry, TSheet> : IDataTab where TEntry : DataEntry<TSheet>
     }
 
     protected virtual void DrawExtraColumns(TEntry entry) { }
+
+    protected virtual void DrawEntryIcons(TEntry entry) {
+        var unlockItem = entry.UnlockItem;
+            
+        if (unlockItem.IsMarketboardEligible())
+            ImGuiUtil.HoverMarker(FontAwesomeIcon.Coins, "Can be purchased from Market Board");
+    }
 
     protected virtual string? GetTagline(TEntry entry) => null;
 }
