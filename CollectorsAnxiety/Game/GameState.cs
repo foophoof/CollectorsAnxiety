@@ -9,7 +9,7 @@ namespace CollectorsAnxiety.Game;
 // Borrowed from XIVDeck, which borrowed it from Goat.
 // It has been double ruined from the beauty that was found in Wotsit.
 
-public unsafe class GameState : IDisposable {
+internal unsafe class GameState : IDisposable {
     private static class Signatures {
         internal const string MinionBitmask = "48 8D 0D ?? ?? ?? ?? 0F B6 04 08 84 D0 75 10 B8 ?? ?? ?? ?? 48 8B 5C 24";
         internal const string SuperUnlockBitmask = "48 8D 0D ?? ?? ?? ?? E9 ?? ?? ?? ?? CC 40 53";
@@ -62,7 +62,7 @@ public unsafe class GameState : IDisposable {
     private readonly IntPtr? _superUnlockBitmask = null;
 
     [Signature(Signatures.BuddyCompanionStats, ScanType = ScanType.StaticAddress)]
-    private readonly IntPtr? _buddyCompantionStats = null;
+    private readonly IntPtr? _buddyCompanionStats = null;
 
     [Signature(Signatures.ArmoireBitmask, ScanType = ScanType.StaticAddress)]
     private readonly IntPtr? _armoireBitmask = null;
@@ -112,12 +112,12 @@ public unsafe class GameState : IDisposable {
     }
 
     internal bool IsBuddyEquipUnlocked(uint equipId) {
-        if (this._isBuddyEquipUnlocked == null || this._buddyCompantionStats == null ||
-            this._buddyCompantionStats.Value == IntPtr.Zero) {
+        if (this._isBuddyEquipUnlocked == null || this._buddyCompanionStats == null ||
+            this._buddyCompanionStats.Value == IntPtr.Zero) {
             return false;
         }
 
-        return this._isBuddyEquipUnlocked(this._buddyCompantionStats.Value, equipId) > 0;
+        return this._isBuddyEquipUnlocked(this._buddyCompanionStats.Value, equipId) > 0;
     }
     
     internal bool IsOrchestrionUnlocked(uint orchestrionId) {

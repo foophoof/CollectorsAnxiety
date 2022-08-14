@@ -12,7 +12,7 @@ using Lumina.Data.Files;
 
 namespace CollectorsAnxiety.Game;
 
-public class IconManager : IDisposable {
+internal class IconManager : IDisposable {
     private const string IconFileFormat = "ui/icon/{0:D3}000/{1}{2:D6}{3}.tex";
 
     private bool _disposed;
@@ -29,6 +29,8 @@ public class IconManager : IDisposable {
 
         PluginLog.Log($"Disposed {c} icon textures.");
         this._iconTextures.Clear();
+
+        GC.SuppressFinalize(this);
     }
 
     private void LoadIconTexture(int iconId, bool hq = false) {
@@ -50,10 +52,10 @@ public class IconManager : IDisposable {
         });
     }
 
-    public TexFile? GetIcon(int iconId, bool hq = false) => this.GetIcon(Injections.DataManager.Language, iconId, hq);
+    private TexFile? GetIcon(int iconId, bool hq = false) => this.GetIcon(Injections.DataManager.Language, iconId, hq);
 
-    public TexFile? GetIcon(ClientLanguage iconLanguage, int iconId, bool hq = false) {
-        string type = iconLanguage switch {
+    private TexFile? GetIcon(ClientLanguage iconLanguage, int iconId, bool hq = false) {
+        var type = iconLanguage switch {
             ClientLanguage.Japanese => "ja/",
             ClientLanguage.English => "en/",
             ClientLanguage.German => "de/",
@@ -64,19 +66,13 @@ public class IconManager : IDisposable {
         return this.GetIcon(type, iconId, hq);
     }
 
-    public static string GetIconPath(string lang, int iconId, bool hq = false, bool highres = true, bool forceOriginal = false) {
-        var path = string.Format(IconFileFormat,
-            iconId / 1000, (hq ? "hq/" : "") + lang, iconId, highres ? "_hr1" : "");
-
-        /*
-        if (PenumbraIPC.Instance is {Enabled: true} && !forceOriginal && XIVDeckPlugin.Instance.Configuration.UsePenumbraIPC)
-            path = PenumbraIPC.Instance.ResolvePenumbraPath(path); */
-
-        return path;
+    private static string GetIconPath(string lang, int iconId, bool hq = false, bool highRes = true) {
+        return string.Format(IconFileFormat,
+            iconId / 1000, (hq ? "hq/" : "") + lang, iconId, highRes ? "_hr1" : "");
     }
 
     [SuppressMessage("ReSharper", "TailRecursiveCall", Justification = "Method is easier to read with recursion.")]
-    public TexFile? GetIcon(string lang, int iconId, bool hq = false, bool highres = false) {
+    private TexFile? GetIcon(string lang, int iconId, bool hq = false, bool highRes = false) {
         TexFile? texFile;
 
         if (lang.Length > 0 && !lang.EndsWith("/"))
@@ -102,8 +98,8 @@ public class IconManager : IDisposable {
             case null when lang.Length > 0:
                 PluginLog.Verbose($"Couldn't get lang-specific icon for {texPath}, falling back to no-lang");
                 return this.GetIcon(string.Empty, iconId, hq, true);
-            case null when highres:
-                PluginLog.Verbose($"Couldn't get highres icon for {texPath}, falling back to lowres");
+            case null when highRes:
+                PluginLog.Verbose($"Couldn't get high-res icon for {texPath}, falling back to low-res");
                 return this.GetIcon(lang, iconId, hq);
             default:
                 return texFile;
@@ -114,7 +110,7 @@ public class IconManager : IDisposable {
         if (this._disposed) return null;
         if (this._iconTextures.ContainsKey((iconId, hq))) return this._iconTextures[(iconId, hq)];
         this._iconTextures.Add((iconId, hq), null);
-        LoadIconTexture(iconId, hq);
+        this.LoadIconTexture(iconId, hq);
         return this._iconTextures[(iconId, hq)];
     }
 }

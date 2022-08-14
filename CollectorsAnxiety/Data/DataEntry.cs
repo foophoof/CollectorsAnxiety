@@ -9,7 +9,7 @@ public interface IDataEntry {
 }
 
 public abstract class DataEntry<T> : IDataEntry where T : ExcelRow {
-    protected T LuminaEntry;
+    protected readonly T LuminaEntry;
 
     protected DataEntry(T excelRow) {
         this.LuminaEntry = excelRow;
@@ -18,7 +18,7 @@ public abstract class DataEntry<T> : IDataEntry where T : ExcelRow {
 
     public virtual uint Id { get; }
 
-    public virtual Item? UnlockItem { get; } = null;
+    public virtual Item? UnlockItem => null;
 
     public abstract string Name { get; }
     public abstract TextureWrap? Icon { get; }

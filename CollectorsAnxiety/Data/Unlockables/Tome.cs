@@ -5,13 +5,11 @@ using Lumina.Excel.GeneratedSheets;
 namespace CollectorsAnxiety.Data.Unlockables; 
 
 public class TomeEntry : DataEntry<Item> {
-    private readonly uint _bookId;
-
     public TomeEntry(Item excelRow) : base(excelRow) {
-        this._bookId = excelRow.ItemAction.Value!.Data[0];
+        this.Id = excelRow.ItemAction.Value!.Data[0];
     }
 
-    public override uint Id => this._bookId;
+    public override uint Id { get; }
     public override string Name => this.LuminaEntry.Name.RawString.ToTitleCase();
     
     public override TextureWrap? Icon => 
@@ -19,8 +17,8 @@ public class TomeEntry : DataEntry<Item> {
 
     public override bool IsUnlocked() {
         return this.LuminaEntry.FilterGroup switch {
-            23 => CollectorsAnxietyPlugin.Instance.GameState.IsMasterTomeUnlocked(this._bookId),
-            30 => CollectorsAnxietyPlugin.Instance.GameState.IsFolkloreTomeUnlocked(this._bookId),
+            23 => CollectorsAnxietyPlugin.Instance.GameState.IsMasterTomeUnlocked(this.Id),
+            30 => CollectorsAnxietyPlugin.Instance.GameState.IsFolkloreTomeUnlocked(this.Id),
             _ => false
         };
     }

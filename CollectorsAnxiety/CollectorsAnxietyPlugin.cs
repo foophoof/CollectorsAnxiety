@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Globalization;
+﻿using System.Globalization;
 using CollectorsAnxiety.Base;
-using CollectorsAnxiety.Data;
 using CollectorsAnxiety.Game;
 using CollectorsAnxiety.Resources.Localization;
 using CollectorsAnxiety.UI.Windows;
@@ -63,7 +60,7 @@ public sealed class CollectorsAnxietyPlugin : IDalamudPlugin {
         Instance = null!;
     }
 
-    internal void DrawMainUI() {
+    private void DrawMainUI() {
         var instance = this.WindowSystem.GetWindow(CollectorWindow.WindowKey);
 
         if (instance == null) {
@@ -75,7 +72,7 @@ public sealed class CollectorsAnxietyPlugin : IDalamudPlugin {
         instance.IsOpen = true;
     }
 
-    internal void HandleCommand(string command, string args) {
+    private void HandleCommand(string command, string args) {
         this.DrawMainUI();
     }
 

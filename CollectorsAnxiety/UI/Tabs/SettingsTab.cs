@@ -12,7 +12,7 @@ namespace CollectorsAnxiety.UI.Tabs;
 public class SettingsTab : ITab {
     public string Name => $"{UIStrings.SettingsTab_Name}###{nameof(SettingsTab)}";
 
-    private PluginConfig _config;
+    private readonly PluginConfig _config;
     
     // settings cache
     private bool _hideSpoilers;

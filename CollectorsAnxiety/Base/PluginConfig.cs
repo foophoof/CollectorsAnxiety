@@ -8,7 +8,7 @@ namespace CollectorsAnxiety.Base;
 public class PluginConfig : IPluginConfiguration {
     public int Version { get; set; } = 1;
     
-    public Dictionary<string, HashSet<uint>> HiddenItems = new();
+    public readonly Dictionary<string, HashSet<uint>> HiddenItems = new();
 
     public bool HideSpoilers { get; set; } = true;
     public bool CountHiddenItemsInOverview { get; set; } = false;

@@ -1,6 +1,4 @@
-﻿using System.Linq;
-using CollectorsAnxiety.Base;
-using CollectorsAnxiety.Resources.Localization;
+﻿using CollectorsAnxiety.Resources.Localization;
 using CollectorsAnxiety.Util;
 using Dalamud.Utility;
 using ImGuiScene;

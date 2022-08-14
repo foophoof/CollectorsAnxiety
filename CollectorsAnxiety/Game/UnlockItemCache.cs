@@ -10,6 +10,11 @@ namespace CollectorsAnxiety.Game;
 public class UnlockItemCache {
     // Ref: E8 ?? ?? ?? ?? 84 C0 75 A6 32 C0
     
+    /// Workaround for certain items that are found, but for whatever reason can't actually be obtained.
+    private static readonly uint[] BlockedItemIds = {
+        24225  // Unlock book for Tomestone emote, unused.
+    };
+
     private readonly Dictionary<(string UnlockableType, uint UnlockableId), Item> _cache = new();
 
     public UnlockItemCache() {
@@ -22,6 +27,8 @@ public class UnlockItemCache {
         var itemSheet = Injections.DataManager.Excel.GetSheet<Item>()!;
         
         foreach (var item in itemSheet) {
+            if (BlockedItemIds.Contains(item.RowId)) continue;
+            
             var itemAction = item.ItemAction.Value;
             if (itemAction == null) continue;
 
@@ -38,19 +45,19 @@ public class UnlockItemCache {
                     this._cache[(nameof(BuddyEquip), itemAction.Data[0])] = item;
                     break;
                 
-                case 0x52A:  // Minion
+                case 0x52A:  // Mounts
                     this._cache[(nameof(Mount), itemAction.Data[0])] = item;
                     break;
                 
-                case 0xD1D:  // Triple Triad
+                case 0xD1D:  // Triple Triad Cards
                     this._cache[(nameof(TripleTriadCard), item.AdditionalData)] = item;
                     break;
                 
-                case 0x4E76: // Ornament
+                case 0x4E76: // Ornaments
                     this._cache[(nameof(Ornament), itemAction.Data[0])] = item;
                     break;
                 
-                case 0x625f: // Orchestion
+                case 0x625F: // Orchestrion Rolls
                     this._cache[(nameof(Orchestrion), item.AdditionalData)] = item;
                     break;
 

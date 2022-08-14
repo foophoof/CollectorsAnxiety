@@ -127,7 +127,7 @@
         <value>Unknown</value>
     </data>
     <data name="BaseTab_MarketBoardPurchaseable" xml:space="preserve">
-        <value>Can be purchased from the Market Board</value>
+        <value>Available from the Market Board</value>
     </data>
     <data name="MountTab_HasCustomActions" xml:space="preserve">
         <value>Mount has custom actions</value>

@@ -14,7 +14,7 @@ using ImGuiNET;
 namespace CollectorsAnxiety.UI.Windows; 
 
 public class CollectorWindow : Window {
-    public static readonly string WindowKey = "###mainWindow";
+    public const string WindowKey = "###mainWindow";
 
     public CollectorWindow() : base(WindowKey, ImGuiWindowFlags.None, true) {
         this.SizeCondition = ImGuiCond.FirstUseEver;
@@ -36,8 +36,9 @@ public class CollectorWindow : Window {
         new OrnamentTab(),
     };
 
-    private List<ITab> _tabs = new();
-    private Stopwatch _stopwatch = new();
+    private readonly List<ITab> _tabs = new();
+    private readonly Stopwatch _stopwatch = new();
+    private readonly string _versionString = VersionUtil.GetCurrentMajMinBuild();
     
     public override void OnOpen() {
         base.OnOpen();
@@ -83,7 +84,7 @@ public class CollectorWindow : Window {
         
         ImGui.Separator();
         
-        ImGui.TextColored(ImGuiColors.DalamudGrey2, $"v{VersionUtil.GetCurrentMajMinBuild()}");
+        ImGui.TextColored(ImGuiColors.DalamudGrey2, $"v{this._versionString}");
         ImGui.SameLine();
         ImGui.TextColored(ImGuiColors.DalamudOrange, "DEVELOPMENT PREVIEW");
         ImGui.SameLine();

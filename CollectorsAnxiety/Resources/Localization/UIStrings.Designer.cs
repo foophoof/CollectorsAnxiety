@@ -168,7 +168,7 @@ namespace CollectorsAnxiety.Resources.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Can be purchased from the Market Board.
+        ///   Looks up a localized string similar to Available from the Market Board.
         /// </summary>
         internal static string BaseTab_MarketBoardPurchaseable {
             get {

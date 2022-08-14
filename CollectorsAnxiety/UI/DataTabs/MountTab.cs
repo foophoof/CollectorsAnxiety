@@ -2,7 +2,6 @@
 using CollectorsAnxiety.Resources.Localization;
 using CollectorsAnxiety.Util;
 using Dalamud.Interface;
-using ImGuiNET;
 using Lumina.Excel.GeneratedSheets;
 
 namespace CollectorsAnxiety.UI.DataTabs; 

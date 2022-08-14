@@ -3,21 +3,24 @@ using CollectorsAnxiety.Util;
 using ImGuiScene;
 using Lumina.Excel.GeneratedSheets;
 
-namespace CollectorsAnxiety.Data.Unlockables; 
+namespace CollectorsAnxiety.Data.Unlockables;
 
 public class ArmoireEntry : DataEntry<Cabinet> {
-    public ArmoireEntry(Cabinet excelRow) : base(excelRow) { }
+    public ArmoireEntry(Cabinet excelRow) : base(excelRow) {
+        this.UnlockItem = this.LuminaEntry.Item.Value; // rly. 
+    }
 
-    public override string Name => this.LuminaEntry.Item.Value?.Singular.RawString.ToTitleCase() ?? UIStrings.ErrorHandling_Unknown;
+    public override string Name => this.LuminaEntry.Item.Value?.Singular.RawString.ToTitleCase() ??
+                                   UIStrings.ErrorHandling_Unknown;
+
+    public override Item? UnlockItem { get; }
+
     public string Category => this.LuminaEntry.Category.Value!.Category.Value!.Text.RawString;
 
-    public override TextureWrap? Icon {
-        get {
-            var item = this.LuminaEntry.Item.Value;
-
-            return item != null ? CollectorsAnxietyPlugin.Instance.IconManager.GetIconTexture(item.Icon) : null;
-        }
-    }
+    public override TextureWrap? Icon =>
+        this.UnlockItem != null
+            ? CollectorsAnxietyPlugin.Instance.IconManager.GetIconTexture(this.UnlockItem.Icon)
+            : null;
 
 
     public override bool IsUnlocked() {
@@ -25,8 +28,6 @@ public class ArmoireEntry : DataEntry<Cabinet> {
     }
 
     public override bool IsValid() {
-        var itemValue = this.LuminaEntry.Item.Value;
-        
-        return this.LuminaEntry.Order != 0 && (itemValue != null && itemValue.ItemUICategory.Row != 0);
+        return this.LuminaEntry.Order != 0 && (this.UnlockItem != null && this.UnlockItem.ItemUICategory.Row != 0);
     }
 }

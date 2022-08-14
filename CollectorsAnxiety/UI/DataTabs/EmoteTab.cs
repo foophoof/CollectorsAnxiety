@@ -1,7 +1,6 @@
 ﻿using CollectorsAnxiety.Data.Unlockables;
 using CollectorsAnxiety.Resources.Localization;
 using CollectorsAnxiety.Util;
-using Dalamud.Interface;
 using Lumina.Excel.GeneratedSheets;
 
 namespace CollectorsAnxiety.UI.DataTabs; 

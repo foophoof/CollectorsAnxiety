@@ -217,7 +217,7 @@ public class BaseTab<TEntry, TSheet> : IDataTab where TEntry : DataEntry<TSheet>
     protected virtual void DrawEntryIcons(TEntry entry) {
         var unlockItem = entry.UnlockItem;
             
-        if (unlockItem.IsMarketboardEligible())
+        if (unlockItem.IsMarketBoardEligible())
             ImGuiUtil.HoverMarker(FontAwesomeIcon.Coins, UIStrings.BaseTab_MarketBoardPurchaseable);
     }
 
