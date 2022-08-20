@@ -195,6 +195,15 @@ namespace CollectorsAnxiety.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to View in Universalis.
+        /// </summary>
+        internal static string BaseTab_ItemMenu_ViewInUniversalis {
+            get {
+                return ResourceManager.GetString("BaseTab_ItemMenu_ViewInUniversalis", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Available from the Market Board.
         /// </summary>
         internal static string BaseTab_MarketBoardPurchaseable {
@@ -258,7 +267,7 @@ namespace CollectorsAnxiety.Resources.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Hairstyles.
+        ///   Looks up a localized string similar to Appearances.
         /// </summary>
         internal static string HairstyleTab_Name {
             get {

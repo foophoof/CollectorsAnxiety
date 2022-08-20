@@ -1,5 +1,6 @@
 ﻿
 using System.Collections.Generic;
+using System.Linq;
 using CollectorsAnxiety.Data;
 using Dalamud.Configuration;
 
@@ -12,6 +13,10 @@ public class PluginConfig : IPluginConfiguration {
 
     public bool HideSpoilers { get; set; } = true;
     public bool CountHiddenItemsInOverview { get; set; } = false;
+
+    public PluginConfig() {
+        this.PerformCleanups();
+    }
     
     public void Save() {
         Injections.PluginInterface.SavePluginConfig(this);
@@ -44,5 +49,21 @@ public class PluginConfig : IPluginConfiguration {
         if (thisSet.Count == 0) this.HiddenItems.Remove(entryKey);
             
         this.Save();
+    }
+
+    private void PerformCleanups() {
+        var wasCleanupDone = false;
+        
+        // Clean up empty hidden items that (somehow) managed to get in to config.
+        var copy = this.HiddenItems.ToHashSet();
+        foreach (var (key, value) in copy) {
+            if (value.Count != 0) continue;
+            
+            this.HiddenItems.Remove(key);
+            wasCleanupDone = true;
+        }
+        
+        if (wasCleanupDone)
+            this.Save();
     }
 }

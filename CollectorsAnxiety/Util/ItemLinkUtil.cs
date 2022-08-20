@@ -23,6 +23,11 @@ public static class ItemLinkUtil {
         Dalamud.Utility.Util.OpenLink($"https://ffxivteamcraft.com/db/en/item/{item.RowId}");
     }
 
+    public static void OpenUniversalisLink(Item item) {
+        Dalamud.Utility.Util.OpenLink($"https://universalis.app/market/{item.RowId}");
+
+    }
+
     public static void SendChatLink(Item item) {
         var payloadList = new List<Payload> {
             new UIForegroundPayload((ushort) (0x223 + item.Rarity * 2)),

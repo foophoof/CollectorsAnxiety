@@ -186,11 +186,12 @@ public class BaseTab<TEntry, TSheet> : IDataTab where TEntry : DataEntry<TSheet>
 
                             if (ImGui.MenuItem(UIStrings.BaseTab_ItemMenu_ViewInTeamcraft))
                                 ItemLinkUtil.OpenTeamcraftLink(item.UnlockItem);
+                            
+                            if (item.UnlockItem.IsMarketBoardEligible() && ImGui.MenuItem(UIStrings.BaseTab_ItemMenu_ViewInUniversalis))
+                                ItemLinkUtil.OpenUniversalisLink(item.UnlockItem);
 
                             if (Injections.ClientState.IsLoggedIn && ImGui.MenuItem(UIStrings.BaseTab_ItemMenu_LinkInChat))
                                 ItemLinkUtil.SendChatLink(item.UnlockItem);
-
-                            
                         }
 
                         if (Injections.PluginInterface.IsDevMenuOpen || Injections.PluginInterface.IsDev) {

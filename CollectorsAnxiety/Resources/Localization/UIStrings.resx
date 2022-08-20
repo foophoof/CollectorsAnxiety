@@ -34,7 +34,7 @@
         <value>Emotes</value>
     </data>
     <data name="HairstyleTab_Name" xml:space="preserve">
-        <value>Hairstyles</value>
+        <value>Appearances</value>
     </data>
     <data name="MinionTab_Name" xml:space="preserve">
         <value>Minions</value>
@@ -146,5 +146,8 @@
     </data>
     <data name="BaseTab_ItemMenu_LinkInChat" xml:space="preserve">
         <value>Link in Chat</value>
+    </data>
+    <data name="BaseTab_ItemMenu_ViewInUniversalis" xml:space="preserve">
+        <value>View in Universalis</value>
     </data>
 </root>

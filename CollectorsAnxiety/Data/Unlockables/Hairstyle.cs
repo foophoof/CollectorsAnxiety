@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Collections.Immutable;
+using CollectorsAnxiety.Base;
 using CollectorsAnxiety.Resources.Localization;
 using ImGuiScene;
 using Lumina.Excel.GeneratedSheets;
@@ -12,10 +13,15 @@ public class HairstyleEntry : DataEntry<CharaMakeCustomize> {
         this.UnlockItem = CollectorsAnxietyPlugin.Instance.UnlockItemCache.GetItemForUnlockLink(excelRow.Data);
     }
 
+    public bool WearableByMale = false;
+    public bool WearableByFemale = false;
+    
+    public HashSet<uint> WearableByRaceIDs = new();
+
     public override uint Id { get; }
 
     public override string Name => this.GetName();
-    
+
     public override TextureWrap? Icon =>
         CollectorsAnxietyPlugin.Instance.IconManager.GetIconTexture((int) this.LuminaEntry.Icon);
 
@@ -43,19 +49,41 @@ public class HairstyleController : Controller<HairstyleEntry, CharaMakeCustomize
     public override ImmutableList<HairstyleEntry> GetItems(bool useCache = true) {
         if (this._itemCache != null && useCache)
             return this._itemCache;
-        
-        var seenIds = new HashSet<uint>();
-        var items = new List<HairstyleEntry>();
-        
-        foreach (var style in base.GetItems(useCache)) {
-            if (seenIds.Contains(style.Id))
-                continue;
 
-            items.Add(style);
-            seenIds.Add(style.Id);
+        var itemDict = new Dictionary<uint, HairstyleEntry>();
+
+        foreach (var styleRow in Injections.DataManager.GetExcelSheet<CharaMakeCustomize>()!) {
+            if (styleRow.Data == 0) continue;
+
+            if (!itemDict.TryGetValue(styleRow.Data, out var styleEntry)) {
+                styleEntry = new HairstyleEntry(styleRow);
+                itemDict[styleRow.Data] = styleEntry;
+            }
+
+            if (styleRow.RowId < 2000) {
+                // Hairstyles
+                var categorizationId = styleRow.RowId / 100;
+
+                styleEntry.WearableByMale |= (categorizationId % 2) == 0;
+                styleEntry.WearableByFemale |= (categorizationId % 2) == 1;
+
+                // Hyurs are a pain in my side because midlanders/highlanders each have their own block, which nobody
+                // else does. So, we'll redirect block 0 (midlander hyur) to block 1 to bring everything into sync.
+                var raceId = categorizationId / 2;
+                if (raceId == 0) raceId = 1;
+                styleEntry.WearableByRaceIDs.Add(raceId);
+            } else {
+                // Facepaint
+                var categorizationId = (styleRow.RowId - 2000) / 50;
+                
+                styleEntry.WearableByMale |= (categorizationId % 2) == 0;
+                styleEntry.WearableByFemale |= (categorizationId % 2) == 1;
+                styleEntry.WearableByRaceIDs.Add((categorizationId / 4) + 1);
+            }
+
         }
 
-        this._itemCache = items.ToImmutableList();
+        this._itemCache = itemDict.Values.ToImmutableList();
         return this._itemCache;
     }
 }
