@@ -18,6 +18,8 @@ public class EmoteEntry : DataEntry<Emote> {
     public override TextureWrap? Icon => 
         CollectorsAnxietyPlugin.Instance.IconManager.GetIconTexture(this.LuminaEntry.Icon);
 
+    public override uint SortKey => this.LuminaEntry.Order;
+
     public string Category => this.LuminaEntry.EmoteCategory.Value?.Name.ToDalamudString().ToTitleCase() ?? UIStrings.ErrorHandling_Unknown;
     
 

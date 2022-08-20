@@ -22,7 +22,9 @@ public abstract class DataEntry<T> : IDataEntry where T : ExcelRow {
 
     public abstract string Name { get; }
     public abstract TextureWrap? Icon { get; }
-    
+
+    public virtual uint SortKey => this.Id;
+
     public abstract bool IsUnlocked();
 
     public abstract bool IsValid();

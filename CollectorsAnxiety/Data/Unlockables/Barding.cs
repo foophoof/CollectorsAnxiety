@@ -14,6 +14,8 @@ public class BardingEntry : DataEntry<BuddyEquip> {
         CollectorsAnxietyPlugin.Instance.IconManager.GetIconTexture(this.LuminaEntry.IconHead);
 
     public override Item? UnlockItem { get; }
+    
+    public override uint SortKey => this.LuminaEntry.Order;
 
     public override bool IsUnlocked() {
         return CollectorsAnxietyPlugin.Instance.GameState.IsBuddyEquipUnlocked(this.Id);

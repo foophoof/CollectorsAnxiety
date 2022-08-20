@@ -21,7 +21,8 @@ public class ArmoireEntry : DataEntry<Cabinet> {
         this.UnlockItem != null
             ? CollectorsAnxietyPlugin.Instance.IconManager.GetIconTexture(this.UnlockItem.Icon)
             : null;
-
+    
+    public override uint SortKey => this.LuminaEntry.Order;
 
     public override bool IsUnlocked() {
         return CollectorsAnxietyPlugin.Instance.GameState.IsInArmoire(this.Id);

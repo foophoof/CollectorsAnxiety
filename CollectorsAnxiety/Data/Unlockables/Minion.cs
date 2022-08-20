@@ -16,7 +16,9 @@ public class MinionEntry : DataEntry<Companion> {
 
     public override TextureWrap? Icon => 
         CollectorsAnxietyPlugin.Instance.IconManager.GetIconTexture(this.LuminaEntry.Icon);
-    
+
+    public override uint SortKey => this.LuminaEntry.Order;
+
     public override bool IsUnlocked() {
         return CollectorsAnxietyPlugin.Instance.GameState.IsMinionUnlocked(this.Id);
     }

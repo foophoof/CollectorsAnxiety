@@ -17,6 +17,8 @@ public class OrnamentEntry : DataEntry<Ornament> {
 
     public override Item? UnlockItem { get; }
 
+    public override uint SortKey => (uint) this.LuminaEntry.Order;
+
     public override bool IsUnlocked() {
         return CollectorsAnxietyPlugin.Instance.GameState.IsOrnamentUnlocked(this.Id);
     }

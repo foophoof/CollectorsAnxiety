@@ -60,6 +60,7 @@ public class Controller<TEntry, TSheet> : IController where TEntry : DataEntry<T
         this._itemCache = GetSheet()
             .Select(row => (TEntry) Activator.CreateInstance(typeof(TEntry), row)!)
             .Where(entry => entry.IsValid())
+            .OrderBy(entry => entry.SortKey)
             .ToImmutableList();
 
         return this._itemCache;

@@ -29,6 +29,8 @@ public class MountEntry : DataEntry<Mount> {
     public override TextureWrap? Icon => 
         CollectorsAnxietyPlugin.Instance.IconManager.GetIconTexture(this.LuminaEntry.Icon);
 
+    public override uint SortKey => (uint) ((this.LuminaEntry.UIPriority << 8) + this.LuminaEntry.Order);
+
     public int NumberSeats { get; }
     public bool HasActions { get; }
 
