@@ -198,6 +198,8 @@ public class BaseTab<TEntry, TSheet> : IDataTab where TEntry : DataEntry<TSheet>
                             ImGuiHelpers.ScaledDummy(2.0f);
                             ImGui.MenuItem("=== Developer ===", false);
                             ImGui.MenuItem($"Unlock Item ID: {item.UnlockItem?.RowId.ToString() ?? "N/A"}", false);
+                            
+                            this.DrawDevContextMenuItems(item);
                         }
 
                         ImGui.EndPopup();
@@ -245,4 +247,8 @@ public class BaseTab<TEntry, TSheet> : IDataTab where TEntry : DataEntry<TSheet>
     }
 
     protected virtual string? GetTagline(TEntry entry) => null;
+
+    protected virtual void DrawContextMenuItems(TEntry entry) { }
+
+    protected virtual void DrawDevContextMenuItems(TEntry entry) { }
 }

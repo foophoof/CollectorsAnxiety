@@ -1,6 +1,7 @@
 ﻿using System.Globalization;
 using CollectorsAnxiety.Base;
 using CollectorsAnxiety.Game;
+using CollectorsAnxiety.IPC;
 using CollectorsAnxiety.Resources.Localization;
 using CollectorsAnxiety.UI.Windows;
 using Dalamud.Game.Command;
@@ -25,6 +26,9 @@ public sealed class CollectorsAnxietyPlugin : IDalamudPlugin {
     
     private DalamudPluginInterface PluginInterface { get; }
     
+    // ToDo: Eventually make registering a bunch of IPCs easier. For now, meh.
+    private IPCSubscriberManager IPCSubscriberManager;
+    
     public CollectorsAnxietyPlugin(DalamudPluginInterface pluginInterface) {
         pluginInterface.Create<Injections>();
         Instance = this;
@@ -37,6 +41,7 @@ public sealed class CollectorsAnxietyPlugin : IDalamudPlugin {
         this.GameState = new GameState();
         this.UnlockItemCache = new UnlockItemCache();
         this.IconManager = new IconManager();
+        this.IPCSubscriberManager = new IPCSubscriberManager();
 
         this.PluginInterface.UiBuilder.Draw += this.WindowSystem.Draw;
         this.PluginInterface.UiBuilder.OpenConfigUi += this.DrawMainUI;
@@ -52,6 +57,7 @@ public sealed class CollectorsAnxietyPlugin : IDalamudPlugin {
     public void Dispose() { 
         this.GameState.Dispose();
         this.IconManager.Dispose();
+        this.IPCSubscriberManager.Dispose();
         this.WindowSystem.RemoveAllWindows();
 
         Injections.CommandManager.RemoveHandler(BaseCommand);

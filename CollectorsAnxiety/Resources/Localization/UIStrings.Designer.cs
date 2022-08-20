@@ -267,6 +267,42 @@ namespace CollectorsAnxiety.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Available to Hrothgar characters.
+        /// </summary>
+        internal static string HairstyleTab_Icon_AvailableToHrothgar {
+            get {
+                return ResourceManager.GetString("HairstyleTab_Icon_AvailableToHrothgar", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Available to Viera characters.
+        /// </summary>
+        internal static string HairstyleTab_Icon_AvailableToViera {
+            get {
+                return ResourceManager.GetString("HairstyleTab_Icon_AvailableToViera", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Limited to female characters.
+        /// </summary>
+        internal static string HairstyleTab_Icon_LimitedToFemale {
+            get {
+                return ResourceManager.GetString("HairstyleTab_Icon_LimitedToFemale", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Limited to male characters.
+        /// </summary>
+        internal static string HairstyleTab_Icon_LimitedToMale {
+            get {
+                return ResourceManager.GetString("HairstyleTab_Icon_LimitedToMale", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Appearances.
         /// </summary>
         internal static string HairstyleTab_Name {

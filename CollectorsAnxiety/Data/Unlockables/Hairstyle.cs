@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Collections.Immutable;
 using CollectorsAnxiety.Base;
+using CollectorsAnxiety.Game;
 using CollectorsAnxiety.Resources.Localization;
 using ImGuiScene;
 using Lumina.Excel.GeneratedSheets;
@@ -16,7 +17,7 @@ public class HairstyleEntry : DataEntry<CharaMakeCustomize> {
     public bool WearableByMale = false;
     public bool WearableByFemale = false;
     
-    public HashSet<uint> WearableByRaceIDs = new();
+    public readonly HashSet<GameCompat.PlayerRace> WearableByRaceIDs = new();
 
     public override uint Id { get; }
 
@@ -71,14 +72,14 @@ public class HairstyleController : Controller<HairstyleEntry, CharaMakeCustomize
                 // else does. So, we'll redirect block 0 (midlander hyur) to block 1 to bring everything into sync.
                 var raceId = categorizationId / 2;
                 if (raceId == 0) raceId = 1;
-                styleEntry.WearableByRaceIDs.Add(raceId);
+                styleEntry.WearableByRaceIDs.Add((GameCompat.PlayerRace) raceId);
             } else {
                 // Facepaint
                 var categorizationId = (styleRow.RowId - 2000) / 50;
                 
                 styleEntry.WearableByMale |= (categorizationId % 2) == 0;
                 styleEntry.WearableByFemale |= (categorizationId % 2) == 1;
-                styleEntry.WearableByRaceIDs.Add((categorizationId / 4) + 1);
+                styleEntry.WearableByRaceIDs.Add((GameCompat.PlayerRace) (categorizationId / 4) + 1);
             }
 
         }

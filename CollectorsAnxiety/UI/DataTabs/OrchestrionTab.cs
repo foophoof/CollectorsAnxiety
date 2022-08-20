@@ -6,4 +6,8 @@ namespace CollectorsAnxiety.UI.DataTabs;
 
 public class OrchestrionTab : BaseTab<OrchestrionEntry, Orchestrion> {
     public override string Name => UIStrings.OrchestrionTab_Name;
+
+    protected override string? GetTagline(OrchestrionEntry entry) {
+        return entry.Category;
+    }
 }

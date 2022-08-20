@@ -150,4 +150,16 @@
     <data name="BaseTab_ItemMenu_ViewInUniversalis" xml:space="preserve">
         <value>View in Universalis</value>
     </data>
+    <data name="HairstyleTab_Icon_LimitedToMale" xml:space="preserve">
+        <value>Limited to male characters</value>
+    </data>
+    <data name="HairstyleTab_Icon_LimitedToFemale" xml:space="preserve">
+        <value>Limited to female characters</value>
+    </data>
+    <data name="HairstyleTab_Icon_AvailableToHrothgar" xml:space="preserve">
+        <value>Available to Hrothgar characters</value>
+    </data>
+    <data name="HairstyleTab_Icon_AvailableToViera" xml:space="preserve">
+        <value>Available to Viera characters</value>
+    </data>
 </root>
