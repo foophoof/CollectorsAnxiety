@@ -2,6 +2,7 @@
 using CollectorsAnxiety.Data.Unlockables;
 using CollectorsAnxiety.Game;
 using CollectorsAnxiety.Resources.Localization;
+using CollectorsAnxiety.UI.Tabs;
 using CollectorsAnxiety.Util;
 using Dalamud.Interface;
 using FFXIVClientStructs.FFXIV.Client.Game.UI;
@@ -10,7 +11,7 @@ using Lumina.Excel.GeneratedSheets;
 
 namespace CollectorsAnxiety.UI.DataTabs; 
 
-public class HairstyleTab : BaseTab<HairstyleEntry, CharaMakeCustomize> {
+public class HairstyleTab : DataTab<HairstyleEntry, CharaMakeCustomize> {
     public HairstyleTab() {
         this.Controller = new HairstyleController();
     }

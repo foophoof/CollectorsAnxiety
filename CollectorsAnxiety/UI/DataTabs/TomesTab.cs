@@ -1,9 +1,10 @@
 ﻿using CollectorsAnxiety.Data.Unlockables;
 using CollectorsAnxiety.Resources.Localization;
+using CollectorsAnxiety.UI.Tabs;
 using Lumina.Excel.GeneratedSheets;
 
 namespace CollectorsAnxiety.UI.DataTabs; 
 
-public class TomesTab : BaseTab<TomeEntry, Item> {
+public class TomesTab : DataTab<TomeEntry, Item> {
     public override string Name => UIStrings.TomesTab_Name;
 }

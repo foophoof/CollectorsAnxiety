@@ -1,6 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
+using System.Runtime.InteropServices;
 using CollectorsAnxiety.Base;
 using CollectorsAnxiety.Data;
 using CollectorsAnxiety.Resources.Localization;
@@ -12,7 +14,7 @@ using ImGuiNET;
 using ImGuiScene;
 using Lumina.Excel;
 
-namespace CollectorsAnxiety.UI;
+namespace CollectorsAnxiety.UI.Tabs;
 
 public interface ITab {
     public string Name { get; }
@@ -45,7 +47,7 @@ public class TableColumn {
     }
 }
 
-public class BaseTab<TEntry, TSheet> : IDataTab where TEntry : DataEntry<TSheet> where TSheet : ExcelRow {
+public class DataTab<TEntry, TSheet> : IDataTab where TEntry : DataEntry<TSheet> where TSheet : ExcelRow {
     private const int IconSize = 48;
 
     public virtual string Name => "Tab";
@@ -67,7 +69,7 @@ public class BaseTab<TEntry, TSheet> : IDataTab where TEntry : DataEntry<TSheet>
 
     private ImGuiListClipperPtr _clipperPtr;
 
-    protected BaseTab() {
+    protected DataTab() {
         this.Controller = new Controller<TEntry, TSheet>();
 
         unsafe {
@@ -75,8 +77,8 @@ public class BaseTab<TEntry, TSheet> : IDataTab where TEntry : DataEntry<TSheet>
         }
     }
 
-    ~BaseTab() {
-        this._clipperPtr.Destroy();
+    unsafe ~DataTab() {
+        Marshal.FreeHGlobal(new IntPtr(this._clipperPtr.NativePtr)); 
     }
 
     public IController GetController() {
@@ -124,7 +126,7 @@ public class BaseTab<TEntry, TSheet> : IDataTab where TEntry : DataEntry<TSheet>
             var isItemUnlocked = item.IsUnlocked();
             var isItemHidden = CollectorsAnxietyPlugin.Instance.Configuration.IsItemHidden(item);
 
-            if ((!isItemHidden || this._showHidden)) totalVisibleItems += 1;
+            if (!isItemHidden || this._showHidden) totalVisibleItems += 1;
             if (isItemUnlocked && (!isItemHidden || this._showHidden)) unlockedVisibleItems += 1;
 
             if (isItemHidden && !this._showHidden) continue;

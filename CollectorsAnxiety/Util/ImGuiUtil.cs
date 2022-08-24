@@ -38,7 +38,7 @@ public static class ImGuiUtil {
         };
     }
     
-    public static void TextHorizCentered(string text) {
+    public static void CenteredWrappedText(string text) {
         var availableWidth = ImGui.GetContentRegionAvail().X;
         var textWidth = ImGui.CalcTextSize(text).X;
 
@@ -60,8 +60,7 @@ public static class ImGuiUtil {
         ImGui.PopTextWrapPos();
     }
     
-    public static void HoverMarker(FontAwesomeIcon icon, string helpText)
-    {
+    public static void HoverMarker(FontAwesomeIcon icon, string helpText) {
         ImGui.SameLine();
         ImGui.PushFont(UiBuilder.IconFont);
         ImGui.TextDisabled(icon.ToIconString());

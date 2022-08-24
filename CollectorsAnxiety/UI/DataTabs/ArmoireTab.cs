@@ -1,24 +1,29 @@
-﻿using System.Numerics;
-using CollectorsAnxiety.Data.Unlockables;
+﻿using CollectorsAnxiety.Data.Unlockables;
 using CollectorsAnxiety.Resources.Localization;
+using CollectorsAnxiety.UI.Tabs;
 using CollectorsAnxiety.Util;
+using Dalamud.Interface;
 using Dalamud.Interface.Colors;
 using ImGuiNET;
 using Lumina.Excel.GeneratedSheets;
 
 namespace CollectorsAnxiety.UI.DataTabs; 
 
-public class ArmoireTab : BaseTab<ArmoireEntry, Cabinet> {
+public class ArmoireTab : DataTab<ArmoireEntry, Cabinet> {
     public override string Name => UIStrings.ArmoireTab_Name;
     public override bool ShowInOverview => false;
 
     public override void Draw() {
         if (!CollectorsAnxietyPlugin.Instance.GameState.IsArmoirePopulated()) {
-            ImGui.Dummy(new Vector2(0, 20));
+            ImGuiHelpers.ScaledDummy(5f);
             ImGui.PushStyleColor(ImGuiCol.Text, ImGuiColors.DalamudYellow);
-            ImGuiUtil.TextHorizCentered(UIStrings.ArmoireTab_ArmoireNotLoadedError_Title);
-            ImGuiUtil.TextHorizCentered(UIStrings.ArmoireTab_ArmoireNotLoadedError_Message);
+            ImGuiUtil.CenteredWrappedText(UIStrings.ArmoireTab_ArmoireNotLoadedError_Title);
             ImGui.PopStyleColor();
+            
+            ImGuiHelpers.ScaledDummy(10f);
+            
+            ImGui.TextWrapped(UIStrings.ArmoireTab_ArmoireNotLoadedError_Message);
+            
             return;
         }
         

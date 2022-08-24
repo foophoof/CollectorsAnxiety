@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Numerics;
 using CollectorsAnxiety.Base;
@@ -9,12 +10,13 @@ using CollectorsAnxiety.Util;
 using Dalamud.Interface;
 using Dalamud.Interface.Colors;
 using Dalamud.Interface.Windowing;
+using Dalamud.Logging;
 using ImGuiNET;
 
 namespace CollectorsAnxiety.UI.Windows; 
 
 public class CollectorWindow : Window {
-    public const string WindowKey = "###mainWindow";
+    public static string WindowKey => $"{UIStrings.CollectorsAnxiety_Title}###mainWindow";
 
     public CollectorWindow() : base(WindowKey, ImGuiWindowFlags.None, true) {
         this.SizeCondition = ImGuiCond.FirstUseEver;
@@ -39,7 +41,9 @@ public class CollectorWindow : Window {
     private readonly List<ITab> _tabs = new();
     private readonly Stopwatch _stopwatch = new();
     private readonly string _versionString = VersionUtil.GetCurrentMajMinBuild();
-    
+
+    private readonly Dictionary<ITab, CrashTab> _crashTabs = new();
+
     public override void OnOpen() {
         base.OnOpen();
         
@@ -52,12 +56,12 @@ public class CollectorWindow : Window {
     }
 
     public override void Draw() {
-        this.WindowName = $"{UIStrings.CollectorsAnxiety_Title}{WindowKey}";
+        this.WindowName = WindowKey;
         var pbs = ImGuiHelpers.GetButtonSize(".");
         
         if (!Injections.ClientState.IsLoggedIn || Injections.ClientState.LocalPlayer == null) {
             ImGui.PushStyleColor(ImGuiCol.Text, ImGuiColors.DalamudOrange);
-            ImGuiUtil.TextHorizCentered(UIStrings.CollectorWindow_NoUserLoggedInWarning);
+            ImGuiUtil.CenteredWrappedText(UIStrings.CollectorWindow_NoUserLoggedInWarning);
             ImGui.PopStyleColor();
         }
 
@@ -69,9 +73,24 @@ public class CollectorWindow : Window {
                 var style = ImGui.GetStyle();
                 var paddedY = childSize.Y - pbs.Y - 3 * style.ItemSpacing.Y + 2 * style.FramePadding.Y;
                 ImGui.BeginChild($"##tabChild-{tab.GetType().Name}", childSize with {Y = paddedY});
-                
+
+                var tabToDraw = tab;
+
                 this._stopwatch.Start();
-                tab.Draw();
+                if (this._crashTabs.TryGetValue(tab, out var crashTab)) {
+                    tabToDraw = crashTab;
+                }
+                
+                try {
+                    tabToDraw.Draw();
+                } catch (Exception ex) {
+                    // check if things are ***really*** broken
+                    if (tabToDraw is CrashTab) throw;
+                    
+                    PluginLog.Error(ex, $"Error drawing tab {tabToDraw.Name}!");
+                    this._crashTabs[tab] = new CrashTab(tab, ex);
+                }
+
                 this._stopwatch.Stop();
                 
                 ImGui.EndChild();
