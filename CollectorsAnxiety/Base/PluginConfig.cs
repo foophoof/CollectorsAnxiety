@@ -22,13 +22,13 @@ public class PluginConfig : IPluginConfiguration {
         Injections.PluginInterface.SavePluginConfig(this);
     }
 
-    public bool IsItemHidden<T>(T entry) where T : IDataEntry {
+    public bool IsItemHidden<T>(T entry) where T : IUnlockable {
         var entryKey = typeof(T).Name;
         
         return this.HiddenItems.ContainsKey(entryKey) && this.HiddenItems[entryKey].Contains(entry.Id);
     }
 
-    public void HideItem<T>(T entry) where T : IDataEntry {
+    public void HideItem<T>(T entry) where T : IUnlockable {
         var entryKey = typeof(T).Name;
 
         if (!this.HiddenItems.TryGetValue(entryKey, out var thisSet))
@@ -38,7 +38,7 @@ public class PluginConfig : IPluginConfiguration {
         this.Save();
     }
 
-    public void UnhideItem<T>(T entry) where T : IDataEntry {
+    public void UnhideItem<T>(T entry) where T : IUnlockable {
         var entryKey = typeof(T).Name;
 
         if (!this.HiddenItems.TryGetValue(entryKey, out var thisSet))

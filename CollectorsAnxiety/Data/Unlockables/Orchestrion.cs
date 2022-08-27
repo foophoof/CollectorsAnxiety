@@ -5,7 +5,7 @@ using Lumina.Excel.GeneratedSheets;
 
 namespace CollectorsAnxiety.Data.Unlockables; 
 
-public class OrchestrionEntry : DataEntry<Orchestrion> {
+public class OrchestrionEntry : Unlockable<Orchestrion> {
     public OrchestrionEntry(Orchestrion excelRow) : base(excelRow) {
         this.UnlockItem = CollectorsAnxietyPlugin.Instance.UnlockItemCache.GetItemForObject(excelRow);
         this.Category = Injections.DataManager.GetExcelSheet<OrchestrionUiparam>()!

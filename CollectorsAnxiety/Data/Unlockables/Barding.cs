@@ -3,7 +3,7 @@ using Lumina.Excel.GeneratedSheets;
 
 namespace CollectorsAnxiety.Data.Unlockables; 
 
-public class BardingEntry : DataEntry<BuddyEquip> {
+public class BardingEntry : Unlockable<BuddyEquip> {
     public BardingEntry(BuddyEquip excelRow) : base(excelRow) {
         this.UnlockItem = CollectorsAnxietyPlugin.Instance.UnlockItemCache.GetItemForObject(excelRow);
     }

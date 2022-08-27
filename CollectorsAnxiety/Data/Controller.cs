@@ -22,7 +22,7 @@ public interface IController {
     public bool ParseTainted { get; }
 }
 
-public class Controller<TEntry, TSheet> : IController where TEntry : DataEntry<TSheet> where TSheet : ExcelRow {
+public class Controller<TEntry, TSheet> : IController where TEntry : Unlockable<TSheet> where TSheet : ExcelRow {
 
     private ImmutableList<TEntry>? _itemCache;
 

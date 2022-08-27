@@ -3,6 +3,7 @@ using CollectorsAnxiety.Resources.Localization;
 using CollectorsAnxiety.UI.Tabs;
 using CollectorsAnxiety.Util;
 using Dalamud.Interface;
+using ImGuiNET;
 using Lumina.Excel.GeneratedSheets;
 
 namespace CollectorsAnxiety.UI.DataTabs; 
@@ -21,5 +22,9 @@ public class MountTab : DataTab<MountEntry, Mount> {
         
         if (entry.NumberSeats > 1)
             ImGuiUtil.HoverMarker(FontAwesomeIcon.Users, string.Format(UIStrings.MountTab_HasExtraSeats, entry.NumberSeats));
+    }
+    
+    protected override void DrawDevContextMenuItems(MountEntry entry) {
+        ImGui.MenuItem($"RideBGM ID: {entry.LuminaEntry.RideBGM.Row}", false);
     }
 }

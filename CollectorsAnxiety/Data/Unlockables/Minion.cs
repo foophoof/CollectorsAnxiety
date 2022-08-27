@@ -5,7 +5,7 @@ using Lumina.Excel.GeneratedSheets;
 
 namespace CollectorsAnxiety.Data.Unlockables; 
 
-public class MinionEntry : DataEntry<Companion> {
+public class MinionEntry : Unlockable<Companion> {
     public MinionEntry(Companion excelRow) : base(excelRow) {
         this.UnlockItem = CollectorsAnxietyPlugin.Instance.UnlockItemCache.GetItemForObject(excelRow);
     }

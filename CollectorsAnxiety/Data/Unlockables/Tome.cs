@@ -4,7 +4,7 @@ using Lumina.Excel.GeneratedSheets;
 
 namespace CollectorsAnxiety.Data.Unlockables; 
 
-public class TomeEntry : DataEntry<Item> {
+public class TomeEntry : Unlockable<Item> {
     public TomeEntry(Item excelRow) : base(excelRow) {
         this.Id = excelRow.ItemAction.Value!.Data[0];
         this.UnlockItem = excelRow;

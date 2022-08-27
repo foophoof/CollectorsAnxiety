@@ -2,6 +2,7 @@
 using CollectorsAnxiety.Resources.Localization;
 using CollectorsAnxiety.UI.Tabs;
 using CollectorsAnxiety.Util;
+using ImGuiNET;
 using Lumina.Excel.GeneratedSheets;
 
 namespace CollectorsAnxiety.UI.DataTabs; 
@@ -18,5 +19,9 @@ public class EmoteTab : DataTab<EmoteEntry, Emote> {
         }
 
         return tagline;
+    }
+    
+    protected override void DrawDevContextMenuItems(EmoteEntry entry) {
+        ImGui.MenuItem($"UnlockLink: {entry.LuminaEntry.UnlockLink}", false);
     }
 }

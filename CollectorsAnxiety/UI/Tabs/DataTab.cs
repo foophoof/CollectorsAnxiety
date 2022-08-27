@@ -47,7 +47,7 @@ public class TableColumn {
     }
 }
 
-public class DataTab<TEntry, TSheet> : IDataTab where TEntry : DataEntry<TSheet> where TSheet : ExcelRow {
+public class DataTab<TEntry, TSheet> : IDataTab where TEntry : Unlockable<TSheet> where TSheet : ExcelRow {
     private const int IconSize = 48;
 
     public virtual string Name => "Tab";
@@ -78,7 +78,7 @@ public class DataTab<TEntry, TSheet> : IDataTab where TEntry : DataEntry<TSheet>
     }
 
     unsafe ~DataTab() {
-        Marshal.FreeHGlobal(new IntPtr(this._clipperPtr.NativePtr)); 
+        Marshal.FreeHGlobal(new IntPtr(this._clipperPtr.NativePtr));
     }
 
     public IController GetController() {
@@ -182,17 +182,19 @@ public class DataTab<TEntry, TSheet> : IDataTab where TEntry : DataEntry<TSheet>
 
                         if (item.UnlockItem != null && !censorItem) {
                             ImGuiHelpers.ScaledDummy(2.0f);
-                            
+
                             if (ImGui.MenuItem(UIStrings.BaseTab_ItemMenu_ViewInGarlandTools))
                                 ItemLinkUtil.OpenGarlandToolsLink(item.UnlockItem);
 
                             if (ImGui.MenuItem(UIStrings.BaseTab_ItemMenu_ViewInTeamcraft))
                                 ItemLinkUtil.OpenTeamcraftLink(item.UnlockItem);
-                            
-                            if (item.UnlockItem.IsMarketBoardEligible() && ImGui.MenuItem(UIStrings.BaseTab_ItemMenu_ViewInUniversalis))
+
+                            if (item.UnlockItem.IsMarketBoardEligible() &&
+                                ImGui.MenuItem(UIStrings.BaseTab_ItemMenu_ViewInUniversalis))
                                 ItemLinkUtil.OpenUniversalisLink(item.UnlockItem);
 
-                            if (Injections.ClientState.IsLoggedIn && ImGui.MenuItem(UIStrings.BaseTab_ItemMenu_LinkInChat))
+                            if (Injections.ClientState.IsLoggedIn &&
+                                ImGui.MenuItem(UIStrings.BaseTab_ItemMenu_LinkInChat))
                                 ItemLinkUtil.SendChatLink(item.UnlockItem);
                         }
 
@@ -200,7 +202,7 @@ public class DataTab<TEntry, TSheet> : IDataTab where TEntry : DataEntry<TSheet>
                             ImGuiHelpers.ScaledDummy(2.0f);
                             ImGui.MenuItem("=== Developer ===", false);
                             ImGui.MenuItem($"Unlock Item ID: {item.UnlockItem?.RowId.ToString() ?? "N/A"}", false);
-                            
+
                             this.DrawDevContextMenuItems(item);
                         }
 

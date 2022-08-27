@@ -4,14 +4,14 @@ using Lumina.Excel.GeneratedSheets;
 
 namespace CollectorsAnxiety.Data;
 
-public interface IDataEntry {
+public interface IUnlockable {
     public uint Id { get; }
 }
 
-public abstract class DataEntry<T> : IDataEntry where T : ExcelRow {
-    protected readonly T LuminaEntry;
+public abstract class Unlockable<T> : IUnlockable where T : ExcelRow {
+    internal readonly T LuminaEntry;
 
-    protected DataEntry(T excelRow) {
+    protected Unlockable(T excelRow) {
         this.LuminaEntry = excelRow;
         this.Id = this.LuminaEntry.RowId;
     }

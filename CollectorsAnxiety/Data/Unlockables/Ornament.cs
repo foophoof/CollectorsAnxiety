@@ -5,7 +5,7 @@ using Lumina.Excel.GeneratedSheets;
 
 namespace CollectorsAnxiety.Data.Unlockables; 
 
-public class OrnamentEntry : DataEntry<Ornament> {
+public class OrnamentEntry : Unlockable<Ornament> {
     public OrnamentEntry(Ornament excelRow) : base(excelRow) {
         this.UnlockItem = CollectorsAnxietyPlugin.Instance.UnlockItemCache.GetItemForObject(excelRow);
     }

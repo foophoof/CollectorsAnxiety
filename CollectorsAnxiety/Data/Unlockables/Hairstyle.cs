@@ -8,7 +8,7 @@ using Lumina.Excel.GeneratedSheets;
 
 namespace CollectorsAnxiety.Data.Unlockables;
 
-public class HairstyleEntry : DataEntry<CharaMakeCustomize> {
+public class HairstyleEntry : Unlockable<CharaMakeCustomize> {
     public HairstyleEntry(CharaMakeCustomize excelRow) : base(excelRow) {
         this.Id = this.LuminaEntry.Data;
         this.UnlockItem = CollectorsAnxietyPlugin.Instance.UnlockItemCache.GetItemForUnlockLink(excelRow.Data);

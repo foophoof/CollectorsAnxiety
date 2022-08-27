@@ -8,7 +8,7 @@ using Lumina.Excel.GeneratedSheets;
 
 namespace CollectorsAnxiety.Data.Unlockables; 
 
-public class MountEntry : DataEntry<Mount> {
+public class MountEntry : Unlockable<Mount> {
     private static HashSet<Mount> _uniqueMusicMounts = Injections.DataManager.Excel.GetSheet<Mount>()!
         .GroupBy(n => n.RideBGM.Row)
         .Where(g => g.Count() == 1)

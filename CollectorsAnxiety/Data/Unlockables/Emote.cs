@@ -6,7 +6,7 @@ using Lumina.Excel.GeneratedSheets;
 
 namespace CollectorsAnxiety.Data.Unlockables; 
 
-public class EmoteEntry : DataEntry<Emote> {
+public class EmoteEntry : Unlockable<Emote> {
     public EmoteEntry(Emote excelRow) : base(excelRow) {
         this.UnlockItem = CollectorsAnxietyPlugin.Instance.UnlockItemCache.GetItemForUnlockLink(this.LuminaEntry.UnlockLink);
     }

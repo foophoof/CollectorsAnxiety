@@ -5,7 +5,7 @@ using Lumina.Excel.GeneratedSheets;
 
 namespace CollectorsAnxiety.Data.Unlockables;
 
-public class ArmoireEntry : DataEntry<Cabinet> {
+public class ArmoireEntry : Unlockable<Cabinet> {
     public ArmoireEntry(Cabinet excelRow) : base(excelRow) {
         this.UnlockItem = this.LuminaEntry.Item.Value; // rly. 
     }
