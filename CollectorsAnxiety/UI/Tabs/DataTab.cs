@@ -10,6 +10,7 @@ using CollectorsAnxiety.Util;
 using Dalamud.Interface;
 using Dalamud.Interface.Colors;
 using Dalamud.Interface.Components;
+using Dalamud.Logging;
 using ImGuiNET;
 using ImGuiScene;
 using Lumina.Excel;
@@ -179,23 +180,27 @@ public class DataTab<TEntry, TSheet> : IDataTab where TEntry : Unlockable<TSheet
                                 CollectorsAnxietyPlugin.Instance.Configuration.UnhideItem(item);
                             }
                         }
+                        
+                        ImGuiHelpers.ScaledDummy(2.0f);
+                        if (!censorItem) {
+                            if (ImGui.MenuItem("View on FFXIV Collect"))
+                                PluginLog.Debug("View on XIVCollect fired");
 
-                        if (item.UnlockItem != null && !censorItem) {
-                            ImGuiHelpers.ScaledDummy(2.0f);
+                            if (item.UnlockItem != null) {
+                                if (ImGui.MenuItem(UIStrings.BaseTab_ItemMenu_ViewInGarlandTools))
+                                    ItemLinkUtil.OpenGarlandToolsLink(item.UnlockItem);
 
-                            if (ImGui.MenuItem(UIStrings.BaseTab_ItemMenu_ViewInGarlandTools))
-                                ItemLinkUtil.OpenGarlandToolsLink(item.UnlockItem);
+                                if (ImGui.MenuItem(UIStrings.BaseTab_ItemMenu_ViewInTeamcraft))
+                                    ItemLinkUtil.OpenTeamcraftLink(item.UnlockItem);
 
-                            if (ImGui.MenuItem(UIStrings.BaseTab_ItemMenu_ViewInTeamcraft))
-                                ItemLinkUtil.OpenTeamcraftLink(item.UnlockItem);
+                                if (item.UnlockItem.IsMarketBoardEligible() &&
+                                    ImGui.MenuItem(UIStrings.BaseTab_ItemMenu_ViewInUniversalis))
+                                    ItemLinkUtil.OpenUniversalisLink(item.UnlockItem);
 
-                            if (item.UnlockItem.IsMarketBoardEligible() &&
-                                ImGui.MenuItem(UIStrings.BaseTab_ItemMenu_ViewInUniversalis))
-                                ItemLinkUtil.OpenUniversalisLink(item.UnlockItem);
-
-                            if (Injections.ClientState.IsLoggedIn &&
-                                ImGui.MenuItem(UIStrings.BaseTab_ItemMenu_LinkInChat))
-                                ItemLinkUtil.SendChatLink(item.UnlockItem);
+                                if (Injections.ClientState.IsLoggedIn &&
+                                    ImGui.MenuItem(UIStrings.BaseTab_ItemMenu_LinkInChat))
+                                    ItemLinkUtil.SendChatLink(item.UnlockItem);
+                            }
                         }
 
                         if (Injections.PluginInterface.IsDevMenuOpen || Injections.PluginInterface.IsDev) {
