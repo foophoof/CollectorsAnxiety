@@ -10,7 +10,6 @@ using CollectorsAnxiety.Util;
 using Dalamud.Interface;
 using Dalamud.Interface.Colors;
 using Dalamud.Interface.Components;
-using Dalamud.Logging;
 using ImGuiNET;
 using ImGuiScene;
 using Lumina.Excel;
@@ -183,8 +182,8 @@ public class DataTab<TEntry, TSheet> : IDataTab where TEntry : Unlockable<TSheet
                         
                         ImGuiHelpers.ScaledDummy(2.0f);
                         if (!censorItem) {
-                            if (ImGui.MenuItem("View on FFXIV Collect"))
-                                PluginLog.Debug("View on XIVCollect fired");
+                            // if (ImGui.MenuItem("View on FFXIV Collect"))
+                            //     PluginLog.Debug("View on XIVCollect fired");
 
                             if (item.UnlockItem != null) {
                                 if (ImGui.MenuItem(UIStrings.BaseTab_ItemMenu_ViewInGarlandTools))
