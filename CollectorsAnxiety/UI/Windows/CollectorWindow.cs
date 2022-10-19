@@ -105,12 +105,15 @@ public class CollectorWindow : Window {
         ImGui.Separator();
         
         ImGui.TextColored(ImGuiColors.DalamudGrey2, $"v{this._versionString}");
-        ImGui.SameLine();
-        ImGui.TextColored(ImGuiColors.DalamudOrange, "DEVELOPMENT PREVIEW");
-        ImGui.SameLine();
-        var stopwatchTime = this._stopwatch.ElapsedTicks / (double) 10000;
-        var framerate = ImGui.GetIO().Framerate;
-        ImGui.Text($"TAB RENDER: {stopwatchTime:F4}ms ({stopwatchTime / (1000/framerate):F2} frames @ {framerate:F0}fps)");
+        
+        if (Injections.PluginInterface.IsDevMenuOpen || Injections.PluginInterface.IsDev) {
+            ImGui.SameLine();
+            var stopwatchTime = this._stopwatch.ElapsedTicks / (double) 10000;
+            var framerate = ImGui.GetIO().Framerate;
+            var framesWasted = stopwatchTime / (1000 / framerate);
+            ImGui.Text($"TAB RENDER: {stopwatchTime:F4}ms ({framesWasted:F2} frames @ {framerate:F0}fps)");
+        }
+        
         this._stopwatch.Reset();
     }
 }
