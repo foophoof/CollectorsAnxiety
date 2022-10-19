@@ -162,4 +162,7 @@
     <data name="HairstyleTab_Icon_AvailableToViera" xml:space="preserve">
         <value>Available to Viera characters</value>
     </data>
+    <data name="FramersKitTab_Name" xml:space="preserve">
+        <value>Framer's Kits</value>
+    </data>
 </root>

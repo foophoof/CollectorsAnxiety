@@ -66,6 +66,10 @@ internal unsafe class GameState : IDisposable {
         return PlayerState.Instance()->IsFolkloreBookUnlocked(tomeId);
     }
 
+    internal bool IsFramersKitUnlocked(uint kitId) {
+        return PlayerState.Instance()->IsFramersKitUnlocked(kitId);
+    }
+
     internal bool IsItemActionUnlocked(uint itemId) {
         var itemExd = (IntPtr) ExdModule.GetItemRowById(itemId);
 

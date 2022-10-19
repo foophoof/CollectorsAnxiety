@@ -267,6 +267,15 @@ namespace CollectorsAnxiety.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Framer&apos;s Kits.
+        /// </summary>
+        internal static string FramersKitTab_Name {
+            get {
+                return ResourceManager.GetString("FramersKitTab_Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Available to Hrothgar characters.
         /// </summary>
         internal static string HairstyleTab_Icon_AvailableToHrothgar {
