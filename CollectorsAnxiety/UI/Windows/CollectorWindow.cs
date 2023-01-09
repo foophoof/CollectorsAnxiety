@@ -53,6 +53,9 @@ public class CollectorWindow : Window {
             this._tabs.Add(new OverviewTab(this));
             this._tabs.AddRange(this.DataTabs);
             this._tabs.Add(new SettingsTab());
+#if DEBUG
+            this._tabs.Add(new DevTab());
+#endif
         }
     }
 
