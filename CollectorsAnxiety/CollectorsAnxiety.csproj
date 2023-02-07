@@ -47,7 +47,7 @@
     
     <ItemGroup>
         <!-- Dalamud things -->
-        <PackageReference Include="DalamudPackager" Version="2.1.8" GeneratePathProperty="false" />
+        <PackageReference Include="DalamudPackager" Version="2.1.10" GeneratePathProperty="false" />
         <Reference Include="FFXIVClientStructs">
             <HintPath>$(DalamudLibPath)FFXIVClientStructs.dll</HintPath>
             <Private>false</Private>
