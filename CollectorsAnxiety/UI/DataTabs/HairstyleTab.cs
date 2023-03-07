@@ -5,7 +5,6 @@ using CollectorsAnxiety.Resources.Localization;
 using CollectorsAnxiety.UI.Tabs;
 using CollectorsAnxiety.Util;
 using Dalamud.Interface;
-using FFXIVClientStructs.FFXIV.Client.Game.UI;
 using ImGuiNET;
 using Lumina.Excel.GeneratedSheets;
 
@@ -32,8 +31,6 @@ public class HairstyleTab : DataTab<HairstyleEntry, CharaMakeCustomize> {
         
         if (entry.WearableByRaceIDs.Contains(GameCompat.PlayerRace.Viera))
             ImGuiUtil.HoverMarker(FontAwesomeIcon.Carrot, UIStrings.HairstyleTab_Icon_AvailableToViera);
-
-        PlayerState.GetBeastTribeAllowance();
     }
 
     protected override void DrawDevContextMenuItems(HairstyleEntry entry) {

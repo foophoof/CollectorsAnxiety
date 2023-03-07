@@ -6,7 +6,6 @@ using CollectorsAnxiety.Resources.Localization;
 using CollectorsAnxiety.UI.Windows;
 using Dalamud.Game.Command;
 using Dalamud.Interface.Windowing;
-using Dalamud.Logging;
 using Dalamud.Plugin;
 
 namespace CollectorsAnxiety;
@@ -26,6 +25,8 @@ public sealed class CollectorsAnxietyPlugin : IDalamudPlugin {
     
     private DalamudPluginInterface PluginInterface { get; }
     private readonly IPCSubscriberManager _ipcSubscriberManager;
+
+    private readonly CollectorWindow _mainWindow;
     
     public CollectorsAnxietyPlugin(DalamudPluginInterface pluginInterface) {
         pluginInterface.Create<Injections>();
@@ -40,6 +41,9 @@ public sealed class CollectorsAnxietyPlugin : IDalamudPlugin {
         this.UnlockItemCache = new UnlockItemCache();
         this.IconManager = new IconManager();
         this._ipcSubscriberManager = new IPCSubscriberManager();
+
+        this._mainWindow = new CollectorWindow();
+        this.WindowSystem.AddWindow(this._mainWindow);
 
         this.PluginInterface.UiBuilder.Draw += this.WindowSystem.Draw;
         this.PluginInterface.UiBuilder.OpenConfigUi += this.DrawMainUI;
@@ -65,15 +69,7 @@ public sealed class CollectorsAnxietyPlugin : IDalamudPlugin {
     }
 
     private void DrawMainUI() {
-        var instance = this.WindowSystem.GetWindow(CollectorWindow.WindowKey);
-
-        if (instance == null) {
-            PluginLog.Debug("New CollectorWindow built");
-            instance = new CollectorWindow();
-            this.WindowSystem.AddWindow(instance);
-        }
-        
-        instance.IsOpen = true;
+        this._mainWindow.IsOpen = true;
     }
 
     private void HandleCommand(string command, string args) {
