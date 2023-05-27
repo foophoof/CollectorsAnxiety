@@ -23,6 +23,8 @@ public class HairstyleEntry : Unlockable<CharaMakeCustomize> {
 
     public override string Name => this.GetName();
 
+    public override uint SortKey => this.LuminaEntry.Data;
+
     public override TextureWrap? Icon =>
         CollectorsAnxietyPlugin.Instance.IconManager.GetIconTexture((int) this.LuminaEntry.Icon);
 
@@ -33,7 +35,7 @@ public class HairstyleEntry : Unlockable<CharaMakeCustomize> {
     }
 
     public override bool IsValid() {
-        return this.LuminaEntry.IsPurchasable;
+        return this.LuminaEntry.IsPurchasable && this.LuminaEntry.Icon != 0 && !string.IsNullOrWhiteSpace(this.GetName());
     }
 
     private string GetName() {
@@ -58,6 +60,8 @@ public class HairstyleController : Controller<HairstyleEntry, CharaMakeCustomize
 
             if (!itemDict.TryGetValue(styleRow.Data, out var styleEntry)) {
                 styleEntry = new HairstyleEntry(styleRow);
+                if (!styleEntry.IsValid()) continue;
+                
                 itemDict[styleRow.Data] = styleEntry;
             }
 
