@@ -206,6 +206,7 @@ public class DataTab<TEntry, TSheet> : IDataTab where TEntry : Unlockable<TSheet
                             ImGuiHelpers.ScaledDummy(2.0f);
                             ImGui.MenuItem("=== Developer ===", false);
                             ImGui.MenuItem($"Unlock Item ID: {item.UnlockItem?.RowId.ToString() ?? "N/A"}", false);
+                            ImGui.MenuItem($"Sort Key: {item.SortKey}");
 
                             this.DrawDevContextMenuItems(item);
                         }

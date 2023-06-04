@@ -86,4 +86,12 @@ internal unsafe class GameState : IDisposable {
     internal bool IsArmoirePopulated() {
         return UIState.Instance()->Cabinet.IsCabinetLoaded();
     }
+
+    internal bool IsDutyUnlocked(uint dutyId) {
+        return UIState.IsInstanceContentUnlocked(dutyId);
+    }
+
+    internal bool IsDutyCompleted(uint dutyId) {
+        return UIState.IsInstanceContentCompleted(dutyId);
+    }
 }

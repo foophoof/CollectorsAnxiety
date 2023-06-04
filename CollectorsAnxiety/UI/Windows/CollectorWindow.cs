@@ -34,6 +34,7 @@ public class CollectorWindow : Window {
         new HairstyleTab(),
         new TomesTab(),
         new ArmoireTab(),
+        new DutyTab(),
         new OrchestrionTab(),
         new OrnamentTab(),
         new FramersKitTab()
