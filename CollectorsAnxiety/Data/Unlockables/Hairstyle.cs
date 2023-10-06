@@ -3,7 +3,7 @@ using System.Collections.Immutable;
 using CollectorsAnxiety.Base;
 using CollectorsAnxiety.Game;
 using CollectorsAnxiety.Resources.Localization;
-using ImGuiScene;
+using Dalamud.Interface.Internal;
 using Lumina.Excel.GeneratedSheets;
 
 namespace CollectorsAnxiety.Data.Unlockables;
@@ -25,7 +25,7 @@ public class HairstyleEntry : Unlockable<CharaMakeCustomize> {
 
     public override uint SortKey => this.LuminaEntry.Data;
 
-    public override TextureWrap? Icon =>
+    public override IDalamudTextureWrap? Icon =>
         CollectorsAnxietyPlugin.Instance.IconManager.GetIconTexture((int) this.LuminaEntry.Icon);
 
     public override Item? UnlockItem { get; }

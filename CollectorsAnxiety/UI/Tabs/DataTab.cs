@@ -10,6 +10,8 @@ using CollectorsAnxiety.Util;
 using Dalamud.Interface;
 using Dalamud.Interface.Colors;
 using Dalamud.Interface.Components;
+using Dalamud.Interface.Internal;
+using Dalamud.Interface.Utility;
 using ImGuiNET;
 using ImGuiScene;
 using Lumina.Excel;
@@ -87,7 +89,7 @@ public class DataTab<TEntry, TSheet> : IDataTab where TEntry : Unlockable<TSheet
 
     public virtual void Draw() {
         var hideSpoilers = CollectorsAnxietyPlugin.Instance.Configuration.HideSpoilers;
-        TextureWrap? spoilerIcon = null;
+        IDalamudTextureWrap? spoilerIcon = null;
         if (hideSpoilers)
             spoilerIcon = CollectorsAnxietyPlugin.Instance.IconManager.GetIconTexture(000786);
 

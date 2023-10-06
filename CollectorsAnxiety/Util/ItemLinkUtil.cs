@@ -43,7 +43,7 @@ public static class ItemLinkUtil {
             new RawPayload(new byte[] {0x02, 0x13, 0x02, 0xEC, 0x03})
         };
 
-        Injections.Chat.PrintChat(new XivChatEntry {
+        Injections.Chat.Print(new XivChatEntry {
             Message = new SeString(payloadList),
             Type = XivChatType.Echo
         });

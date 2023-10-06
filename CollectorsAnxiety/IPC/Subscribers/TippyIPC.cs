@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using CollectorsAnxiety.Base;
-using Dalamud.Logging;
 using Dalamud.Plugin.Ipc;
 
 namespace CollectorsAnxiety.IPC.Subscribers;
@@ -19,7 +18,7 @@ internal class TippyIPC : IPluginIpcClient {
         try {
             this._initializeIpc();
         } catch (Exception ex) {
-            PluginLog.Warning(ex, "Failed to initialize Tippy IPC");
+            Injections.PluginLog.Warning(ex, "Failed to initialize Tippy IPC");
         }
 
         // doesn't exist, but just in case.
@@ -40,7 +39,7 @@ internal class TippyIPC : IPluginIpcClient {
 
     private void _initializeIpc() {
         if (Injections.PluginInterface.InstalledPlugins.All(p => p.Name != "Tippy")) {
-            PluginLog.Debug("Tippy was not found, will not create IPC at this time");
+            Injections.PluginLog.Debug("Tippy was not found, will not create IPC at this time");
             return;
         }
 
@@ -55,11 +54,11 @@ internal class TippyIPC : IPluginIpcClient {
             this._tippyRegisterTipSubscriber =
                 Injections.PluginInterface.GetIpcSubscriber<string, bool>("Tippy.RegisterTip");
             this.Enabled = true;
-            PluginLog.Information("Enabled Tippy IPC connection!");
+            Injections.PluginLog.Information("Enabled Tippy IPC connection!");
 
             this.RegisterTips();
         } else if (version > 0) {
-            PluginLog.Warning($"Tippy IPC detected, but version {version} is incompatible!");
+            Injections.PluginLog.Warning($"Tippy IPC detected, but version {version} is incompatible!");
         }
     }
 

@@ -37,7 +37,7 @@ public sealed class CollectorsAnxietyPlugin : IDalamudPlugin {
         this.Configuration = this.PluginInterface.GetPluginConfig() as PluginConfig ?? new PluginConfig();
 
         this.WindowSystem = new WindowSystem(this.Name);
-        this.GameState = new GameState();
+        this.GameState = new GameState(Injections.GameInteropProvider);
         this.UnlockItemCache = new UnlockItemCache();
         this.IconManager = new IconManager();
         this._ipcSubscriberManager = new IPCSubscriberManager();

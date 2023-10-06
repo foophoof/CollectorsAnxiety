@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using Dalamud.Logging;
+using CollectorsAnxiety.Base;
 
 namespace CollectorsAnxiety.IPC; 
 
@@ -19,7 +19,7 @@ public class IPCSubscriberManager : IDisposable {
             
             var handler = (IPluginIpcClient) Activator.CreateInstance(type, nonPublic: true)!;
 
-            PluginLog.Debug($"Registered IPC: {handler.GetType()}");
+            Injections.PluginLog.Debug($"Registered IPC: {handler.GetType()}");
             this._registeredIpcs.Add(handler);
         }
     }

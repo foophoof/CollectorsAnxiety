@@ -1,4 +1,4 @@
-﻿using ImGuiScene;
+﻿using Dalamud.Interface.Internal;
 using Lumina.Excel.GeneratedSheets;
 
 namespace CollectorsAnxiety.Data.Unlockables; 
@@ -10,7 +10,7 @@ public class BardingEntry : Unlockable<BuddyEquip> {
 
     public override string Name => this.LuminaEntry.Name.RawString;
     
-    public override TextureWrap? Icon => 
+    public override IDalamudTextureWrap? Icon => 
         CollectorsAnxietyPlugin.Instance.IconManager.GetIconTexture(this.LuminaEntry.IconHead);
 
     public override Item? UnlockItem { get; }

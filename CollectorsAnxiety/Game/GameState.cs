@@ -1,5 +1,5 @@
 ﻿using System;
-using Dalamud.Utility.Signatures;
+using Dalamud.Plugin.Services;
 using FFXIVClientStructs.FFXIV.Client.Game.UI;
 using FFXIVClientStructs.FFXIV.Component.Exd;
 using Lumina.Excel.GeneratedSheets;
@@ -22,8 +22,8 @@ internal unsafe class GameState : IDisposable {
     private readonly delegate* unmanaged<IntPtr, uint, byte> _isSomeItemUnlocked = null;
     */
     
-    internal GameState() {
-        SignatureHelper.Initialise(this);
+    internal GameState(IGameInteropProvider gameInteropProvider) {
+        gameInteropProvider.InitializeFromAttributes(this);
     }
 
     public void Dispose() {

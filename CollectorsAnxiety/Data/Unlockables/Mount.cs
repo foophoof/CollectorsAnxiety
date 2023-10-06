@@ -2,8 +2,8 @@
 using System.Linq;
 using CollectorsAnxiety.Base;
 using CollectorsAnxiety.Util;
+using Dalamud.Interface.Internal;
 using Dalamud.Utility;
-using ImGuiScene;
 using Lumina.Excel.GeneratedSheets;
 
 namespace CollectorsAnxiety.Data.Unlockables; 
@@ -26,7 +26,7 @@ public class MountEntry : Unlockable<Mount> {
     
     public override string Name => this.LuminaEntry.Singular.ToDalamudString().ToTitleCase();
 
-    public override TextureWrap? Icon => 
+    public override IDalamudTextureWrap? Icon => 
         CollectorsAnxietyPlugin.Instance.IconManager.GetIconTexture(this.LuminaEntry.Icon);
 
     public override uint SortKey => (uint) ((this.LuminaEntry.UIPriority << 8) + this.LuminaEntry.Order);

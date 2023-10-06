@@ -1,4 +1,4 @@
-﻿using ImGuiScene;
+﻿using Dalamud.Interface.Internal;
 using Lumina.Excel;
 using Lumina.Excel.GeneratedSheets;
 
@@ -21,7 +21,7 @@ public abstract class Unlockable<T> : IUnlockable where T : ExcelRow {
     public virtual Item? UnlockItem => null;
 
     public abstract string Name { get; }
-    public abstract TextureWrap? Icon { get; }
+    public abstract IDalamudTextureWrap? Icon { get; }
 
     public virtual uint SortKey => this.Id;
 

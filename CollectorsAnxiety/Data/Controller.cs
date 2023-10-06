@@ -2,7 +2,6 @@
 using System.Collections.Immutable;
 using System.Linq;
 using CollectorsAnxiety.Base;
-using Dalamud.Logging;
 using Lumina.Excel;
 
 namespace CollectorsAnxiety.Data;
@@ -55,7 +54,7 @@ public class Controller<TEntry, TSheet> : IController where TEntry : Unlockable<
             return this._itemCache;
         }
 
-        PluginLog.Debug($"Cache miss or invalidated getting items for {typeof(TEntry).Name}, regenerating list");
+        Injections.PluginLog.Debug($"Cache miss or invalidated getting items for {typeof(TEntry).Name}, regenerating list");
         
         this._itemCache = GetSheet()
             .Select(row => (TEntry) Activator.CreateInstance(typeof(TEntry), row)!)

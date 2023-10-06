@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using CollectorsAnxiety.Base;
-using Dalamud.Logging;
 using Lumina.Excel;
 using Lumina.Excel.GeneratedSheets;
 
@@ -66,7 +65,7 @@ public class UnlockItemCache {
             }
         }
         
-        PluginLog.Debug($"Loaded {this._cache.Count} unlockable items into cache.");
+        Injections.PluginLog.Debug($"Loaded {this._cache.Count} unlockable items into cache.");
     }
 
     public Item? GetItemForUnlockLink(uint unlockLink) {

@@ -1,6 +1,6 @@
 ﻿using CollectorsAnxiety.Resources.Localization;
 using CollectorsAnxiety.Util;
-using ImGuiScene;
+using Dalamud.Interface.Internal;
 using Lumina.Excel.GeneratedSheets;
 
 namespace CollectorsAnxiety.Data.Unlockables;
@@ -17,7 +17,7 @@ public class ArmoireEntry : Unlockable<Cabinet> {
 
     public string Category => this.LuminaEntry.Category.Value!.Category.Value!.Text.RawString;
 
-    public override TextureWrap? Icon =>
+    public override IDalamudTextureWrap? Icon =>
         this.UnlockItem != null
             ? CollectorsAnxietyPlugin.Instance.IconManager.GetIconTexture(this.UnlockItem.Icon)
             : null;

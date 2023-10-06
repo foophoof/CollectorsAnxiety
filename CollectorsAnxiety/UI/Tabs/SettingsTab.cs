@@ -2,9 +2,9 @@
 using System.Numerics;
 using CollectorsAnxiety.Base;
 using CollectorsAnxiety.Resources.Localization;
-using Dalamud.Interface;
 using Dalamud.Interface.Colors;
 using Dalamud.Interface.Components;
+using Dalamud.Interface.Utility;
 using ImGuiNET;
 
 namespace CollectorsAnxiety.UI.Tabs; 
