@@ -46,7 +46,7 @@ public sealed class CollectorsAnxietyPlugin : IDalamudPlugin {
         this.WindowSystem.AddWindow(this._mainWindow);
 
         this.PluginInterface.UiBuilder.Draw += this.WindowSystem.Draw;
-        this.PluginInterface.UiBuilder.OpenConfigUi += this.DrawMainUI;
+        this.PluginInterface.UiBuilder.OpenMainUi += this.DrawMainUI;
 
         Injections.CommandManager.AddHandler(BaseCommand, new CommandInfo(this.HandleCommand) {
             HelpMessage = "Open the Collector's Anxiety main window."

@@ -10,7 +10,6 @@ using CollectorsAnxiety.Util;
 using Dalamud.Interface.Colors;
 using Dalamud.Interface.Utility;
 using Dalamud.Interface.Windowing;
-using Dalamud.Logging;
 using ImGuiNET;
 
 namespace CollectorsAnxiety.UI.Windows; 
@@ -92,7 +91,7 @@ public class CollectorWindow : Window {
                     // check if things are ***really*** broken
                     if (tabToDraw is CrashTab) throw;
                     
-                    PluginLog.Error(ex, $"Error drawing tab {tabToDraw.Name}!");
+                    Injections.PluginLog.Error(ex, $"Error drawing tab {tabToDraw.Name}!");
                     this._crashTabs[tab] = new CrashTab(tab, ex);
                 }
 

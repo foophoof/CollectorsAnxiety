@@ -3,7 +3,7 @@
         <Product>Collector's Anxiety</Product>
         <Authors>Kaz Wolfe</Authors>
         <Company>Blacksite Technologies</Company>
-        <Version>0.0.6</Version>
+        <Version>0.0.7</Version>
 
         <AssemblyName>CollectorsAnxiety</AssemblyName>
 
@@ -12,7 +12,7 @@
         <IsPackable>false</IsPackable>
         <NeutralLanguage>en</NeutralLanguage>
         <Nullable>enable</Nullable>
-        <PackageLicenseExpression>AGPL-1.0</PackageLicenseExpression>
+        <PackageLicenseExpression>AGPL-3.0</PackageLicenseExpression>
     </PropertyGroup>
 
     <PropertyGroup Label="Target">
