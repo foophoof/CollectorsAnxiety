@@ -1,5 +1,4 @@
 ﻿using CollectorsAnxiety.Util;
-using Dalamud.Interface.Internal;
 using Dalamud.Utility;
 using Lumina.Excel.GeneratedSheets;
 
@@ -14,8 +13,7 @@ public class MinionEntry : Unlockable<Companion> {
 
     public override Item? UnlockItem { get; }
 
-    public override IDalamudTextureWrap? Icon => 
-        CollectorsAnxietyPlugin.Instance.IconManager.GetIconTexture(this.LuminaEntry.Icon);
+    public override uint? IconId => this.LuminaEntry.Icon;
 
     public override uint SortKey => this.LuminaEntry.Order;
 

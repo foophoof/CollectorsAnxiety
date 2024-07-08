@@ -1,6 +1,5 @@
 ﻿using CollectorsAnxiety.Resources.Localization;
 using CollectorsAnxiety.Util;
-using Dalamud.Interface.Internal;
 using Dalamud.Utility;
 using Lumina.Excel.GeneratedSheets;
 
@@ -15,8 +14,7 @@ public class EmoteEntry : Unlockable<Emote> {
     
     public override string Name => this.LuminaEntry.Name.ToDalamudString().ToTitleCase();
 
-    public override IDalamudTextureWrap? Icon => 
-        CollectorsAnxietyPlugin.Instance.IconManager.GetIconTexture(this.LuminaEntry.Icon);
+    public override uint? IconId => this.LuminaEntry.Icon; 
 
     public override uint SortKey => this.LuminaEntry.Order;
 

@@ -1,4 +1,3 @@
-﻿using Dalamud.Interface.Internal;
 using Lumina.Excel;
 using Lumina.Excel.GeneratedSheets;
 
@@ -21,7 +20,7 @@ public abstract class Unlockable<T> : IUnlockable where T : ExcelRow {
     public virtual Item? UnlockItem => null;
 
     public abstract string Name { get; }
-    public abstract IDalamudTextureWrap? Icon { get; }
+    public abstract uint? IconId { get; }
 
     public virtual uint SortKey => this.Id;
 

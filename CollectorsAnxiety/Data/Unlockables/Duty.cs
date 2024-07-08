@@ -1,5 +1,4 @@
 ﻿using CollectorsAnxiety.Util;
-using Dalamud.Interface.Internal;
 using Dalamud.Utility;
 using Lumina.Excel.GeneratedSheets;
 
@@ -12,7 +11,7 @@ public class DutyEntry : Unlockable<ContentFinderCondition> {
     
     public override uint SortKey => (this.LuminaEntry.ContentType.Row << 16) + this.LuminaEntry.SortKey;
 
-    public override IDalamudTextureWrap? Icon => CollectorsAnxietyPlugin.Instance.IconManager.GetIconTexture(this.GetIconId());
+    public override uint? IconId => this.GetIconId();
 
     public override bool IsUnlocked() {
         return CollectorsAnxietyPlugin.Instance.GameState.IsDutyUnlocked(this.LuminaEntry.Content);
@@ -35,9 +34,9 @@ public class DutyEntry : Unlockable<ContentFinderCondition> {
 
     public string? UnlockQuestName => this.LuminaEntry.UnlockQuest.Value?.Name.ToString();
 
-    private int GetIconId() {
+    private uint GetIconId() {
         if (this.LuminaEntry.Icon != 0)
-            return (int) this.LuminaEntry.Icon;
+            return this.LuminaEntry.Icon;
 
         return this.LuminaEntry.ContentType.Row switch {
             2 => 60831,

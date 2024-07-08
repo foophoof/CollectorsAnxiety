@@ -1,5 +1,4 @@
 ﻿using CollectorsAnxiety.Util;
-using Dalamud.Interface.Internal;
 using Lumina.Excel.GeneratedSheets;
 
 namespace CollectorsAnxiety.Data.Unlockables; 
@@ -14,8 +13,7 @@ public class TomeEntry : Unlockable<Item> {
     public override string Name => this.LuminaEntry.Name.RawString.ToTitleCase();
     public override Item? UnlockItem { get; }
 
-    public override IDalamudTextureWrap? Icon => 
-        CollectorsAnxietyPlugin.Instance.IconManager.GetIconTexture(this.LuminaEntry.Icon);
+    public override uint? IconId => this.LuminaEntry.Icon; 
 
     public override bool IsUnlocked() {
         return this.LuminaEntry.FilterGroup switch {

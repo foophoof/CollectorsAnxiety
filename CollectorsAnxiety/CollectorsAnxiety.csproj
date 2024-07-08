@@ -17,7 +17,7 @@
 
     <PropertyGroup Label="Target">
         <PlatformTarget>x64</PlatformTarget>
-        <TargetFramework>net7.0-windows</TargetFramework>
+        <TargetFramework>net8.0-windows</TargetFramework>
         <LangVersion>10</LangVersion>
         <Platforms>x64</Platforms>
         <Configurations>Debug;Release</Configurations>
@@ -47,7 +47,7 @@
     
     <ItemGroup>
         <!-- Dalamud things -->
-        <PackageReference Include="DalamudPackager" Version="2.1.12" GeneratePathProperty="false" />
+        <PackageReference Include="DalamudPackager" Version="2.1.13" GeneratePathProperty="false" />
         <Reference Include="FFXIVClientStructs">
             <HintPath>$(DalamudLibPath)FFXIVClientStructs.dll</HintPath>
             <Private>false</Private>

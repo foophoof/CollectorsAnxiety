@@ -51,7 +51,7 @@ internal unsafe class GameState : IDisposable {
     }
 
     internal bool IsBuddyEquipUnlocked(uint equipId) {
-        return UIState.Instance()->Buddy.IsBuddyEquipUnlocked(equipId);
+        return UIState.Instance()->Buddy.CompanionInfo.IsBuddyEquipUnlocked(equipId);
     }
     
     internal bool IsOrchestrionUnlocked(uint orchestrionId) {

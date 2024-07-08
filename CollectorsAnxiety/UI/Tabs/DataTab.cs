@@ -11,6 +11,7 @@ using Dalamud.Interface;
 using Dalamud.Interface.Colors;
 using Dalamud.Interface.Components;
 using Dalamud.Interface.Internal;
+using Dalamud.Interface.Textures;
 using Dalamud.Interface.Utility;
 using ImGuiNET;
 using ImGuiScene;
@@ -89,9 +90,9 @@ public class DataTab<TEntry, TSheet> : IDataTab where TEntry : Unlockable<TSheet
 
     public virtual void Draw() {
         var hideSpoilers = CollectorsAnxietyPlugin.Instance.Configuration.HideSpoilers;
-        IDalamudTextureWrap? spoilerIcon = null;
+        uint? spoilerIconId = null;
         if (hideSpoilers)
-            spoilerIcon = CollectorsAnxietyPlugin.Instance.IconManager.GetIconTexture(000786);
+            spoilerIconId = 000786;
 
         var displayMode = (int) this._displayFilter;
         var filterLabels = new List<string> {
@@ -217,9 +218,12 @@ public class DataTab<TEntry, TSheet> : IDataTab where TEntry : Unlockable<TSheet
                     }
 
                     ImGui.TableSetColumnIndex(1);
-                    var icon = censorItem ? spoilerIcon : item.Icon;
-                    if (icon != null)
-                        ImGui.Image(icon.ImGuiHandle, new Vector2(IconSize));
+                    var iconId = censorItem ? spoilerIconId : item.IconId;
+                    if (iconId != null) {
+                        ImGui.Image(
+                            Injections.TextureProvider.GetFromGameIcon(new GameIconLookup(iconId.Value)).GetWrapOrEmpty().ImGuiHandle,
+                            new Vector2(IconSize));
+                    }
 
                     ImGui.TableSetColumnIndex(2);
                     ImGui.Text($"#{item.Id}");
