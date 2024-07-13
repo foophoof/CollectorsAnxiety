@@ -1,14 +1,13 @@
 <Project Sdk="Microsoft.NET.Sdk">
     <PropertyGroup>
         <Product>Collector's Anxiety</Product>
-        <Authors>Kaz Wolfe</Authors>
-        <Company>Blacksite Technologies</Company>
+        <Authors>foophoof</Authors>
         <Version>0.0.7</Version>
 
         <AssemblyName>CollectorsAnxiety</AssemblyName>
 
         <Description>A Dalamud plugin that helps players manage collectable items in FFXIV.</Description>
-        <Copyright>(c) 2022, KazWolfe</Copyright>
+        <Copyright>(c) 2024, foophoof</Copyright>
         <IsPackable>false</IsPackable>
         <NeutralLanguage>en</NeutralLanguage>
         <Nullable>enable</Nullable>
