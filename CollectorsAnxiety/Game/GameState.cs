@@ -94,4 +94,8 @@ internal unsafe class GameState : IDisposable {
     internal bool IsDutyCompleted(uint dutyId) {
         return UIState.IsInstanceContentCompleted(dutyId);
     }
+
+    internal bool IsGlassesUnlocked(ushort glassesId) {
+        return PlayerState.Instance()->IsGlassesUnlocked(glassesId);
+    }
 }
