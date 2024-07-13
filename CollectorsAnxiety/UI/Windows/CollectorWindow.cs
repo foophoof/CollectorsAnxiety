@@ -36,7 +36,8 @@ public class CollectorWindow : Window {
         new DutyTab(),
         new OrchestrionTab(),
         new OrnamentTab(),
-        new FramersKitTab()
+        new FramersKitTab(),
+        new GlassesTab()
     };
 
     private readonly List<ITab> _tabs = new();

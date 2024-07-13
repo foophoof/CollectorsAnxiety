@@ -276,6 +276,15 @@ namespace CollectorsAnxiety.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Facewear.
+        /// </summary>
+        internal static string GlassesTab_Name {
+            get {
+                return ResourceManager.GetString("GlassesTab_Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Available to Hrothgar characters.
         /// </summary>
         internal static string HairstyleTab_Icon_AvailableToHrothgar {

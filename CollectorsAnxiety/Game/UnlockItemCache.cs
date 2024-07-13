@@ -59,6 +59,10 @@ public class UnlockItemCache {
                 case 0x625F: // Orchestrion Rolls
                     this._cache[(nameof(Orchestrion), item.AdditionalData)] = item;
                     break;
+                
+                case 37312: // Facewear
+                    this._cache[(nameof(Glasses), item.AdditionalData)] = item;
+                    break;
 
                 default:
                     continue;

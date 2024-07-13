@@ -165,4 +165,7 @@
     <data name="FramersKitTab_Name" xml:space="preserve">
         <value>Framer's Kits</value>
     </data>
+    <data name="GlassesTab_Name" xml:space="preserve">
+        <value>Facewear</value>
+    </data>
 </root>
