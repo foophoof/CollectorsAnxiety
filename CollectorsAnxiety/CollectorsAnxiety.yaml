@@ -1,6 +1,6 @@
 name: Collector's Anxiety
-author: Kaz Wolfe
+author: foophoof
 punchline: Hey guys, Famous YouTuber here. Do you ever get Collector's Anxiety?
 description: |-
   Collector's Anxiety helps completionists or players with a hobby for collecting in-game things keep track of what they do or don't have in an easy-to-use checklist format. Data is loaded live from the game, so collection statuses are updated in real-time.
-repo_url: https://github.com/KazWolfe/CollectorsAnxiety/
+repo_url: https://github.com/foophoof/CollectorsAnxiety/
