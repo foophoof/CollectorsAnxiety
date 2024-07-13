@@ -1,5 +1,4 @@
 ﻿using CollectorsAnxiety.Util;
-using Dalamud.Interface.Internal;
 using Dalamud.Utility;
 using Lumina.Excel.GeneratedSheets;
 
@@ -12,8 +11,7 @@ public class OrnamentEntry : Unlockable<Ornament> {
     
     public override string Name => this.LuminaEntry.Singular.ToDalamudString().ToTitleCase();
 
-    public override IDalamudTextureWrap? Icon => 
-        CollectorsAnxietyPlugin.Instance.IconManager.GetIconTexture(this.LuminaEntry.Icon);
+    public override uint? IconId => this.LuminaEntry.Icon;
 
     public override Item? UnlockItem { get; }
 

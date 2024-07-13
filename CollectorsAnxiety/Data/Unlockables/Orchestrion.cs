@@ -1,6 +1,5 @@
 ﻿using CollectorsAnxiety.Base;
 using CollectorsAnxiety.Util;
-using Dalamud.Interface.Internal;
 using Lumina.Excel.GeneratedSheets;
 
 namespace CollectorsAnxiety.Data.Unlockables; 
@@ -13,9 +12,8 @@ public class OrchestrionEntry : Unlockable<Orchestrion> {
     }
     
     public override string Name => this.LuminaEntry.Name.RawString.ToTitleCase();
-    
-    public override IDalamudTextureWrap? Icon => 
-        CollectorsAnxietyPlugin.Instance.IconManager.GetIconTexture(25945);
+
+    public override uint? IconId => 25945;
 
     public override Item? UnlockItem { get; }
 

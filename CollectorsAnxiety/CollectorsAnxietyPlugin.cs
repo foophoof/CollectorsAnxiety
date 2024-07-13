@@ -21,14 +21,13 @@ public sealed class CollectorsAnxietyPlugin : IDalamudPlugin {
     internal WindowSystem WindowSystem { get; }
     internal GameState GameState { get; }
     internal UnlockItemCache UnlockItemCache { get; }
-    internal IconManager IconManager { get; }
     
-    private DalamudPluginInterface PluginInterface { get; }
+    private IDalamudPluginInterface PluginInterface { get; }
     private readonly IPCSubscriberManager _ipcSubscriberManager;
 
     private readonly CollectorWindow _mainWindow;
     
-    public CollectorsAnxietyPlugin(DalamudPluginInterface pluginInterface) {
+    public CollectorsAnxietyPlugin(IDalamudPluginInterface pluginInterface) {
         pluginInterface.Create<Injections>();
         Instance = this;
 
@@ -39,7 +38,6 @@ public sealed class CollectorsAnxietyPlugin : IDalamudPlugin {
         this.WindowSystem = new WindowSystem(this.Name);
         this.GameState = new GameState(Injections.GameInteropProvider);
         this.UnlockItemCache = new UnlockItemCache();
-        this.IconManager = new IconManager();
         this._ipcSubscriberManager = new IPCSubscriberManager();
 
         this._mainWindow = new CollectorWindow();
@@ -58,7 +56,6 @@ public sealed class CollectorsAnxietyPlugin : IDalamudPlugin {
     
     public void Dispose() { 
         this.GameState.Dispose();
-        this.IconManager.Dispose();
         this._ipcSubscriberManager.Dispose();
         this.WindowSystem.RemoveAllWindows();
 
