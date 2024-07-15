@@ -12,7 +12,7 @@ using Dalamud.Interface.Utility;
 using Dalamud.Interface.Windowing;
 using ImGuiNET;
 
-namespace CollectorsAnxiety.UI.Windows; 
+namespace CollectorsAnxiety.UI.Windows;
 
 public class CollectorWindow : Window {
     public static string WindowKey => $"{UIStrings.CollectorsAnxiety_Title}###mainWindow";
@@ -48,7 +48,7 @@ public class CollectorWindow : Window {
 
     public override void OnOpen() {
         base.OnOpen();
-        
+
         // Load in tabs if none are found, somehow.
         if (this._tabs.Count == 0) {
             this._tabs.Add(new OverviewTab(this));
@@ -63,7 +63,7 @@ public class CollectorWindow : Window {
     public override void Draw() {
         this.WindowName = WindowKey;
         var pbs = ImGuiHelpers.GetButtonSize(".");
-        
+
         if (!Injections.ClientState.IsLoggedIn || Injections.ClientState.LocalPlayer == null) {
             ImGui.PushStyleColor(ImGuiCol.Text, ImGuiColors.DalamudOrange);
             ImGuiUtil.CenteredWrappedText(UIStrings.CollectorWindow_NoUserLoggedInWarning);
@@ -85,19 +85,19 @@ public class CollectorWindow : Window {
                 if (this._crashTabs.TryGetValue(tab, out var crashTab)) {
                     tabToDraw = crashTab;
                 }
-                
+
                 try {
                     tabToDraw.Draw();
                 } catch (Exception ex) {
                     // check if things are ***really*** broken
                     if (tabToDraw is CrashTab) throw;
-                    
+
                     Injections.PluginLog.Error(ex, $"Error drawing tab {tabToDraw.Name}!");
                     this._crashTabs[tab] = new CrashTab(tab, ex);
                 }
 
                 this._stopwatch.Stop();
-                
+
                 ImGui.EndChild();
 
                 ImGui.EndTabItem();
@@ -105,11 +105,11 @@ public class CollectorWindow : Window {
         }
 
         ImGui.EndTabBar();
-        
+
         ImGui.Separator();
-        
+
         ImGui.TextColored(ImGuiColors.DalamudGrey2, $"v{this._versionString}");
-        
+
         if (Injections.PluginInterface.IsDevMenuOpen || Injections.PluginInterface.IsDev) {
             ImGui.SameLine();
             var stopwatchTime = this._stopwatch.ElapsedTicks / (double) 10000;
@@ -117,7 +117,7 @@ public class CollectorWindow : Window {
             var framesWasted = stopwatchTime / (1000 / framerate);
             ImGui.Text($"TAB RENDER: {stopwatchTime:F4}ms ({framesWasted:F2} frames @ {framerate:F0}fps)");
         }
-        
+
         this._stopwatch.Reset();
     }
 }

@@ -13,15 +13,15 @@ internal unsafe class GameState : IDisposable {
     private static class Signatures {
         // internal const string MySignatureName = "DE AD BE EF";
     }
-    
+
     /*
     [Signature(Signatures.SomeStaticAddressSig, ScanType = ScanType.StaticAddress)]
     private readonly IntPtr? _someStaticAddress = null;
-    
+
     [Signature(Signatures.SomeMethodSig, Fallibility = Fallibility.Fallible)]
     private readonly delegate* unmanaged<IntPtr, uint, byte> _isSomeItemUnlocked = null;
     */
-    
+
     internal GameState(IGameInteropProvider gameInteropProvider) {
         gameInteropProvider.InitializeFromAttributes(this);
     }
@@ -53,15 +53,15 @@ internal unsafe class GameState : IDisposable {
     internal bool IsBuddyEquipUnlocked(uint equipId) {
         return UIState.Instance()->Buddy.CompanionInfo.IsBuddyEquipUnlocked(equipId);
     }
-    
+
     internal bool IsOrchestrionUnlocked(uint orchestrionId) {
         return PlayerState.Instance()->IsOrchestrionRollUnlocked(orchestrionId);
     }
-    
+
     internal bool IsMasterTomeUnlocked(uint tomeId) {
         return PlayerState.Instance()->IsSecretRecipeBookUnlocked(tomeId);
     }
-    
+
     internal bool IsFolkloreTomeUnlocked(uint tomeId) {
         return PlayerState.Instance()->IsFolkloreBookUnlocked(tomeId);
     }
@@ -73,7 +73,7 @@ internal unsafe class GameState : IDisposable {
     internal bool IsItemActionUnlocked(uint itemId) {
         var itemExd = (IntPtr) ExdModule.GetItemRowById(itemId);
 
-        if (itemExd == IntPtr.Zero) 
+        if (itemExd == IntPtr.Zero)
             return false;
 
         return UIState.Instance()->IsItemActionUnlocked((void*) itemExd) == 1;

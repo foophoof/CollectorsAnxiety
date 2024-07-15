@@ -8,27 +8,27 @@ using Dalamud.Interface;
 using ImGuiNET;
 using Lumina.Excel.GeneratedSheets;
 
-namespace CollectorsAnxiety.UI.DataTabs; 
+namespace CollectorsAnxiety.UI.DataTabs;
 
 public class HairstyleTab : DataTab<HairstyleEntry, CharaMakeCustomize> {
     public HairstyleTab() {
         this.Controller = new HairstyleController();
     }
-    
+
     public override string Name => UIStrings.HairstyleTab_Name;
 
     protected override void DrawEntryIcons(HairstyleEntry entry) {
         base.DrawEntryIcons(entry);
-        
+
         if (entry.WearableByMale && !entry.WearableByFemale)
             ImGuiUtil.HoverMarker(FontAwesomeIcon.Mars, UIStrings.HairstyleTab_Icon_LimitedToMale);
-        
+
         if (entry.WearableByFemale && !entry.WearableByMale)
             ImGuiUtil.HoverMarker(FontAwesomeIcon.Venus, UIStrings.HairstyleTab_Icon_LimitedToFemale);
 
         if (entry.WearableByRaceIDs.Contains(GameCompat.PlayerRace.Hrothgar))
             ImGuiUtil.HoverMarker(FontAwesomeIcon.Paw, UIStrings.HairstyleTab_Icon_AvailableToHrothgar);
-        
+
         if (entry.WearableByRaceIDs.Contains(GameCompat.PlayerRace.Viera))
             ImGuiUtil.HoverMarker(FontAwesomeIcon.Carrot, UIStrings.HairstyleTab_Icon_AvailableToViera);
     }

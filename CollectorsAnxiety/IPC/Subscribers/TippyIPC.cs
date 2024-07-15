@@ -76,7 +76,7 @@ internal class TippyIPC : IPluginIpcClient {
             "I only party with people with a gold parse in minions, sorry.",
             "Did you really buy a Shiva statue from eBay just to complete your collection?!",
             "The Legacy Chocobo sits there... taunting you. Even if you hide it, it'll still be there. Uncollected.",
-            "FFXIVCollect does collection tracking better than whatever plugin you installed. Also, they were first.",
+            "FFXIVCollect does collection tracking better than whatever plugin you installed. Also, they were first."
         };
 
         tips.OrderBy(_ => rng.Next()).Take(3).ToList().ForEach(tip => this.RegisterTip(tip));

@@ -17,7 +17,7 @@ public interface IController {
     /// <param name="respectHidden">Respect the Hidden Items list, defaults to true.</param>
     /// <returns>Returns a named tuple of unlocked and total counts.</returns>
     public (int UnlockedCount, int TotalCount) GetCounts(bool respectHidden = true);
-    
+
     public bool ParseTainted { get; }
 }
 
@@ -55,7 +55,7 @@ public class Controller<TEntry, TSheet> : IController where TEntry : Unlockable<
         }
 
         Injections.PluginLog.Debug($"Cache miss or invalidated getting items for {typeof(TEntry).Name}, regenerating list");
-        
+
         this._itemCache = GetSheet()
             .Select(row => (TEntry) Activator.CreateInstance(typeof(TEntry), row)!)
             .Where(entry => entry.IsValid())

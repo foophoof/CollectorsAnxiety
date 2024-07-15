@@ -1,7 +1,7 @@
 ﻿using CollectorsAnxiety.Util;
 using Lumina.Excel.GeneratedSheets;
 
-namespace CollectorsAnxiety.Data.Unlockables; 
+namespace CollectorsAnxiety.Data.Unlockables;
 
 public class FramersKitEntry : Unlockable<Item> {
     public FramersKitEntry(Item excelRow) : base(excelRow) {

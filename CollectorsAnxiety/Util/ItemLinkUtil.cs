@@ -5,16 +5,16 @@ using Dalamud.Game.Text.SeStringHandling;
 using Dalamud.Game.Text.SeStringHandling.Payloads;
 using Lumina.Excel.GeneratedSheets;
 
-namespace CollectorsAnxiety.Util; 
+namespace CollectorsAnxiety.Util;
 
 public static class ItemLinkUtil {
     // Large parts of this class were borrowed from https://github.com/Caraxi/ItemSearchPlugin.
     // Thank you, Cara!
-    
+
     public static void OpenGarlandToolsLink(Item item) {
         Dalamud.Utility.Util.OpenLink($"https://www.garlandtools.org/db/#item/{item.RowId}");
     }
-    
+
     public static void OpenTeamcraftLink(Item item) {
         // I'm not going to deal with the desktop version until someone asks.
         // And even then, probably not.

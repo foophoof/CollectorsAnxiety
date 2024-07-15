@@ -5,7 +5,7 @@ using CollectorsAnxiety.Util;
 using Dalamud.Utility;
 using Lumina.Excel.GeneratedSheets;
 
-namespace CollectorsAnxiety.Data.Unlockables; 
+namespace CollectorsAnxiety.Data.Unlockables;
 
 public class MountEntry : Unlockable<Mount> {
     private static HashSet<Mount> _uniqueMusicMounts = Injections.DataManager.Excel.GetSheet<Mount>()!
@@ -22,10 +22,10 @@ public class MountEntry : Unlockable<Mount> {
     }
 
     public override Item? UnlockItem { get; }
-    
+
     public override string Name => this.LuminaEntry.Singular.ToDalamudString().ToTitleCase();
 
-    public override uint? IconId => this.LuminaEntry.Icon; 
+    public override uint? IconId => this.LuminaEntry.Icon;
 
     public override uint SortKey => (uint) ((this.LuminaEntry.UIPriority << 8) + this.LuminaEntry.Order);
 

@@ -17,7 +17,7 @@ public class ArmoireEntry : Unlockable<Cabinet> {
     public string Category => this.LuminaEntry.Category.Value!.Category.Value!.Text.RawString;
 
     public override uint? IconId => this.UnlockItem?.Icon;
-    
+
     public override uint SortKey => this.LuminaEntry.Order;
 
     public override bool IsUnlocked() {
@@ -25,6 +25,6 @@ public class ArmoireEntry : Unlockable<Cabinet> {
     }
 
     public override bool IsValid() {
-        return this.LuminaEntry.Order != 0 && (this.UnlockItem != null && this.UnlockItem.ItemUICategory.Row != 0);
+        return this.LuminaEntry.Order != 0 && this.UnlockItem != null && this.UnlockItem.ItemUICategory.Row != 0;
     }
 }

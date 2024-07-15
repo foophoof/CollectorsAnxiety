@@ -1,6 +1,6 @@
 using Lumina.Excel.GeneratedSheets;
 
-namespace CollectorsAnxiety.Data.Unlockables; 
+namespace CollectorsAnxiety.Data.Unlockables;
 
 public class BardingEntry : Unlockable<BuddyEquip> {
     public BardingEntry(BuddyEquip excelRow) : base(excelRow) {
@@ -12,7 +12,7 @@ public class BardingEntry : Unlockable<BuddyEquip> {
     public override uint? IconId => this.LuminaEntry.IconHead;
 
     public override Item? UnlockItem { get; }
-    
+
     public override uint SortKey => this.LuminaEntry.Order;
 
     public override bool IsUnlocked() {

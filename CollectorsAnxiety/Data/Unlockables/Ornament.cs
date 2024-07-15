@@ -2,13 +2,13 @@
 using Dalamud.Utility;
 using Lumina.Excel.GeneratedSheets;
 
-namespace CollectorsAnxiety.Data.Unlockables; 
+namespace CollectorsAnxiety.Data.Unlockables;
 
 public class OrnamentEntry : Unlockable<Ornament> {
     public OrnamentEntry(Ornament excelRow) : base(excelRow) {
         this.UnlockItem = CollectorsAnxietyPlugin.Instance.UnlockItemCache.GetItemForObject(excelRow);
     }
-    
+
     public override string Name => this.LuminaEntry.Singular.ToDalamudString().ToTitleCase();
 
     public override uint? IconId => this.LuminaEntry.Icon;

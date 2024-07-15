@@ -43,10 +43,10 @@
     <PropertyGroup>
         <DalamudLibPath>$(appdata)\XIVLauncher\addon\Hooks\dev\</DalamudLibPath>
     </PropertyGroup>
-    
+
     <ItemGroup>
         <!-- Dalamud things -->
-        <PackageReference Include="DalamudPackager" Version="2.1.13" GeneratePathProperty="false" />
+        <PackageReference Include="DalamudPackager" Version="2.1.13" GeneratePathProperty="false"/>
         <Reference Include="FFXIVClientStructs">
             <HintPath>$(DalamudLibPath)FFXIVClientStructs.dll</HintPath>
             <Private>false</Private>
@@ -87,8 +87,8 @@
     <!-- Localization -->
     <ItemGroup>
         <!-- Do not include pseudo-localization files in the release build -->
-        <EmbeddedResource Remove="Resources\Localization\UIStrings.qps-ploc.resx" Condition="'$(Configuration)' == 'Release'" />
-        <None Include="Resources\Localization\UIStrings.qps-ploc.resx" Condition="'$(Configuration)' == 'Release'" />
+        <EmbeddedResource Remove="Resources\Localization\UIStrings.qps-ploc.resx" Condition="'$(Configuration)' == 'Release'"/>
+        <None Include="Resources\Localization\UIStrings.qps-ploc.resx" Condition="'$(Configuration)' == 'Release'"/>
 
         <EmbeddedResource Update="Resources\Localization\UIStrings.resx">
             <Generator>ResXFileCodeGenerator</Generator>
@@ -103,11 +103,11 @@
 
     <!-- Build steps -->
     <Target Name="PackagePluginRelease" AfterTargets="Build" Condition="'$(Configuration)' == 'Release'">
-        <DalamudPackager ProjectDir="$(ProjectDir)" OutputPath="$(OutputPath)" AssemblyName="$(AssemblyName)" MakeZip="true" VersionComponents="3" />
+        <DalamudPackager ProjectDir="$(ProjectDir)" OutputPath="$(OutputPath)" AssemblyName="$(AssemblyName)" MakeZip="true" VersionComponents="3"/>
     </Target>
 
     <Target Name="PackagePluginDebug" AfterTargets="Build" Condition="'$(Configuration)' == 'Debug'">
-        <DalamudPackager ProjectDir="$(ProjectDir)" OutputPath="$(TargetDir)" AssemblyName="$(AssemblyName)" MakeZip="false" VersionComponents="3" />
+        <DalamudPackager ProjectDir="$(ProjectDir)" OutputPath="$(TargetDir)" AssemblyName="$(AssemblyName)" MakeZip="false" VersionComponents="3"/>
     </Target>
 
 </Project>

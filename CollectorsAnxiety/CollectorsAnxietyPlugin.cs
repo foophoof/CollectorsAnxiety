@@ -12,7 +12,7 @@ namespace CollectorsAnxiety;
 
 public sealed class CollectorsAnxietyPlugin : IDalamudPlugin {
     private const string BaseCommand = "/panxiety";
-    
+
     internal static CollectorsAnxietyPlugin Instance { get; private set; } = null!;
 
     public string Name => UIStrings.CollectorsAnxiety_Title;
@@ -21,12 +21,12 @@ public sealed class CollectorsAnxietyPlugin : IDalamudPlugin {
     internal WindowSystem WindowSystem { get; }
     internal GameState GameState { get; }
     internal UnlockItemCache UnlockItemCache { get; }
-    
+
     private IDalamudPluginInterface PluginInterface { get; }
     private readonly IPCSubscriberManager _ipcSubscriberManager;
 
     private readonly CollectorWindow _mainWindow;
-    
+
     public CollectorsAnxietyPlugin(IDalamudPluginInterface pluginInterface) {
         pluginInterface.Create<Injections>();
         Instance = this;
@@ -49,18 +49,18 @@ public sealed class CollectorsAnxietyPlugin : IDalamudPlugin {
         Injections.CommandManager.AddHandler(BaseCommand, new CommandInfo(this.HandleCommand) {
             HelpMessage = "Open the Collector's Anxiety main window."
         });
-        
+
         this.PluginInterface.LanguageChanged += this.UpdateLang;
         this.UpdateLang(this.PluginInterface.UiLanguage);
     }
-    
-    public void Dispose() { 
+
+    public void Dispose() {
         this.GameState.Dispose();
         this._ipcSubscriberManager.Dispose();
         this.WindowSystem.RemoveAllWindows();
 
         Injections.CommandManager.RemoveHandler(BaseCommand);
-        
+
         // null-safe as this is called when everything is destroyed.
         Instance = null!;
     }
