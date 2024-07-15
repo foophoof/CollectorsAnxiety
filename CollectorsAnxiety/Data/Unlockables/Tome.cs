@@ -1,7 +1,7 @@
 ﻿using CollectorsAnxiety.Util;
 using Lumina.Excel.GeneratedSheets;
 
-namespace CollectorsAnxiety.Data.Unlockables; 
+namespace CollectorsAnxiety.Data.Unlockables;
 
 public class TomeEntry : Unlockable<Item> {
     public TomeEntry(Item excelRow) : base(excelRow) {
@@ -13,7 +13,7 @@ public class TomeEntry : Unlockable<Item> {
     public override string Name => this.LuminaEntry.Name.RawString.ToTitleCase();
     public override Item? UnlockItem { get; }
 
-    public override uint? IconId => this.LuminaEntry.Icon; 
+    public override uint? IconId => this.LuminaEntry.Icon;
 
     public override bool IsUnlocked() {
         return this.LuminaEntry.FilterGroup switch {

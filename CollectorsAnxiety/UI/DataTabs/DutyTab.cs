@@ -5,13 +5,13 @@ using Dalamud.Interface;
 using ImGuiNET;
 using Lumina.Excel.GeneratedSheets;
 
-namespace CollectorsAnxiety.UI.DataTabs; 
+namespace CollectorsAnxiety.UI.DataTabs;
 
 public class DutyTab : DataTab<DutyEntry, ContentFinderCondition> {
     public override string Name => "Duty";
 
     protected override TableColumn[] ExtraColumns => new[] {
-        new TableColumn("Cleared", flags: ImGuiTableColumnFlags.WidthFixed, width: 48)
+        new TableColumn("Cleared", ImGuiTableColumnFlags.WidthFixed, 48)
     };
 
     protected override string? GetTagline(DutyEntry entry) {
@@ -19,7 +19,7 @@ public class DutyTab : DataTab<DutyEntry, ContentFinderCondition> {
 
         if (entry.MinLevel > 0) {
             tagline += $" (Level {entry.MinLevel})";
-        } 
+        }
 
         return tagline;
     }
@@ -35,16 +35,16 @@ public class DutyTab : DataTab<DutyEntry, ContentFinderCondition> {
 
         if (entry.LuminaEntry.AllianceRoulette)
             ImGuiUtil.HoverMarker(FontAwesomeIcon.PeopleGroup, "Alliance Raid");
-        
+
         if (entry.LuminaEntry.LevelingRoulette)
             ImGuiUtil.HoverMarker(FontAwesomeIcon.Rocket, "In Leveling Roulette");
 
         if (entry.LuminaEntry.MentorRoulette)
             ImGuiUtil.HoverMarker(FontAwesomeIcon.Crown, "In Mentor Roulette");
-        
+
         if (entry.LuminaEntry.DutyRecorderAllowed)
             ImGuiUtil.HoverMarker(FontAwesomeIcon.PlayCircle, "Duty Recorder Enabled");
-        
+
         if (entry.LuminaEntry.AllowExplorerMode)
             ImGuiUtil.HoverMarker(FontAwesomeIcon.Compass, "Explorer Mode Allowed");
     }

@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 
-namespace CollectorsAnxiety.Util; 
+namespace CollectorsAnxiety.Util;
 
 public static class ListUtil {
-    
+
     // https://stackoverflow.com/a/20036379
     public static IEnumerable<IList<T>> ChunksOf<T>(this IEnumerable<T> sequence, int size) {
         var chunk = new List<T>(size);
@@ -14,8 +14,8 @@ public static class ListUtil {
             yield return chunk;
             chunk = new List<T>(size);
         }
-        
+
         if (chunk.Count > 0) yield return chunk;
     }
-    
+
 }

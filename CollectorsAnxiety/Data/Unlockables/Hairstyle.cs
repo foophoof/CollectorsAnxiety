@@ -15,7 +15,7 @@ public class HairstyleEntry : Unlockable<CharaMakeCustomize> {
 
     public bool WearableByMale = false;
     public bool WearableByFemale = false;
-    
+
     public readonly HashSet<GameCompat.PlayerRace> WearableByRaceIDs = new();
 
     public override uint Id { get; }
@@ -59,7 +59,7 @@ public class HairstyleController : Controller<HairstyleEntry, CharaMakeCustomize
             if (!itemDict.TryGetValue(styleRow.Data, out var styleEntry)) {
                 styleEntry = new HairstyleEntry(styleRow);
                 if (!styleEntry.IsValid()) continue;
-                
+
                 itemDict[styleRow.Data] = styleEntry;
             }
 
@@ -67,8 +67,8 @@ public class HairstyleController : Controller<HairstyleEntry, CharaMakeCustomize
                 // Hairstyles
                 var categorizationId = styleRow.RowId / 100;
 
-                styleEntry.WearableByMale |= (categorizationId % 2) == 0;
-                styleEntry.WearableByFemale |= (categorizationId % 2) == 1;
+                styleEntry.WearableByMale |= categorizationId % 2 == 0;
+                styleEntry.WearableByFemale |= categorizationId % 2 == 1;
 
                 // Hyurs are a pain in my side because midlanders/highlanders each have their own block, which nobody
                 // else does. So, we'll redirect block 0 (midlander hyur) to block 1 to bring everything into sync.
@@ -78,9 +78,9 @@ public class HairstyleController : Controller<HairstyleEntry, CharaMakeCustomize
             } else {
                 // Facepaint
                 var categorizationId = (styleRow.RowId - 2000) / 50;
-                
-                styleEntry.WearableByMale |= (categorizationId % 2) == 0;
-                styleEntry.WearableByFemale |= (categorizationId % 2) == 1;
+
+                styleEntry.WearableByMale |= categorizationId % 2 == 0;
+                styleEntry.WearableByFemale |= categorizationId % 2 == 1;
                 styleEntry.WearableByRaceIDs.Add((GameCompat.PlayerRace) (categorizationId / 4) + 1);
             }
 

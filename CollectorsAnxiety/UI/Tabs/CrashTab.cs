@@ -32,13 +32,13 @@ public class CrashTab : ITab {
                           "game in order to use this tab again.");
 
         ImGuiHelpers.ScaledDummy(5f);
-        
+
         if (ImGui.Button("Open GitHub Issues Page")) {
             Dalamud.Utility.Util.OpenLink($"{Constants.GITHUB_URL}/issues");
         }
 
         ImGuiHelpers.ScaledDummy(20f);
-        
+
         ImGui.TextUnformatted("=== Technical Information ===");
         ImGui.PushFont(UiBuilder.MonoFont);
         ImGui.BeginChild("##exception", ImGui.GetContentRegionAvail(), false, ImGuiWindowFlags.HorizontalScrollbar);

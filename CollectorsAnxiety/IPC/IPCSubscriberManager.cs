@@ -4,11 +4,11 @@ using System.Linq;
 using System.Reflection;
 using CollectorsAnxiety.Base;
 
-namespace CollectorsAnxiety.IPC; 
+namespace CollectorsAnxiety.IPC;
 
 public class IPCSubscriberManager : IDisposable {
     // Borrowed from XIVDeck, 
-    
+
     private readonly List<IPluginIpcClient> _registeredIpcs = new();
 
     public IPCSubscriberManager() {
@@ -16,8 +16,8 @@ public class IPCSubscriberManager : IDisposable {
             if (!type.GetInterfaces().Contains(typeof(IPluginIpcClient))) {
                 continue;
             }
-            
-            var handler = (IPluginIpcClient) Activator.CreateInstance(type, nonPublic: true)!;
+
+            var handler = (IPluginIpcClient) Activator.CreateInstance(type, true)!;
 
             Injections.PluginLog.Debug($"Registered IPC: {handler.GetType()}");
             this._registeredIpcs.Add(handler);
@@ -35,6 +35,6 @@ public class IPCSubscriberManager : IDisposable {
 
 public interface IPluginIpcClient : IDisposable {
     public bool Enabled { get; }
-    
+
     public int Version { get; }
 }

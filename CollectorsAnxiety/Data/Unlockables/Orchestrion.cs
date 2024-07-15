@@ -2,7 +2,7 @@
 using CollectorsAnxiety.Util;
 using Lumina.Excel.GeneratedSheets;
 
-namespace CollectorsAnxiety.Data.Unlockables; 
+namespace CollectorsAnxiety.Data.Unlockables;
 
 public class OrchestrionEntry : Unlockable<Orchestrion> {
     public OrchestrionEntry(Orchestrion excelRow) : base(excelRow) {
@@ -10,7 +10,7 @@ public class OrchestrionEntry : Unlockable<Orchestrion> {
         this.Category = Injections.DataManager.GetExcelSheet<OrchestrionUiparam>()!
             .GetRow(excelRow.RowId)?.OrchestrionCategory.Value?.Name.ToString();
     }
-    
+
     public override string Name => this.LuminaEntry.Name.RawString.ToTitleCase();
 
     public override uint? IconId => 25945;

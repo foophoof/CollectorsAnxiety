@@ -5,7 +5,7 @@ using CollectorsAnxiety.Util;
 using Dalamud.Interface.Colors;
 using ImGuiNET;
 
-namespace CollectorsAnxiety.UI.Tabs; 
+namespace CollectorsAnxiety.UI.Tabs;
 
 public class OverviewTab : ITab {
     private readonly CollectorWindow _baseWindow;
@@ -22,7 +22,7 @@ public class OverviewTab : ITab {
 
         var labelWidth = this._baseWindow.DataTabs.Max(t => ImGui.CalcTextSize(t.Name).X) + 10;
         var forceShowHidden = CollectorsAnxietyPlugin.Instance.Configuration.CountHiddenItemsInOverview;
-        
+
         if (ImGui.BeginTable("##overview", 2)) {
             ImGui.TableSetupColumn("Label", ImGuiTableColumnFlags.WidthFixed, labelWidth);
             ImGui.TableSetupColumn("ProgressBar");
@@ -34,7 +34,7 @@ public class OverviewTab : ITab {
 
                 var controller = tab.GetController();
                 var counts = controller.GetCounts(!forceShowHidden);
-                
+
                 var percentage = counts.UnlockedCount / (double) counts.TotalCount;
 
                 ImGui.TableSetColumnIndex(0);
@@ -67,7 +67,7 @@ public class OverviewTab : ITab {
             // ImGui.PushStyleColor(ImGuiCol.PlotHistogram, ImGuiColors.HealerGreen);
             ImGuiUtil.CompletionProgressBar(grandTotalUnlocked, grandTotalItems);
             // ImGui.PopStyleColor();
-            
+
             ImGui.EndTable();
         }
 

@@ -7,13 +7,13 @@ using Dalamud.Interface.Components;
 using Dalamud.Interface.Utility;
 using ImGuiNET;
 
-namespace CollectorsAnxiety.UI.Tabs; 
+namespace CollectorsAnxiety.UI.Tabs;
 
 public class SettingsTab : ITab {
     public string Name => $"{UIStrings.SettingsTab_Name}###{nameof(SettingsTab)}";
 
     private readonly PluginConfig _config;
-    
+
     // settings cache
     private bool _hideSpoilers;
     private bool _hiddenItemsInOverview;
@@ -32,7 +32,7 @@ public class SettingsTab : ITab {
 
         var paddedY = childSize.Y - pbs.Y - 3 * style.ItemSpacing.Y + 2 * style.FramePadding.Y;
         ImGui.BeginChild("SettingsPane", childSize with {Y = paddedY});
-        
+
         ImGui.Text(UIStrings.SettingsTab_Heading_SystemOptions);
         ImGui.Indent();
 
@@ -42,17 +42,17 @@ public class SettingsTab : ITab {
         }
 
         ImGuiComponents.HelpMarker(UIStrings.SettingsTab_SpoilerFreeMode_HelpText);
-        
+
         if (ImGui.Checkbox(UIStrings.SettingsTab_HiddenItemsInOverview, ref this._hiddenItemsInOverview)) {
             this._config.CountHiddenItemsInOverview = this._hiddenItemsInOverview;
             this._config.Save();
         }
 
         ImGuiComponents.HelpMarker(UIStrings.SettingsTab_HiddenItemsInOverview_HelpText);
-        
+
         ImGui.Unindent();
         ImGui.Spacing();
-        
+
         ImGui.Text(UIStrings.SettingsTab_Heading_Maintenance);
         ImGui.Indent();
 
@@ -60,7 +60,7 @@ public class SettingsTab : ITab {
             this._config.HiddenItems.Clear();
             this._config.Save();
         }
-        
+
         ImGui.Unindent();
 
 #if DEBUG
@@ -79,7 +79,7 @@ public class SettingsTab : ITab {
 #endif
 
         ImGui.EndChild();
-        
+
         // Footer buttons
         if (ImGui.Button(UIStrings.SettingsTab_Links_Github)) Dalamud.Utility.Util.OpenLink(Constants.GITHUB_URL);
         ImGui.SameLine();

@@ -2,13 +2,13 @@
 using Dalamud.Utility;
 using Lumina.Excel.GeneratedSheets;
 
-namespace CollectorsAnxiety.Data.Unlockables; 
+namespace CollectorsAnxiety.Data.Unlockables;
 
 public class MinionEntry : Unlockable<Companion> {
     public MinionEntry(Companion excelRow) : base(excelRow) {
         this.UnlockItem = CollectorsAnxietyPlugin.Instance.UnlockItemCache.GetItemForObject(excelRow);
     }
-    
+
     public override string Name => this.LuminaEntry.Singular.ToDalamudString().ToTitleCase();
 
     public override Item? UnlockItem { get; }

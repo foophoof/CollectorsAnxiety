@@ -4,26 +4,26 @@ using Dalamud.Interface;
 using Dalamud.Interface.Colors;
 using ImGuiNET;
 
-namespace CollectorsAnxiety.Util; 
+namespace CollectorsAnxiety.Util;
 
 public static class ImGuiUtil {
     public static void CompletionProgressBar(int progress, int total, int height = 20, bool parseColors = false) {
         ImGui.BeginGroup();
-        
+
         var cursor = ImGui.GetCursorPos();
         var sizeVec = new Vector2(ImGui.GetContentRegionAvail().X, height);
-        
+
         var percentage = progress / (float) total;
         var label = string.Format(UIStrings.ImGuiUtil_CompletionProgressBarLabel, percentage, progress, total);
         var labelSize = ImGui.CalcTextSize(label);
-        
+
         if (parseColors) ImGui.PushStyleColor(ImGuiCol.PlotHistogram, GetBarseColor(percentage));
         ImGui.ProgressBar(percentage, sizeVec, "");
         if (parseColors) ImGui.PopStyleColor();
-        
+
         ImGui.SetCursorPos(new Vector2(cursor.X + sizeVec.X - labelSize.X - 4, cursor.Y));
         ImGui.TextUnformatted(label);
-        
+
         ImGui.EndGroup();
     }
 
@@ -34,10 +34,10 @@ public static class ImGuiUtil {
             >= 0.75 => ImGuiColors.ParsedPurple,
             >= 0.50 => ImGuiColors.ParsedBlue,
             >= 0.25 => ImGuiColors.ParsedGreen,
-            _ => ImGuiColors.ParsedGrey * 1.75f,
+            _ => ImGuiColors.ParsedGrey * 1.75f
         };
     }
-    
+
     public static void CenteredWrappedText(string text) {
         var availableWidth = ImGui.GetContentRegionAvail().X;
         var textWidth = ImGui.CalcTextSize(text).X;
@@ -59,7 +59,7 @@ public static class ImGuiUtil {
         ImGui.TextWrapped(text);
         ImGui.PopTextWrapPos();
     }
-    
+
     public static void HoverMarker(FontAwesomeIcon icon, string helpText) {
         ImGui.SameLine();
         ImGui.PushFont(UiBuilder.IconFont);

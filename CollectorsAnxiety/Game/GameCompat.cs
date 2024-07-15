@@ -1,4 +1,4 @@
-﻿namespace CollectorsAnxiety.Game; 
+﻿namespace CollectorsAnxiety.Game;
 
 public class GameCompat {
     public enum PlayerRace : uint {
@@ -9,6 +9,6 @@ public class GameCompat {
         Roegadyn = 5,
         AuRa = 6,
         Hrothgar = 7,
-        Viera = 8,
+        Viera = 8
     }
 }

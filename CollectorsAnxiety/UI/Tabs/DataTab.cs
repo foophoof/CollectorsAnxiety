@@ -10,11 +10,9 @@ using CollectorsAnxiety.Util;
 using Dalamud.Interface;
 using Dalamud.Interface.Colors;
 using Dalamud.Interface.Components;
-using Dalamud.Interface.Internal;
 using Dalamud.Interface.Textures;
 using Dalamud.Interface.Utility;
 using ImGuiNET;
-using ImGuiScene;
 using Lumina.Excel;
 
 namespace CollectorsAnxiety.UI.Tabs;
@@ -35,7 +33,7 @@ public enum FilterMode {
     ShowAll,
     ShowUnlocked,
     ShowLocked,
-    ShowHiddenOnly,
+    ShowHiddenOnly
 }
 
 public class TableColumn {
@@ -169,7 +167,7 @@ public class DataTab<TEntry, TSheet> : IDataTab where TEntry : Unlockable<TSheet
                     var (unlocked, hidden, item) = itemsToRender[index];
                     ImGui.TableNextRow(ImGuiTableRowFlags.None, IconSize);
 
-                    var censorItem = (!unlocked && hideSpoilers);
+                    var censorItem = !unlocked && hideSpoilers;
 
                     ImGui.TableSetColumnIndex(0);
                     ImGui.Dummy(new Vector2(0, 8));
@@ -182,7 +180,7 @@ public class DataTab<TEntry, TSheet> : IDataTab where TEntry : Unlockable<TSheet
                                 CollectorsAnxietyPlugin.Instance.Configuration.UnhideItem(item);
                             }
                         }
-                        
+
                         ImGuiHelpers.ScaledDummy(2.0f);
                         if (!censorItem) {
                             // if (ImGui.MenuItem("View on FFXIV Collect"))
@@ -261,7 +259,9 @@ public class DataTab<TEntry, TSheet> : IDataTab where TEntry : Unlockable<TSheet
             ImGuiUtil.HoverMarker(FontAwesomeIcon.Coins, UIStrings.BaseTab_MarketBoardPurchaseable);
     }
 
-    protected virtual string? GetTagline(TEntry entry) => null;
+    protected virtual string? GetTagline(TEntry entry) {
+        return null;
+    }
 
     protected virtual void DrawContextMenuItems(TEntry entry) { }
 

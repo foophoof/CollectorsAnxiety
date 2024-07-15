@@ -3,11 +3,11 @@ using System.Linq;
 using CollectorsAnxiety.Data;
 using Dalamud.Configuration;
 
-namespace CollectorsAnxiety.Base; 
+namespace CollectorsAnxiety.Base;
 
 public class PluginConfig : IPluginConfiguration {
     public int Version { get; set; } = 1;
-    
+
     public readonly Dictionary<string, HashSet<uint>> HiddenItems = new();
 
     public bool HideSpoilers { get; set; } = true;
@@ -16,14 +16,14 @@ public class PluginConfig : IPluginConfiguration {
     public PluginConfig() {
         this.PerformCleanups();
     }
-    
+
     public void Save() {
         Injections.PluginInterface.SavePluginConfig(this);
     }
 
     public bool IsItemHidden<T>(T entry) where T : IUnlockable {
         var entryKey = typeof(T).Name;
-        
+
         return this.HiddenItems.ContainsKey(entryKey) && this.HiddenItems[entryKey].Contains(entry.Id);
     }
 
@@ -46,22 +46,22 @@ public class PluginConfig : IPluginConfiguration {
         if (thisSet.Contains(entry.Id)) thisSet.Remove(entry.Id);
 
         if (thisSet.Count == 0) this.HiddenItems.Remove(entryKey);
-            
+
         this.Save();
     }
 
     private void PerformCleanups() {
         var wasCleanupDone = false;
-        
+
         // Clean up empty hidden items that (somehow) managed to get in to config.
         var copy = this.HiddenItems.ToHashSet();
         foreach (var (key, value) in copy) {
             if (value.Count != 0) continue;
-            
+
             this.HiddenItems.Remove(key);
             wasCleanupDone = true;
         }
-        
+
         if (wasCleanupDone)
             this.Save();
     }
