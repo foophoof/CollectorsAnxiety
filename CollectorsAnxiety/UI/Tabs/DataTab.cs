@@ -10,11 +10,9 @@ using CollectorsAnxiety.Util;
 using Dalamud.Interface;
 using Dalamud.Interface.Colors;
 using Dalamud.Interface.Components;
-using Dalamud.Interface.Internal;
 using Dalamud.Interface.Textures;
 using Dalamud.Interface.Utility;
 using ImGuiNET;
-using ImGuiScene;
 using Lumina.Excel;
 
 namespace CollectorsAnxiety.UI.Tabs;

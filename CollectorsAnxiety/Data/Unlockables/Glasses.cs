@@ -1,5 +1,4 @@
 ﻿using System.Linq;
-using Dalamud.Utility;
 using Lumina.Excel.GeneratedSheets;
 
 namespace CollectorsAnxiety.Data.Unlockables;
