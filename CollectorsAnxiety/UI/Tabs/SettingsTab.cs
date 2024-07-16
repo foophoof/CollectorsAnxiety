@@ -82,7 +82,5 @@ public class SettingsTab : ITab {
 
         // Footer buttons
         if (ImGui.Button(UIStrings.SettingsTab_Links_Github)) Dalamud.Utility.Util.OpenLink(Constants.GITHUB_URL);
-        ImGui.SameLine();
-        if (ImGui.Button(UIStrings.SettingsTab_Links_Crowdin)) Dalamud.Utility.Util.OpenLink(Constants.CROWDIN_URL);
     }
 }

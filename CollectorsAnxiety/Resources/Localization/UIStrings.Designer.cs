@@ -492,15 +492,6 @@ namespace CollectorsAnxiety.Resources.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Help Translate!.
-        /// </summary>
-        internal static string SettingsTab_Links_Crowdin {
-            get {
-                return ResourceManager.GetString("SettingsTab_Links_Crowdin", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Plugin GitHub.
         /// </summary>
         internal static string SettingsTab_Links_Github {
