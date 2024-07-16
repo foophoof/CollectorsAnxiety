@@ -17,7 +17,7 @@ namespace CollectorsAnxiety.UI.Windows;
 public class CollectorWindow : Window {
     public static string WindowKey => $"{UIStrings.CollectorsAnxiety_Title}###mainWindow";
 
-    public CollectorWindow() : base(WindowKey, ImGuiWindowFlags.None, true) {
+    public CollectorWindow() : base(WindowKey) {
         this.SizeCondition = ImGuiCond.FirstUseEver;
         this.SizeConstraints = new WindowSizeConstraints {
             MinimumSize = new Vector2(640, 480),
