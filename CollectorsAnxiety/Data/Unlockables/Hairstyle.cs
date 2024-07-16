@@ -13,10 +13,11 @@ public class HairstyleEntry : Unlockable<CharaMakeCustomize> {
         this.UnlockItem = CollectorsAnxietyPlugin.Instance.UnlockItemCache.GetItemForUnlockLink(excelRow.Data);
     }
 
-    public bool WearableByMale = false;
-    public bool WearableByFemale = false;
+    public bool WearableByMale;
+    public bool WearableByFemale;
 
-    public readonly HashSet<GameCompat.PlayerRace> WearableByRaceIDs = new();
+    public readonly HashSet<GameCompat.PlayerRace> WearableByMaleRaceIDs = new();
+    public readonly HashSet<GameCompat.PlayerRace> WearableByFemaleRaceIDs = new();
 
     public override uint Id { get; }
 
@@ -52,6 +53,7 @@ public class HairstyleController : Controller<HairstyleEntry, CharaMakeCustomize
             return this._itemCache;
 
         var itemDict = new Dictionary<uint, HairstyleEntry>();
+        var styleIdDict = new Dictionary<uint, HairstyleEntry>();
 
         foreach (var styleRow in Injections.DataManager.GetExcelSheet<CharaMakeCustomize>()!) {
             if (styleRow.Data == 0) continue;
@@ -63,27 +65,53 @@ public class HairstyleController : Controller<HairstyleEntry, CharaMakeCustomize
                 itemDict[styleRow.Data] = styleEntry;
             }
 
-            if (styleRow.RowId < 2000) {
-                // Hairstyles
-                var categorizationId = styleRow.RowId / 100;
+            styleIdDict[styleRow.RowId] = styleEntry;
+        }
 
-                styleEntry.WearableByMale |= categorizationId % 2 == 0;
-                styleEntry.WearableByFemale |= categorizationId % 2 == 1;
+        var hairMakeType = Injections.DataManager.GetExcelSheet<HairMakeType>()!;
+        foreach (var rowParser in hairMakeType.GetRowParsers()) {
+            var race = (GameCompat.PlayerRace) rowParser.ReadColumn<int>(0);
+            var gender = (GameCompat.PlayerGender) rowParser.ReadColumn<sbyte>(2);
 
-                // Hyurs are a pain in my side because midlanders/highlanders each have their own block, which nobody
-                // else does. So, we'll redirect block 0 (midlander hyur) to block 1 to bring everything into sync.
-                var raceId = categorizationId / 2;
-                if (raceId == 0) raceId = 1;
-                styleEntry.WearableByRaceIDs.Add((GameCompat.PlayerRace) raceId);
-            } else {
-                // Facepaint
-                var categorizationId = (styleRow.RowId - 2000) / 50;
+            for (var i = 0; i < 100; i++) {
+                var hairStyle = rowParser.ReadColumn<uint>(66 + i * 9);
 
-                styleEntry.WearableByMale |= categorizationId % 2 == 0;
-                styleEntry.WearableByFemale |= categorizationId % 2 == 1;
-                styleEntry.WearableByRaceIDs.Add((GameCompat.PlayerRace) (categorizationId / 4) + 1);
+                if (hairStyle == 0)
+                    continue;
+
+                if (!styleIdDict.TryGetValue(hairStyle, out var styleEntry))
+                    continue;
+
+                switch (gender) {
+                    case GameCompat.PlayerGender.Female:
+                        styleEntry.WearableByFemale = true;
+                        styleEntry.WearableByFemaleRaceIDs.Add(race);
+                        break;
+
+                    case GameCompat.PlayerGender.Male:
+                        styleEntry.WearableByMale = true;
+                        styleEntry.WearableByMaleRaceIDs.Add(race);
+                        break;
+                }
             }
 
+            for (var i = 0; i < 100; i++) {
+                var facepaintStyle = rowParser.ReadColumn<uint>(73 + i * 9);
+                if (!styleIdDict.TryGetValue(facepaintStyle, out var styleEntry))
+                    continue;
+
+                switch (gender) {
+                    case GameCompat.PlayerGender.Female:
+                        styleEntry.WearableByFemale = true;
+                        styleEntry.WearableByFemaleRaceIDs.Add(race);
+                        break;
+
+                    case GameCompat.PlayerGender.Male:
+                        styleEntry.WearableByMale = true;
+                        styleEntry.WearableByMaleRaceIDs.Add(race);
+                        break;
+                }
+            }
         }
 
         this._itemCache = itemDict.Values.ToImmutableList();

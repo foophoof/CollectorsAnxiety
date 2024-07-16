@@ -164,8 +164,20 @@
     <data name="HairstyleTab_Icon_AvailableToHrothgar" xml:space="preserve">
         <value>Available to Hrothgar characters</value>
     </data>
+    <data name="HairstyleTab_Icon_AvailableToMaleHrothgar" xml:space="preserve">
+        <value>Available to male Hrothgar characters</value>
+    </data>
+    <data name="HairstyleTab_Icon_AvailableToFemaleHrothgar" xml:space="preserve">
+        <value>Available to female Hrothgar characters</value>
+    </data>
     <data name="HairstyleTab_Icon_AvailableToViera" xml:space="preserve">
         <value>Available to Viera characters</value>
+    </data>
+    <data name="HairstyleTab_Icon_AvailableToMaleViera" xml:space="preserve">
+        <value>Available to male Viera characters</value>
+    </data>
+    <data name="HairstyleTab_Icon_AvailableToFemaleViera" xml:space="preserve">
+        <value>Available to female Viera characters</value>
     </data>
     <data name="FramersKitTab_Name" xml:space="preserve">
         <value>Framer's Kits</value>
