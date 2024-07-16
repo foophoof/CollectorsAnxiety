@@ -11,4 +11,9 @@ public class GameCompat {
         Hrothgar = 7,
         Viera = 8
     }
+
+    public enum PlayerGender : sbyte {
+        Male = 0,
+        Female = 1
+    }
 }
