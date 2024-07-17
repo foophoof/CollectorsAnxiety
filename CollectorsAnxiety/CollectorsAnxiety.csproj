@@ -1,88 +1,8 @@
-<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Dalamud.NET.Sdk/9.0.2">
     <PropertyGroup>
-        <Product>Collector's Anxiety</Product>
-        <Authors>foophoof</Authors>
+        <PackageProjectUrl>https://github.com/foophoof/CollectorsAnxiety</PackageProjectUrl>
         <Version>0.0.8</Version>
-
-        <AssemblyName>CollectorsAnxiety</AssemblyName>
-
-        <Description>A Dalamud plugin that helps players manage collectable items in FFXIV.</Description>
-        <Copyright>(c) 2024, foophoof</Copyright>
-        <IsPackable>false</IsPackable>
-        <NeutralLanguage>en</NeutralLanguage>
-        <Nullable>enable</Nullable>
-        <PackageLicenseExpression>AGPL-3.0</PackageLicenseExpression>
     </PropertyGroup>
-
-    <PropertyGroup Label="Target">
-        <PlatformTarget>x64</PlatformTarget>
-        <TargetFramework>net8.0-windows</TargetFramework>
-        <LangVersion>10</LangVersion>
-        <Platforms>x64</Platforms>
-        <Configurations>Debug;Release</Configurations>
-    </PropertyGroup>
-    <PropertyGroup Label="Build">
-        <OutputType>Library</OutputType>
-        <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
-        <AppendPlatformToOutputPath>false</AppendPlatformToOutputPath>
-        <DebugSymbols>true</DebugSymbols>
-        <DebugType>full</DebugType>
-        <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
-        <RestorePackagesWithLockFile>true</RestorePackagesWithLockFile>
-        <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
-        <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
-    </PropertyGroup>
-    <PropertyGroup Label="Feature">
-        <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-    </PropertyGroup>
-
-    <PropertyGroup Condition="'$(Configuration)' == 'Release'">
-        <PathMap>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)'))=S:\</PathMap>
-    </PropertyGroup>
-
-    <PropertyGroup>
-        <DalamudLibPath>$(appdata)\XIVLauncher\addon\Hooks\dev\</DalamudLibPath>
-    </PropertyGroup>
-
-    <ItemGroup>
-        <!-- Dalamud things -->
-        <PackageReference Include="DalamudPackager" Version="2.1.13" GeneratePathProperty="false"/>
-        <Reference Include="FFXIVClientStructs">
-            <HintPath>$(DalamudLibPath)FFXIVClientStructs.dll</HintPath>
-            <Private>false</Private>
-        </Reference>
-        <Reference Include="Newtonsoft.Json">
-            <HintPath>$(DalamudLibPath)Newtonsoft.Json.dll</HintPath>
-            <Private>false</Private>
-        </Reference>
-        <Reference Include="Dalamud">
-            <HintPath>$(DalamudLibPath)Dalamud.dll</HintPath>
-            <Private>false</Private>
-        </Reference>
-        <Reference Include="ImGui.NET">
-            <HintPath>$(DalamudLibPath)ImGui.NET.dll</HintPath>
-            <Private>false</Private>
-        </Reference>
-        <Reference Include="ImGuiScene">
-            <HintPath>$(DalamudLibPath)ImGuiScene.dll</HintPath>
-            <Private>false</Private>
-        </Reference>
-        <Reference Include="Lumina">
-            <HintPath>$(DalamudLibPath)Lumina.dll</HintPath>
-            <Private>false</Private>
-        </Reference>
-        <Reference Include="Lumina.Excel">
-            <HintPath>$(DalamudLibPath)Lumina.Excel.dll</HintPath>
-            <Private>false</Private>
-        </Reference>
-    </ItemGroup>
-
-    <ItemGroup>
-        <Content Include="../assets/icon.png">
-            <Link>images/icon.png</Link>
-            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-        </Content>
-    </ItemGroup>
 
     <!-- Localization -->
     <ItemGroup>
@@ -100,14 +20,4 @@
             <DependentUpon>UIStrings.Designer.cs</DependentUpon>
         </Compile>
     </ItemGroup>
-
-    <!-- Build steps -->
-    <Target Name="PackagePluginRelease" AfterTargets="Build" Condition="'$(Configuration)' == 'Release'">
-        <DalamudPackager ProjectDir="$(ProjectDir)" OutputPath="$(OutputPath)" AssemblyName="$(AssemblyName)" MakeZip="true" VersionComponents="3"/>
-    </Target>
-
-    <Target Name="PackagePluginDebug" AfterTargets="Build" Condition="'$(Configuration)' == 'Debug'">
-        <DalamudPackager ProjectDir="$(ProjectDir)" OutputPath="$(TargetDir)" AssemblyName="$(AssemblyName)" MakeZip="false" VersionComponents="3"/>
-    </Target>
-
 </Project>
