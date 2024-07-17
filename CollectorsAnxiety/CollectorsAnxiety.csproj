@@ -2,7 +2,7 @@
     <PropertyGroup>
         <Product>Collector's Anxiety</Product>
         <Authors>foophoof</Authors>
-        <Version>0.0.8</Version>
+        <Version>0.0.9</Version>
 
         <AssemblyName>CollectorsAnxiety</AssemblyName>
 
