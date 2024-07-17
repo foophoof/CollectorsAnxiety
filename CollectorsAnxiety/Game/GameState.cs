@@ -10,18 +10,6 @@ namespace CollectorsAnxiety.Game;
 // It has been double ruined from the beauty that was found in Wotsit.
 
 internal unsafe class GameState : IDisposable {
-    private static class Signatures {
-        // internal const string MySignatureName = "DE AD BE EF";
-    }
-
-    /*
-    [Signature(Signatures.SomeStaticAddressSig, ScanType = ScanType.StaticAddress)]
-    private readonly IntPtr? _someStaticAddress = null;
-
-    [Signature(Signatures.SomeMethodSig, Fallibility = Fallibility.Fallible)]
-    private readonly delegate* unmanaged<IntPtr, uint, byte> _isSomeItemUnlocked = null;
-    */
-
     internal GameState(IGameInteropProvider gameInteropProvider) {
         gameInteropProvider.InitializeFromAttributes(this);
     }
@@ -68,15 +56,6 @@ internal unsafe class GameState : IDisposable {
 
     internal bool IsFramersKitUnlocked(uint kitId) {
         return PlayerState.Instance()->IsFramersKitUnlocked(kitId);
-    }
-
-    internal bool IsItemActionUnlocked(uint itemId) {
-        var itemExd = (IntPtr) ExdModule.GetItemRowById(itemId);
-
-        if (itemExd == IntPtr.Zero)
-            return false;
-
-        return UIState.Instance()->IsItemActionUnlocked((void*) itemExd) == 1;
     }
 
     internal bool IsInArmoire(uint armoireEntryId) {
