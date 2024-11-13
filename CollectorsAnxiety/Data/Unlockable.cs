@@ -1,5 +1,5 @@
 using Lumina.Excel;
-using Lumina.Excel.GeneratedSheets;
+using Lumina.Excel.Sheets;
 
 namespace CollectorsAnxiety.Data;
 
@@ -7,7 +7,7 @@ public interface IUnlockable {
     public uint Id { get; }
 }
 
-public abstract class Unlockable<T> : IUnlockable where T : ExcelRow {
+public abstract class Unlockable<T> : IUnlockable where T : struct, IExcelRow<T> {
     internal readonly T LuminaEntry;
 
     protected Unlockable(T excelRow) {

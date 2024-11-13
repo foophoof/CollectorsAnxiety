@@ -1,5 +1,5 @@
 ﻿using System.Linq;
-using Lumina.Excel.GeneratedSheets;
+using Lumina.Excel.Sheets;
 
 namespace CollectorsAnxiety.Data.Unlockables;
 
@@ -7,10 +7,10 @@ public class GlassesEntry : Unlockable<GlassesStyle> {
     public GlassesEntry(GlassesStyle excelRow) : base(excelRow) {
         this.glasses = this.LuminaEntry.Glasses.First().Value;
         if (this.glasses != null)
-            this.UnlockItem = CollectorsAnxietyPlugin.Instance.UnlockItemCache.GetItemForObject(this.glasses);
+            this.UnlockItem = CollectorsAnxietyPlugin.Instance.UnlockItemCache.GetItemForObject(this.glasses.Value);
     }
 
-    public override string Name => this.LuminaEntry.Name;
+    public override string Name => this.LuminaEntry.Name.ExtractText();
 
     public override uint? IconId => (uint) this.LuminaEntry.Icon;
 
@@ -21,7 +21,7 @@ public class GlassesEntry : Unlockable<GlassesStyle> {
     private Glasses? glasses { get; }
 
     public override bool IsUnlocked() {
-        return this.glasses != null && CollectorsAnxietyPlugin.Instance.GameState.IsGlassesUnlocked((ushort) this.glasses.RowId);
+        return this.glasses != null && CollectorsAnxietyPlugin.Instance.GameState.IsGlassesUnlocked((ushort) this.glasses.Value.RowId);
     }
 
     public override bool IsValid() {

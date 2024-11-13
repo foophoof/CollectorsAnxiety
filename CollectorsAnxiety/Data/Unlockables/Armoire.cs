@@ -1,6 +1,6 @@
 ﻿using CollectorsAnxiety.Resources.Localization;
 using CollectorsAnxiety.Util;
-using Lumina.Excel.GeneratedSheets;
+using Lumina.Excel.Sheets;
 
 namespace CollectorsAnxiety.Data.Unlockables;
 
@@ -9,12 +9,12 @@ public class ArmoireEntry : Unlockable<Cabinet> {
         this.UnlockItem = this.LuminaEntry.Item.Value; // rly. 
     }
 
-    public override string Name => this.LuminaEntry.Item.Value?.Singular.RawString.ToTitleCase() ??
+    public override string Name => this.LuminaEntry.Item.ValueNullable?.Singular.ExtractText().ToTitleCase() ??
                                    UIStrings.ErrorHandling_Unknown;
 
     public override Item? UnlockItem { get; }
 
-    public string Category => this.LuminaEntry.Category.Value!.Category.Value!.Text.RawString;
+    public string Category => this.LuminaEntry.Category.Value.Category.Value.Text.ExtractText();
 
     public override uint? IconId => this.UnlockItem?.Icon;
 
@@ -25,6 +25,6 @@ public class ArmoireEntry : Unlockable<Cabinet> {
     }
 
     public override bool IsValid() {
-        return this.LuminaEntry.Order != 0 && this.UnlockItem != null && this.UnlockItem.ItemUICategory.Row != 0;
+        return this.LuminaEntry.Order != 0 && this.UnlockItem != null && this.UnlockItem.Value.ItemUICategory.RowId != 0;
     }
 }

@@ -4,7 +4,7 @@ using CollectorsAnxiety.UI.Tabs;
 using CollectorsAnxiety.Util;
 using Dalamud.Interface;
 using ImGuiNET;
-using Lumina.Excel.GeneratedSheets;
+using Lumina.Excel.Sheets;
 
 namespace CollectorsAnxiety.UI.DataTabs;
 
@@ -25,6 +25,6 @@ public class MountTab : DataTab<MountEntry, Mount> {
     }
 
     protected override void DrawDevContextMenuItems(MountEntry entry) {
-        ImGui.MenuItem($"RideBGM ID: {entry.LuminaEntry.RideBGM.Row}", false);
+        ImGui.MenuItem($"RideBGM ID: {entry.LuminaEntry.RideBGM.RowId}", false);
     }
 }

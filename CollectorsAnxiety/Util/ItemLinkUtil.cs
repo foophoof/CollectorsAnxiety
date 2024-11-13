@@ -1,7 +1,7 @@
 ﻿using CollectorsAnxiety.Base;
 using Dalamud.Game.Text;
 using Dalamud.Game.Text.SeStringHandling;
-using Lumina.Excel.GeneratedSheets;
+using Lumina.Excel.Sheets;
 
 namespace CollectorsAnxiety.Util;
 

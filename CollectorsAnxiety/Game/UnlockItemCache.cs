@@ -2,7 +2,7 @@
 using System.Linq;
 using CollectorsAnxiety.Base;
 using Lumina.Excel;
-using Lumina.Excel.GeneratedSheets;
+using Lumina.Excel.Sheets;
 
 namespace CollectorsAnxiety.Game;
 
@@ -23,13 +23,12 @@ public class UnlockItemCache {
     private void LoadCache(bool force = false) {
         if (this._cache.Count != 0 && !force) return;
 
-        var itemSheet = Injections.DataManager.Excel.GetSheet<Item>()!;
+        var itemSheet = Injections.DataManager.Excel.GetSheet<Item>();
 
         foreach (var item in itemSheet) {
             if (BlockedItemIds.Contains(item.RowId)) continue;
 
             var itemAction = item.ItemAction.Value;
-            if (itemAction == null) continue;
 
             switch (itemAction.Type) {
                 case 0xA49: // Unlock Link (Emote, Hairstyle)
@@ -49,7 +48,7 @@ public class UnlockItemCache {
                     break;
 
                 case 0xD1D: // Triple Triad Cards
-                    this._cache[(nameof(TripleTriadCard), item.AdditionalData)] = item;
+                    this._cache[(nameof(TripleTriadCard), item.AdditionalData.RowId)] = item;
                     break;
 
                 case 0x4E76: // Ornaments
@@ -57,11 +56,11 @@ public class UnlockItemCache {
                     break;
 
                 case 0x625F: // Orchestrion Rolls
-                    this._cache[(nameof(Orchestrion), item.AdditionalData)] = item;
+                    this._cache[(nameof(Orchestrion), item.AdditionalData.RowId)] = item;
                     break;
 
                 case 37312: // Facewear
-                    this._cache[(nameof(Glasses), item.AdditionalData)] = item;
+                    this._cache[(nameof(Glasses), item.AdditionalData.RowId)] = item;
                     break;
 
                 default:
@@ -73,12 +72,18 @@ public class UnlockItemCache {
     }
 
     public Item? GetItemForUnlockLink(uint unlockLink) {
-        this._cache.TryGetValue(("UnlockLink", unlockLink), out var item);
+        var found = this._cache.TryGetValue(("UnlockLink", unlockLink), out var item);
+        if (!found) {
+            return null;
+        }
         return item;
     }
 
-    public Item? GetItemForObject(ExcelRow unlockable) {
-        this._cache.TryGetValue((unlockable.GetType().Name, unlockable.RowId), out var item);
+    public Item? GetItemForObject<T>(T unlockable) where T : struct, IExcelRow<T> {
+        var found = this._cache.TryGetValue((unlockable.GetType().Name, unlockable.RowId), out var item);
+        if (!found) {
+            return null;
+        }
         return item;
     }
 }

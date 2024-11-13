@@ -1,6 +1,6 @@
 ﻿using CollectorsAnxiety.Util;
 using Dalamud.Utility;
-using Lumina.Excel.GeneratedSheets;
+using Lumina.Excel.Sheets;
 
 namespace CollectorsAnxiety.Data.Unlockables;
 

@@ -1,7 +1,7 @@
 ﻿using CollectorsAnxiety.Resources.Localization;
 using CollectorsAnxiety.Util;
 using Dalamud.Utility;
-using Lumina.Excel.GeneratedSheets;
+using Lumina.Excel.Sheets;
 
 namespace CollectorsAnxiety.Data.Unlockables;
 
@@ -18,7 +18,7 @@ public class EmoteEntry : Unlockable<Emote> {
 
     public override uint SortKey => this.LuminaEntry.Order;
 
-    public string Category => this.LuminaEntry.EmoteCategory.Value?.Name.ToDalamudString().ToTitleCase() ?? UIStrings.ErrorHandling_Unknown;
+    public string Category => this.LuminaEntry.EmoteCategory.ValueNullable?.Name.ToDalamudString().ToTitleCase() ?? UIStrings.ErrorHandling_Unknown;
 
 
     public override bool IsUnlocked() {
