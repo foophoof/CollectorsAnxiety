@@ -1,4 +1,4 @@
-﻿using CollectorsAnxiety.Util;
+using CollectorsAnxiety.Util;
 using Lumina.Excel.Sheets;
 
 namespace CollectorsAnxiety.Data.Unlockables;

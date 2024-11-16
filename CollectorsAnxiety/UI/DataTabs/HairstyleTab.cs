@@ -1,4 +1,4 @@
-﻿using System.Linq;
+using System.Linq;
 using CollectorsAnxiety.Data.Unlockables;
 using CollectorsAnxiety.Game;
 using CollectorsAnxiety.UI.Tabs;

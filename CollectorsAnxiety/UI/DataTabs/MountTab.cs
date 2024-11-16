@@ -1,4 +1,4 @@
-﻿using CollectorsAnxiety.Data.Unlockables;
+using CollectorsAnxiety.Data.Unlockables;
 using CollectorsAnxiety.UI.Tabs;
 using CollectorsAnxiety.Util;
 using Dalamud.Interface;

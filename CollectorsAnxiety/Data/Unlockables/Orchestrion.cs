@@ -1,4 +1,4 @@
-﻿using CollectorsAnxiety.Base;
+using CollectorsAnxiety.Base;
 using CollectorsAnxiety.Util;
 using Lumina.Excel.Sheets;
 

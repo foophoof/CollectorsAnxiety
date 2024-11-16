@@ -1,4 +1,4 @@
-﻿using CollectorsAnxiety.Util;
+using CollectorsAnxiety.Util;
 using Dalamud.Utility;
 using Lumina.Excel.Sheets;
 
