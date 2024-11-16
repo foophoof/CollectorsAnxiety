@@ -10,6 +10,7 @@ jobs:
   build:
     runs-on: windows-latest
     strategy:
+      fail-fast: false
       matrix:
         dalamud_url:
           - https://goatcorp.github.io/dalamud-distrib/stg/latest.zip
