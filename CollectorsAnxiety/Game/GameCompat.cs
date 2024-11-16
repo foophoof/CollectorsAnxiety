@@ -1,4 +1,4 @@
-﻿namespace CollectorsAnxiety.Game;
+namespace CollectorsAnxiety.Game;
 
 public class GameCompat {
     public enum PlayerRace : uint {

@@ -1,4 +1,4 @@
-﻿using System.Globalization;
+using System.Globalization;
 using Dalamud.Game.Text.SeStringHandling;
 using Lumina.Text.ReadOnly;
 

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using CollectorsAnxiety.Util;
 using Dalamud.Interface;
 using Dalamud.Interface.Colors;

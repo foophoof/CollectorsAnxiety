@@ -1,4 +1,4 @@
-﻿using Dalamud.Interface.Colors;
+using Dalamud.Interface.Colors;
 using FFXIVClientStructs.FFXIV.Client.Game.UI;
 using ImGuiNET;
 
