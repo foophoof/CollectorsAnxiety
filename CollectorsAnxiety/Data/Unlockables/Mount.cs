@@ -3,13 +3,13 @@ using System.Linq;
 using CollectorsAnxiety.Base;
 using CollectorsAnxiety.Util;
 using Dalamud.Utility;
-using Lumina.Excel.GeneratedSheets;
+using Lumina.Excel.Sheets;
 
 namespace CollectorsAnxiety.Data.Unlockables;
 
 public class MountEntry : Unlockable<Mount> {
     private static HashSet<Mount> _uniqueMusicMounts = Injections.DataManager.Excel.GetSheet<Mount>()!
-        .GroupBy(n => n.RideBGM.Row)
+        .GroupBy(n => n.RideBGM.RowId)
         .Where(g => g.Count() == 1)
         .Select(g => g.First())
         .ToHashSet();
@@ -18,7 +18,7 @@ public class MountEntry : Unlockable<Mount> {
         this.UnlockItem = CollectorsAnxietyPlugin.Instance.UnlockItemCache.GetItemForObject(this.LuminaEntry);
 
         this.NumberSeats = this.LuminaEntry.ExtraSeats + 1;
-        this.HasActions = this.LuminaEntry.MountAction.Row != 0;
+        this.HasActions = this.LuminaEntry.MountAction.RowId != 0;
     }
 
     public override Item? UnlockItem { get; }

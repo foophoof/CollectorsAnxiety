@@ -3,7 +3,8 @@ using System.Collections.Immutable;
 using CollectorsAnxiety.Base;
 using CollectorsAnxiety.Game;
 using CollectorsAnxiety.Resources.Localization;
-using Lumina.Excel.GeneratedSheets;
+using Lumina.Excel;
+using Lumina.Excel.Sheets;
 
 namespace CollectorsAnxiety.Data.Unlockables;
 
@@ -40,7 +41,7 @@ public class HairstyleEntry : Unlockable<CharaMakeCustomize> {
     private string GetName() {
         return this.LuminaEntry.Data switch {
             228 => "Eternal Bonding",
-            _ => this.LuminaEntry.HintItem.Value?.Name.RawString ?? UIStrings.ErrorHandling_Unknown
+            _ => this.LuminaEntry.HintItem.ValueNullable?.Name.ExtractText() ?? UIStrings.ErrorHandling_Unknown
         };
     }
 }
@@ -55,7 +56,7 @@ public class HairstyleController : Controller<HairstyleEntry, CharaMakeCustomize
         var itemDict = new Dictionary<uint, HairstyleEntry>();
         var styleIdDict = new Dictionary<uint, HairstyleEntry>();
 
-        foreach (var styleRow in Injections.DataManager.GetExcelSheet<CharaMakeCustomize>()!) {
+        foreach (var styleRow in Injections.DataManager.GetExcelSheet<CharaMakeCustomize>()) {
             if (styleRow.Data == 0) continue;
 
             if (!itemDict.TryGetValue(styleRow.Data, out var styleEntry)) {
@@ -68,47 +69,46 @@ public class HairstyleController : Controller<HairstyleEntry, CharaMakeCustomize
             styleIdDict[styleRow.RowId] = styleEntry;
         }
 
-        var hairMakeType = Injections.DataManager.GetExcelSheet<HairMakeType>()!;
-        foreach (var rowParser in hairMakeType.GetRowParsers()) {
-            var race = (GameCompat.PlayerRace) rowParser.ReadColumn<int>(0);
-            var gender = (GameCompat.PlayerGender) rowParser.ReadColumn<sbyte>(2);
+        foreach (var row in Injections.DataManager.GetExcelSheet<RawRow>(name: "HairMakeType")) {
+            var race = (GameCompat.PlayerRace) row.ReadInt32Column(0);
+            var gender = (GameCompat.PlayerGender) row.ReadInt8Column(2);
 
-            for (var i = 0; i < 100; i++) {
-                var hairStyle = rowParser.ReadColumn<uint>(66 + i * 9);
+            var numHairstyles = row.ReadUInt8Column(30);
+            for (var i = 0; i < numHairstyles; i++) {
+                var hairStyle = row.ReadUInt32Column(66 + i * 9);
 
                 if (hairStyle == 0)
                     continue;
 
-                if (!styleIdDict.TryGetValue(hairStyle, out var styleEntry))
+                if (!styleIdDict.TryGetValue(hairStyle, out var hairstyleEntry))
                     continue;
 
                 switch (gender) {
                     case GameCompat.PlayerGender.Female:
-                        styleEntry.WearableByFemale = true;
-                        styleEntry.WearableByFemaleRaceIDs.Add(race);
+                        hairstyleEntry.WearableByFemale = true;
+                        hairstyleEntry.WearableByFemaleRaceIDs.Add(race);
                         break;
-
                     case GameCompat.PlayerGender.Male:
-                        styleEntry.WearableByMale = true;
-                        styleEntry.WearableByMaleRaceIDs.Add(race);
+                        hairstyleEntry.WearableByMale = true;
+                        hairstyleEntry.WearableByMaleRaceIDs.Add(race);
                         break;
                 }
             }
 
-            for (var i = 0; i < 100; i++) {
-                var facepaintStyle = rowParser.ReadColumn<uint>(73 + i * 9);
-                if (!styleIdDict.TryGetValue(facepaintStyle, out var styleEntry))
+            var numFacepaints = row.ReadUInt8Column(37);
+            for (var i = 0; i < numFacepaints; i++) {
+                var facepaintStyle = row.ReadUInt32Column(73 + i * 9);
+                if (!styleIdDict.TryGetValue(facepaintStyle, out var facepaintEntry))
                     continue;
 
                 switch (gender) {
                     case GameCompat.PlayerGender.Female:
-                        styleEntry.WearableByFemale = true;
-                        styleEntry.WearableByFemaleRaceIDs.Add(race);
+                        facepaintEntry.WearableByFemale = true;
+                        facepaintEntry.WearableByFemaleRaceIDs.Add(race);
                         break;
-
                     case GameCompat.PlayerGender.Male:
-                        styleEntry.WearableByMale = true;
-                        styleEntry.WearableByMaleRaceIDs.Add(race);
+                        facepaintEntry.WearableByMale = true;
+                        facepaintEntry.WearableByMaleRaceIDs.Add(race);
                         break;
                 }
             }

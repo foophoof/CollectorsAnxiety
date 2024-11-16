@@ -3,7 +3,7 @@ using CollectorsAnxiety.Resources.Localization;
 using CollectorsAnxiety.UI.Tabs;
 using CollectorsAnxiety.Util;
 using ImGuiNET;
-using Lumina.Excel.GeneratedSheets;
+using Lumina.Excel.Sheets;
 
 namespace CollectorsAnxiety.UI.DataTabs;
 
@@ -15,7 +15,7 @@ public class EmoteTab : DataTab<EmoteEntry, Emote> {
 
         var unlockItem = entry.UnlockItem;
         if (unlockItem != null) {
-            tagline += $" | {unlockItem.Name.RawString.ToTitleCase()}";
+            tagline += $" | {unlockItem.Value.Name.ToTitleCase()}";
         }
 
         return tagline;

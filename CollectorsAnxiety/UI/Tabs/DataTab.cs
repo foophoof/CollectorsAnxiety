@@ -48,7 +48,7 @@ public class TableColumn {
     }
 }
 
-public class DataTab<TEntry, TSheet> : IDataTab where TEntry : Unlockable<TSheet> where TSheet : ExcelRow {
+public class DataTab<TEntry, TSheet> : IDataTab where TEntry : Unlockable<TSheet> where TSheet : struct, IExcelRow<TSheet> {
     private const int IconSize = 48;
 
     public virtual string Name => "Tab";
@@ -188,18 +188,18 @@ public class DataTab<TEntry, TSheet> : IDataTab where TEntry : Unlockable<TSheet
 
                             if (item.UnlockItem != null) {
                                 if (ImGui.MenuItem(UIStrings.BaseTab_ItemMenu_ViewInGarlandTools))
-                                    ItemLinkUtil.OpenGarlandToolsLink(item.UnlockItem);
+                                    ItemLinkUtil.OpenGarlandToolsLink(item.UnlockItem.Value);
 
                                 if (ImGui.MenuItem(UIStrings.BaseTab_ItemMenu_ViewInTeamcraft))
-                                    ItemLinkUtil.OpenTeamcraftLink(item.UnlockItem);
+                                    ItemLinkUtil.OpenTeamcraftLink(item.UnlockItem.Value);
 
                                 if (item.UnlockItem.IsMarketBoardEligible() &&
                                     ImGui.MenuItem(UIStrings.BaseTab_ItemMenu_ViewInUniversalis))
-                                    ItemLinkUtil.OpenUniversalisLink(item.UnlockItem);
+                                    ItemLinkUtil.OpenUniversalisLink(item.UnlockItem.Value);
 
                                 if (Injections.ClientState.IsLoggedIn &&
                                     ImGui.MenuItem(UIStrings.BaseTab_ItemMenu_LinkInChat))
-                                    ItemLinkUtil.SendChatLink(item.UnlockItem);
+                                    ItemLinkUtil.SendChatLink(item.UnlockItem.Value);
                             }
                         }
 

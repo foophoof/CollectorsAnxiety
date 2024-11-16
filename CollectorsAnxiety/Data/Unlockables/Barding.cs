@@ -1,4 +1,4 @@
-using Lumina.Excel.GeneratedSheets;
+using Lumina.Excel.Sheets;
 
 namespace CollectorsAnxiety.Data.Unlockables;
 
@@ -7,7 +7,7 @@ public class BardingEntry : Unlockable<BuddyEquip> {
         this.UnlockItem = CollectorsAnxietyPlugin.Instance.UnlockItemCache.GetItemForObject(excelRow);
     }
 
-    public override string Name => this.LuminaEntry.Name.RawString;
+    public override string Name => this.LuminaEntry.Name.ExtractText();
 
     public override uint? IconId => this.LuminaEntry.IconHead;
 
