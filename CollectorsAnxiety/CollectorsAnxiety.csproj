@@ -2,5 +2,6 @@
     <PropertyGroup>
         <PackageProjectUrl>https://github.com/foophoof/CollectorsAnxiety</PackageProjectUrl>
         <Version>0.0.9</Version>
+        <TargetFramework>net9.0-windows</TargetFramework>
     </PropertyGroup>
 </Project>
