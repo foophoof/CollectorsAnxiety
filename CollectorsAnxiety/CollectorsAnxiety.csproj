@@ -1,6 +1,6 @@
 <Project Sdk="Dalamud.NET.Sdk/11.0.0">
     <PropertyGroup>
         <PackageProjectUrl>https://github.com/foophoof/CollectorsAnxiety</PackageProjectUrl>
-        <Version>0.0.9</Version>
+        <Version>0.0.10</Version>
     </PropertyGroup>
 </Project>
