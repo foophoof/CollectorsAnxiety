@@ -2,7 +2,6 @@
 using System.Collections.Immutable;
 using CollectorsAnxiety.Base;
 using CollectorsAnxiety.Game;
-using CollectorsAnxiety.Resources.Localization;
 using Lumina.Excel;
 using Lumina.Excel.Sheets;
 
@@ -41,7 +40,7 @@ public class HairstyleEntry : Unlockable<CharaMakeCustomize> {
     private string GetName() {
         return this.LuminaEntry.Data switch {
             228 => "Eternal Bonding",
-            _ => this.LuminaEntry.HintItem.ValueNullable?.Name.ExtractText() ?? UIStrings.ErrorHandling_Unknown
+            _ => this.LuminaEntry.HintItem.ValueNullable?.Name.ExtractText() ?? "Unknown"
         };
     }
 }
