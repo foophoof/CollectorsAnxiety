@@ -5,7 +5,6 @@ using System.Numerics;
 using System.Runtime.InteropServices;
 using CollectorsAnxiety.Base;
 using CollectorsAnxiety.Data;
-using CollectorsAnxiety.Resources.Localization;
 using CollectorsAnxiety.Util;
 using Dalamud.Interface;
 using Dalamud.Interface.Colors;
@@ -94,11 +93,11 @@ public class DataTab<TEntry, TSheet> : IDataTab where TEntry : Unlockable<TSheet
 
         var displayMode = (int) this._displayFilter;
         var filterLabels = new List<string> {
-            UIStrings.BaseTab_FilterShowAll,
-            UIStrings.BaseTab_FilterShowComplete,
-            UIStrings.BaseTab_FilterShowIncomplete
+            "Show All",
+            "Show Complete",
+            "Show Incomplete"
         };
-        if (this._showHidden) filterLabels.Add(UIStrings.BaseTab_FilterHiddenOnly);
+        if (this._showHidden) filterLabels.Add("Show Hidden Only");
         if (ImGui.Combo("###filter", ref displayMode, filterLabels.ToArray(), filterLabels.Count)) {
             this._displayFilter = (FilterMode) displayMode;
         }
@@ -106,12 +105,12 @@ public class DataTab<TEntry, TSheet> : IDataTab where TEntry : Unlockable<TSheet
         ImGui.SameLine();
         ImGui.Dummy(new Vector2(10, 0));
         ImGui.SameLine();
-        if (ImGui.Checkbox(UIStrings.BaseTab_FilterShowHidden, ref this._showHidden)) {
+        if (ImGui.Checkbox("Show Hidden", ref this._showHidden)) {
             if (this._displayFilter == FilterMode.ShowHiddenOnly)
                 this._displayFilter = FilterMode.ShowAll;
         }
 
-        ImGuiComponents.HelpMarker(UIStrings.BaseTab_HiddenHelp);
+        ImGuiComponents.HelpMarker("To hide an entry from a collection list, right-click the checkbox next to an item and select \"Hide Entry\".");
 
         // load in items early so we can cache and operate on the subset.
         var totalVisibleItems = 0;
@@ -173,7 +172,7 @@ public class DataTab<TEntry, TSheet> : IDataTab where TEntry : Unlockable<TSheet
                     ImGui.Dummy(new Vector2(0, 8));
                     ImGui.Checkbox("", ref unlocked);
                     if (ImGui.BeginPopupContextItem($"context_{this.GetType().Name}#{item.Id}")) {
-                        if (ImGui.MenuItem(UIStrings.BaseTab_ItemMenu_HideItem, "", hidden)) {
+                        if (ImGui.MenuItem("Hide Entry", "", hidden)) {
                             if (!hidden) {
                                 CollectorsAnxietyPlugin.Instance.Configuration.HideItem(item);
                             } else {
@@ -187,18 +186,18 @@ public class DataTab<TEntry, TSheet> : IDataTab where TEntry : Unlockable<TSheet
                             //     PluginLog.Debug("View on XIVCollect fired");
 
                             if (item.UnlockItem != null) {
-                                if (ImGui.MenuItem(UIStrings.BaseTab_ItemMenu_ViewInGarlandTools))
+                                if (ImGui.MenuItem("View in Garland Tools"))
                                     ItemLinkUtil.OpenGarlandToolsLink(item.UnlockItem.Value);
 
-                                if (ImGui.MenuItem(UIStrings.BaseTab_ItemMenu_ViewInTeamcraft))
+                                if (ImGui.MenuItem("View in Teamcraft"))
                                     ItemLinkUtil.OpenTeamcraftLink(item.UnlockItem.Value);
 
                                 if (item.UnlockItem.IsMarketBoardEligible() &&
-                                    ImGui.MenuItem(UIStrings.BaseTab_ItemMenu_ViewInUniversalis))
+                                    ImGui.MenuItem("View in Universalis"))
                                     ItemLinkUtil.OpenUniversalisLink(item.UnlockItem.Value);
 
                                 if (Injections.ClientState.IsLoggedIn &&
-                                    ImGui.MenuItem(UIStrings.BaseTab_ItemMenu_LinkInChat))
+                                    ImGui.MenuItem("Link in Chat"))
                                     ItemLinkUtil.SendChatLink(item.UnlockItem.Value);
                             }
                         }
@@ -227,10 +226,10 @@ public class DataTab<TEntry, TSheet> : IDataTab where TEntry : Unlockable<TSheet
                     ImGui.Text($"#{item.Id}");
 
                     ImGui.TableSetColumnIndex(3);
-                    ImGui.Text(censorItem ? UIStrings.BaseTab_SpoilerMask : item.Name);
+                    ImGui.Text(censorItem ? "Not yet obtained!" : item.Name);
                     if (hidden) {
                         ImGui.SameLine();
-                        ImGui.TextColored(ImGuiColors.DalamudGrey3, UIStrings.BaseTab_HiddenTag);
+                        ImGui.TextColored(ImGuiColors.DalamudGrey3, "(Hidden)");
                     }
 
                     if (!censorItem) {
@@ -256,7 +255,7 @@ public class DataTab<TEntry, TSheet> : IDataTab where TEntry : Unlockable<TSheet
         var unlockItem = entry.UnlockItem;
 
         if (unlockItem.IsMarketBoardEligible())
-            ImGuiUtil.HoverMarker(FontAwesomeIcon.Coins, UIStrings.BaseTab_MarketBoardPurchaseable);
+            ImGuiUtil.HoverMarker(FontAwesomeIcon.Coins, "Available from the Market Board");
     }
 
     protected virtual string? GetTagline(TEntry entry) {

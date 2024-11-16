@@ -1,4 +1,3 @@
-﻿using CollectorsAnxiety.Resources.Localization;
 using CollectorsAnxiety.Util;
 using Lumina.Excel.Sheets;
 
@@ -10,7 +9,7 @@ public class ArmoireEntry : Unlockable<Cabinet> {
     }
 
     public override string Name => this.LuminaEntry.Item.ValueNullable?.Singular.ExtractText().ToTitleCase() ??
-                                   UIStrings.ErrorHandling_Unknown;
+                                   "Unknown";
 
     public override Item? UnlockItem { get; }
 

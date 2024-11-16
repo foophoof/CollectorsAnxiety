@@ -3,21 +3,4 @@
         <PackageProjectUrl>https://github.com/foophoof/CollectorsAnxiety</PackageProjectUrl>
         <Version>0.0.9</Version>
     </PropertyGroup>
-
-    <!-- Localization -->
-    <ItemGroup>
-        <!-- Do not include pseudo-localization files in the release build -->
-        <EmbeddedResource Remove="Resources\Localization\UIStrings.qps-ploc.resx" Condition="'$(Configuration)' == 'Release'"/>
-        <None Include="Resources\Localization\UIStrings.qps-ploc.resx" Condition="'$(Configuration)' == 'Release'"/>
-
-        <EmbeddedResource Update="Resources\Localization\UIStrings.resx">
-            <Generator>ResXFileCodeGenerator</Generator>
-            <LastGenOutput>UIStrings.Designer.cs</LastGenOutput>
-        </EmbeddedResource>
-        <Compile Update="Resources\Localization\UIStrings.Designer.cs">
-            <DesignTime>True</DesignTime>
-            <AutoGen>True</AutoGen>
-            <DependentUpon>UIStrings.Designer.cs</DependentUpon>
-        </Compile>
-    </ItemGroup>
 </Project>

@@ -1,5 +1,4 @@
 ﻿using CollectorsAnxiety.Data.Unlockables;
-using CollectorsAnxiety.Resources.Localization;
 using CollectorsAnxiety.UI.Tabs;
 using CollectorsAnxiety.Util;
 using Dalamud.Interface.Colors;
@@ -10,24 +9,24 @@ using Lumina.Excel.Sheets;
 namespace CollectorsAnxiety.UI.DataTabs;
 
 public class ArmoireTab : DataTab<ArmoireEntry, Cabinet> {
-    public override string Name => UIStrings.ArmoireTab_Name;
+    public override string Name => "Armoire";
     public override bool ShowInOverview => false;
 
     public override void Draw() {
         if (!CollectorsAnxietyPlugin.Instance.GameState.IsArmoirePopulated()) {
             ImGuiHelpers.ScaledDummy(5f);
             ImGui.PushStyleColor(ImGuiCol.Text, ImGuiColors.DalamudYellow);
-            ImGuiUtil.CenteredWrappedText(UIStrings.ArmoireTab_ArmoireNotLoadedError_Title);
+            ImGuiUtil.CenteredWrappedText("The Armoire is currently not loaded.");
             ImGui.PopStyleColor();
 
             ImGuiHelpers.ScaledDummy(10f);
 
-            ImGui.TextWrapped(UIStrings.ArmoireTab_ArmoireNotLoadedError_Message);
+            ImGui.TextWrapped("To refresh information and see collection statistics, please visit an Inn Room and open your Armoire. Collector's Anxiety will automatically refresh this page with the relevant information.");
 
             return;
         }
 
-        ImGui.TextWrapped(UIStrings.ArmoireTab_ArmoireNote);
+        ImGui.TextWrapped("Note: The Armoire tab will only show items stored within the Armoire. Any items in the Glamour Dresser will not be reflected in the below list.");
         base.Draw();
     }
 

@@ -1,8 +1,6 @@
-﻿using System.Globalization;
 using CollectorsAnxiety.Base;
 using CollectorsAnxiety.Game;
 using CollectorsAnxiety.IPC;
-using CollectorsAnxiety.Resources.Localization;
 using CollectorsAnxiety.UI.Windows;
 using Dalamud.Game.Command;
 using Dalamud.Interface.Windowing;
@@ -15,7 +13,7 @@ public sealed class CollectorsAnxietyPlugin : IDalamudPlugin {
 
     internal static CollectorsAnxietyPlugin Instance { get; private set; } = null!;
 
-    public string Name => UIStrings.CollectorsAnxiety_Title;
+    public string Name => "Collector's Anxiety";
 
     internal PluginConfig Configuration { get; }
     internal WindowSystem WindowSystem { get; }
@@ -49,9 +47,6 @@ public sealed class CollectorsAnxietyPlugin : IDalamudPlugin {
         Injections.CommandManager.AddHandler(BaseCommand, new CommandInfo(this.HandleCommand) {
             HelpMessage = "Open the Collector's Anxiety main window."
         });
-
-        this.PluginInterface.LanguageChanged += this.UpdateLang;
-        this.UpdateLang(this.PluginInterface.UiLanguage);
     }
 
     public void Dispose() {
@@ -71,9 +66,5 @@ public sealed class CollectorsAnxietyPlugin : IDalamudPlugin {
 
     private void HandleCommand(string command, string args) {
         this.DrawMainUI();
-    }
-
-    private void UpdateLang(string langCode) {
-        UIStrings.Culture = new CultureInfo(langCode);
     }
 }

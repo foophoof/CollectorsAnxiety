@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Numerics;
 using CollectorsAnxiety.Base;
-using CollectorsAnxiety.Resources.Localization;
 using CollectorsAnxiety.UI.DataTabs;
 using CollectorsAnxiety.UI.Tabs;
 using CollectorsAnxiety.Util;
@@ -15,7 +14,7 @@ using ImGuiNET;
 namespace CollectorsAnxiety.UI.Windows;
 
 public class CollectorWindow : Window {
-    public static string WindowKey => $"{UIStrings.CollectorsAnxiety_Title}###mainWindow";
+    public static string WindowKey => "Collector's Anxiety###mainWindow";
 
     public CollectorWindow() : base(WindowKey) {
         this.SizeCondition = ImGuiCond.FirstUseEver;
@@ -66,7 +65,7 @@ public class CollectorWindow : Window {
 
         if (!Injections.ClientState.IsLoggedIn || Injections.ClientState.LocalPlayer == null) {
             ImGui.PushStyleColor(ImGuiCol.Text, ImGuiColors.DalamudOrange);
-            ImGuiUtil.CenteredWrappedText(UIStrings.CollectorWindow_NoUserLoggedInWarning);
+            ImGuiUtil.CenteredWrappedText("WARNING: A player is not logged in. Data may be invalid or incomplete.");
             ImGui.PopStyleColor();
         }
 

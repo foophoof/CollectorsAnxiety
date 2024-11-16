@@ -1,5 +1,4 @@
 ﻿using System.Linq;
-using CollectorsAnxiety.Resources.Localization;
 using CollectorsAnxiety.UI.Windows;
 using CollectorsAnxiety.Util;
 using Dalamud.Interface.Colors;
@@ -14,7 +13,7 @@ public class OverviewTab : ITab {
         this._baseWindow = window;
     }
 
-    public string Name => UIStrings.OverviewTab_Name;
+    public string Name => "Overview";
     public void Draw() {
         var grandTotalUnlocked = 0;
         var grandTotalItems = 0;
