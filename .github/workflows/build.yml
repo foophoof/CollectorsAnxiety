@@ -15,12 +15,13 @@ jobs:
         dalamud_url:
           - https://goatcorp.github.io/dalamud-distrib/stg/latest.zip
           - https://goatcorp.github.io/dalamud-distrib/latest.zip
+          - https://goatcorp.github.io/dalamud-distrib/api12/latest.zip
     steps:
       - uses: actions/checkout@v4
       - name: Setup .NET
         uses: actions/setup-dotnet@v4
         with:
-          dotnet-version: '8.x.x'
+          dotnet-version: '9.x.x'
       - name: Restore dependencies
         run: dotnet restore
       - name: Download Dalamud
