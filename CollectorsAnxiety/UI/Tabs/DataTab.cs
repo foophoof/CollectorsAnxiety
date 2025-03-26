@@ -158,7 +158,7 @@ public class DataTab<TEntry, TSheet> : IDataTab where TEntry : Unlockable<TSheet
             ImGui.TableHeadersRow();
 
             // Clipper needs to have an idea of the cell size. This will always be the icon size (48) plus double
-            // padding for table entries. 
+            // padding for table entries.
             var cellHeight = IconSize + 2 * ImGui.GetStyle().CellPadding.Y;
             this._clipperPtr.Begin(itemsToRender.Count, cellHeight);
             while (this._clipperPtr.Step()) {
@@ -216,10 +216,10 @@ public class DataTab<TEntry, TSheet> : IDataTab where TEntry : Unlockable<TSheet
 
                     ImGui.TableSetColumnIndex(1);
                     var iconId = censorItem ? spoilerIconId : item.IconId;
-                    if (iconId != null) {
-                        ImGui.Image(
-                            Injections.TextureProvider.GetFromGameIcon(new GameIconLookup(iconId.Value)).GetWrapOrEmpty().ImGuiHandle,
-                            new Vector2(IconSize));
+                    if (iconId != null &&
+                        Injections.TextureProvider.TryGetFromGameIcon(new GameIconLookup(iconId.Value), out var iconTex) &&
+                        iconTex.TryGetWrap(out var icon, out _)) {
+                        ImGui.Image(icon.ImGuiHandle, new Vector2(IconSize));
                     }
 
                     ImGui.TableSetColumnIndex(2);
