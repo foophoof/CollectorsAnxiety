@@ -3,6 +3,7 @@ using CollectorsAnxiety.UI.Tabs;
 using CollectorsAnxiety.Util;
 using Dalamud.Interface.Colors;
 using Dalamud.Interface.Utility;
+using Dalamud.Interface.Utility.Raii;
 using ImGuiNET;
 using Lumina.Excel.Sheets;
 
@@ -15,18 +16,20 @@ public class ArmoireTab : DataTab<ArmoireEntry, Cabinet> {
     public override void Draw() {
         if (!CollectorsAnxietyPlugin.Instance.GameState.IsArmoirePopulated()) {
             ImGuiHelpers.ScaledDummy(5f);
-            ImGui.PushStyleColor(ImGuiCol.Text, ImGuiColors.DalamudYellow);
-            ImGuiUtil.CenteredWrappedText("The Armoire is currently not loaded.");
-            ImGui.PopStyleColor();
+            using (ImRaii.PushColor(ImGuiCol.Text, ImGuiColors.DalamudYellow)) {
+                ImGuiUtil.CenteredWrappedText("The Armoire is currently not loaded.");
+            }
 
             ImGuiHelpers.ScaledDummy(10f);
 
-            ImGui.TextWrapped("To refresh information and see collection statistics, please visit an Inn Room and open your Armoire. Collector's Anxiety will automatically refresh this page with the relevant information.");
+            ImGui.TextWrapped(
+                "To refresh information and see collection statistics, please visit an Inn Room and open your Armoire. Collector's Anxiety will automatically refresh this page with the relevant information.");
 
             return;
         }
 
-        ImGui.TextWrapped("Note: The Armoire tab will only show items stored within the Armoire. Any items in the Glamour Dresser will not be reflected in the below list.");
+        ImGui.TextWrapped(
+            "Note: The Armoire tab will only show items stored within the Armoire. Any items in the Glamour Dresser will not be reflected in the below list.");
         base.Draw();
     }
 
