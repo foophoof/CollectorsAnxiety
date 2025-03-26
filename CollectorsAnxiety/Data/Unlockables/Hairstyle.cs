@@ -9,8 +9,8 @@ namespace CollectorsAnxiety.Data.Unlockables;
 
 public class HairstyleEntry : Unlockable<CharaMakeCustomize> {
     public HairstyleEntry(CharaMakeCustomize excelRow) : base(excelRow) {
-        this.Id = this.LuminaEntry.Data;
-        this.UnlockItem = CollectorsAnxietyPlugin.Instance.UnlockItemCache.GetItemForUnlockLink(excelRow.Data);
+        this.Id = this.LuminaEntry.UnlockLink;
+        this.UnlockItem = CollectorsAnxietyPlugin.Instance.UnlockItemCache.GetItemForUnlockLink(excelRow.UnlockLink);
     }
 
     public bool WearableByMale;
@@ -23,7 +23,7 @@ public class HairstyleEntry : Unlockable<CharaMakeCustomize> {
 
     public override string Name => this.GetName();
 
-    public override uint SortKey => this.LuminaEntry.Data;
+    public override uint SortKey => this.LuminaEntry.UnlockLink;
 
     public override uint? IconId => this.LuminaEntry.Icon;
 
@@ -38,7 +38,7 @@ public class HairstyleEntry : Unlockable<CharaMakeCustomize> {
     }
 
     private string GetName() {
-        return this.LuminaEntry.Data switch {
+        return this.LuminaEntry.UnlockLink switch {
             228 => "Eternal Bonding",
             _ => this.LuminaEntry.HintItem.ValueNullable?.Name.ExtractText() ?? "Unknown"
         };
@@ -56,13 +56,13 @@ public class HairstyleController : Controller<HairstyleEntry, CharaMakeCustomize
         var styleIdDict = new Dictionary<uint, HairstyleEntry>();
 
         foreach (var styleRow in Injections.DataManager.GetExcelSheet<CharaMakeCustomize>()) {
-            if (styleRow.Data == 0) continue;
+            if (styleRow.UnlockLink == 0) continue;
 
-            if (!itemDict.TryGetValue(styleRow.Data, out var styleEntry)) {
+            if (!itemDict.TryGetValue(styleRow.UnlockLink, out var styleEntry)) {
                 styleEntry = new HairstyleEntry(styleRow);
                 if (!styleEntry.IsValid()) continue;
 
-                itemDict[styleRow.Data] = styleEntry;
+                itemDict[styleRow.UnlockLink] = styleEntry;
             }
 
             styleIdDict[styleRow.RowId] = styleEntry;
