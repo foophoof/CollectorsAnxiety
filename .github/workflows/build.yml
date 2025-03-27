@@ -15,7 +15,6 @@ jobs:
         dalamud_url:
           - https://goatcorp.github.io/dalamud-distrib/stg/latest.zip
           - https://goatcorp.github.io/dalamud-distrib/latest.zip
-          - https://goatcorp.github.io/dalamud-distrib/api12/latest.zip
     steps:
       - uses: actions/checkout@v4
       - name: Setup .NET
