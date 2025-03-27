@@ -3,6 +3,7 @@ using CollectorsAnxiety.Util;
 using Dalamud.Interface;
 using Dalamud.Interface.Colors;
 using Dalamud.Interface.Utility;
+using Dalamud.Interface.Utility.Raii;
 using ImGuiNET;
 
 namespace CollectorsAnxiety.UI.Tabs;
@@ -20,9 +21,9 @@ public class CrashTab : ITab {
 
     public void Draw() {
         ImGuiHelpers.ScaledDummy(5f);
-        ImGui.PushStyleColor(ImGuiCol.Text, ImGuiColors.DalamudRed);
-        ImGuiUtil.CenteredWrappedText("Ow. Something went wrong.");
-        ImGui.PopStyleColor();
+        using (ImRaii.PushColor(ImGuiCol.Text, ImGuiColors.DalamudRed)) {
+            ImGuiUtil.CenteredWrappedText("Ow. Something went wrong.");
+        }
 
         ImGuiHelpers.ScaledDummy(10f);
 
@@ -40,11 +41,11 @@ public class CrashTab : ITab {
         ImGuiHelpers.ScaledDummy(20f);
 
         ImGui.TextUnformatted("=== Technical Information ===");
-        ImGui.PushFont(UiBuilder.MonoFont);
-        ImGui.BeginChild("##exception", ImGui.GetContentRegionAvail(), false, ImGuiWindowFlags.HorizontalScrollbar);
-        ImGui.TextUnformatted(this._exceptionRecord);
-        ImGui.EndChild();
-        ImGui.PopFont();
+        using (ImRaii.PushFont(UiBuilder.MonoFont)) {
+            using (ImRaii.Child("##exception", ImGui.GetContentRegionAvail(), false, ImGuiWindowFlags.HorizontalScrollbar)) {
+                ImGui.TextUnformatted(this._exceptionRecord);
+            }
+        }
     }
 
     private static string RenderExceptionText(Exception ex) {

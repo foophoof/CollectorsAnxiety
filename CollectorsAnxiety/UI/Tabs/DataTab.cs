@@ -11,6 +11,7 @@ using Dalamud.Interface.Colors;
 using Dalamud.Interface.Components;
 using Dalamud.Interface.Textures;
 using Dalamud.Interface.Utility;
+using Dalamud.Interface.Utility.Raii;
 using ImGuiNET;
 using Lumina.Excel;
 
@@ -148,30 +149,35 @@ public class DataTab<TEntry, TSheet> : IDataTab where TEntry : Unlockable<TSheet
             applicableColumns = applicableColumns.Concat(this.ExtraColumns).ToArray();
         }
 
-        if (ImGui.BeginTable($"##TabTable_{this.GetType().Name}", applicableColumns.Length,
-                ImGuiTableFlags.Borders | ImGuiTableFlags.ScrollY)) {
-            ImGui.TableSetupScrollFreeze(0, 1);
-            foreach (var col in applicableColumns) {
-                ImGui.TableSetupColumn(col.Name, col.Flags, col.Width);
-            }
+        using var table = ImRaii.Table($"##TabTable_{this.GetType().Name}", applicableColumns.Length,
+            ImGuiTableFlags.Borders | ImGuiTableFlags.ScrollY);
+        if (!table)
+            return;
 
-            ImGui.TableHeadersRow();
+        ImGui.TableSetupScrollFreeze(0, 1);
+        foreach (var col in applicableColumns) {
+            ImGui.TableSetupColumn(col.Name, col.Flags, col.Width);
+        }
 
-            // Clipper needs to have an idea of the cell size. This will always be the icon size (48) plus double
-            // padding for table entries.
-            var cellHeight = IconSize + 2 * ImGui.GetStyle().CellPadding.Y;
-            this._clipperPtr.Begin(itemsToRender.Count, cellHeight);
-            while (this._clipperPtr.Step()) {
-                for (var index = this._clipperPtr.DisplayStart; index < this._clipperPtr.DisplayEnd; index++) {
-                    var (unlocked, hidden, item) = itemsToRender[index];
-                    ImGui.TableNextRow(ImGuiTableRowFlags.None, IconSize);
+        ImGui.TableHeadersRow();
 
-                    var censorItem = !unlocked && hideSpoilers;
+        // Clipper needs to have an idea of the cell size. This will always be the icon size (48) plus double
+        // padding for table entries.
+        var cellHeight = IconSize + 2 * ImGui.GetStyle().CellPadding.Y;
+        this._clipperPtr.Begin(itemsToRender.Count, cellHeight);
+        while (this._clipperPtr.Step()) {
+            for (var index = this._clipperPtr.DisplayStart; index < this._clipperPtr.DisplayEnd; index++) {
+                var (unlocked, hidden, item) = itemsToRender[index];
+                ImGui.TableNextRow(ImGuiTableRowFlags.None, IconSize);
 
-                    ImGui.TableSetColumnIndex(0);
-                    ImGui.Dummy(new Vector2(0, 8));
-                    ImGui.Checkbox("", ref unlocked);
-                    if (ImGui.BeginPopupContextItem($"context_{this.GetType().Name}#{item.Id}")) {
+                var censorItem = !unlocked && hideSpoilers;
+
+                ImGui.TableSetColumnIndex(0);
+                ImGui.Dummy(new Vector2(0, 8));
+                ImGui.Checkbox("", ref unlocked);
+
+                using (var popupItem = ImRaii.ContextPopupItem($"context_{this.GetType().Name}#{item.Id}")) {
+                    if (popupItem) {
                         if (ImGui.MenuItem("Hide Entry", "", hidden)) {
                             if (!hidden) {
                                 CollectorsAnxietyPlugin.Instance.Configuration.HideItem(item);
@@ -210,42 +216,38 @@ public class DataTab<TEntry, TSheet> : IDataTab where TEntry : Unlockable<TSheet
 
                             this.DrawDevContextMenuItems(item);
                         }
-
-                        ImGui.EndPopup();
                     }
-
-                    ImGui.TableSetColumnIndex(1);
-                    var iconId = censorItem ? spoilerIconId : item.IconId;
-                    if (iconId != null &&
-                        Injections.TextureProvider.TryGetFromGameIcon(new GameIconLookup(iconId.Value), out var iconTex) &&
-                        iconTex.TryGetWrap(out var icon, out _)) {
-                        ImGui.Image(icon.ImGuiHandle, new Vector2(IconSize));
-                    }
-
-                    ImGui.TableSetColumnIndex(2);
-                    ImGui.Text($"#{item.Id}");
-
-                    ImGui.TableSetColumnIndex(3);
-                    ImGui.Text(censorItem ? "Not yet obtained!" : item.Name);
-                    if (hidden) {
-                        ImGui.SameLine();
-                        ImGui.TextColored(ImGuiColors.DalamudGrey3, "(Hidden)");
-                    }
-
-                    if (!censorItem) {
-                        this.DrawEntryIcons(item);
-
-                        var tagline = this.GetTagline(item);
-                        if (tagline != null) {
-                            ImGui.TextColored(ImGuiColors.DalamudGrey2, tagline);
-                        }
-                    }
-
-                    this.DrawExtraColumns(item);
                 }
-            }
 
-            ImGui.EndTable();
+                ImGui.TableSetColumnIndex(1);
+                var iconId = censorItem ? spoilerIconId : item.IconId;
+                if (iconId != null &&
+                    Injections.TextureProvider.TryGetFromGameIcon(new GameIconLookup(iconId.Value), out var iconTex) &&
+                    iconTex.TryGetWrap(out var icon, out _)) {
+                    ImGui.Image(icon.ImGuiHandle, new Vector2(IconSize));
+                }
+
+                ImGui.TableSetColumnIndex(2);
+                ImGui.Text($"#{item.Id}");
+
+                ImGui.TableSetColumnIndex(3);
+                ImGui.Text(censorItem ? "Not yet obtained!" : item.Name);
+                if (hidden) {
+                    ImGui.SameLine();
+                    ImGui.TextColored(ImGuiColors.DalamudGrey3, "(Hidden)");
+                }
+
+                if (!censorItem) {
+                    this.DrawEntryIcons(item);
+
+                    var tagline = this.GetTagline(item);
+                    if (tagline != null) {
+                        ImGui.TextColored(ImGuiColors.DalamudGrey2, tagline);
+                    }
+                }
+
+                this.DrawExtraColumns(item);
+            }
         }
     }
 

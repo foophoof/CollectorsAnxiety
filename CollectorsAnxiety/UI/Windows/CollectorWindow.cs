@@ -8,6 +8,7 @@ using CollectorsAnxiety.UI.Tabs;
 using CollectorsAnxiety.Util;
 using Dalamud.Interface.Colors;
 using Dalamud.Interface.Utility;
+using Dalamud.Interface.Utility.Raii;
 using Dalamud.Interface.Windowing;
 using ImGuiNET;
 
@@ -64,19 +65,22 @@ public class CollectorWindow : Window {
         var pbs = ImGuiHelpers.GetButtonSize(".");
 
         if (!Injections.ClientState.IsLoggedIn || Injections.ClientState.LocalPlayer == null) {
-            ImGui.PushStyleColor(ImGuiCol.Text, ImGuiColors.DalamudOrange);
-            ImGuiUtil.CenteredWrappedText("WARNING: A player is not logged in. Data may be invalid or incomplete.");
-            ImGui.PopStyleColor();
+            using (ImRaii.PushColor(ImGuiCol.Text, ImGuiColors.DalamudOrange)) {
+                ImGuiUtil.CenteredWrappedText("WARNING: A player is not logged in. Data may be invalid or incomplete.");
+            }
         }
 
-        ImGui.BeginTabBar("mainBar", ImGuiTabBarFlags.FittingPolicyScroll | ImGuiTabBarFlags.TabListPopupButton);
+        using (ImRaii.TabBar("mainBar", ImGuiTabBarFlags.FittingPolicyScroll | ImGuiTabBarFlags.TabListPopupButton)) {
+            foreach (var tab in this._tabs) {
+                using var tabItem = ImRaii.TabItem($"{tab.Name}###{tab.GetType().Name}");
+                if (!tabItem)
+                    continue;
 
-        foreach (var tab in this._tabs) {
-            if (ImGui.BeginTabItem($"{tab.Name}###{tab.GetType().Name}")) {
                 var childSize = ImGui.GetContentRegionAvail();
                 var style = ImGui.GetStyle();
                 var paddedY = childSize.Y - pbs.Y - 3 * style.ItemSpacing.Y + 2 * style.FramePadding.Y;
-                ImGui.BeginChild($"##tabChild-{tab.GetType().Name}", childSize with {Y = paddedY});
+
+                using var child = ImRaii.Child($"##tabChild-{tab.GetType().Name}", childSize with {Y = paddedY});
 
                 var tabToDraw = tab;
 
@@ -96,14 +100,8 @@ public class CollectorWindow : Window {
                 }
 
                 this._stopwatch.Stop();
-
-                ImGui.EndChild();
-
-                ImGui.EndTabItem();
             }
         }
-
-        ImGui.EndTabBar();
 
         ImGui.Separator();
 
