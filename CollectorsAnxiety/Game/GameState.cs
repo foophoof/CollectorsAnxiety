@@ -1,7 +1,4 @@
-using System;
-using Dalamud.Plugin.Services;
 using FFXIVClientStructs.FFXIV.Client.Game.UI;
-using FFXIVClientStructs.FFXIV.Component.Exd;
 using Lumina.Excel.Sheets;
 
 namespace CollectorsAnxiety.Game;
@@ -9,72 +6,64 @@ namespace CollectorsAnxiety.Game;
 // Borrowed from XIVDeck, which borrowed it from Goat.
 // It has been double ruined from the beauty that was found in Wotsit.
 
-internal unsafe class GameState : IDisposable {
-    internal GameState(IGameInteropProvider gameInteropProvider) {
-        gameInteropProvider.InitializeFromAttributes(this);
-    }
-
-    public void Dispose() {
-        GC.SuppressFinalize(this);
-    }
-
-    internal bool IsUnlockLinkUnlocked(uint unlockLink) {
+public unsafe class GameState {
+    internal static bool IsUnlockLinkUnlocked(uint unlockLink) {
         return UIState.Instance()->IsUnlockLinkUnlocked(unlockLink);
     }
 
-    internal bool IsEmoteUnlocked(Emote emote) {
+    internal static bool IsEmoteUnlocked(Emote emote) {
         return UIState.Instance()->IsUnlockLinkUnlockedOrQuestCompleted(emote.UnlockLink, 1);
     }
 
-    internal bool IsMountUnlocked(uint mountId) {
+    internal static bool IsMountUnlocked(uint mountId) {
         return PlayerState.Instance()->IsMountUnlocked(mountId);
     }
 
-    internal bool IsMinionUnlocked(uint minionId) {
+    internal static bool IsMinionUnlocked(uint minionId) {
         return UIState.Instance()->IsCompanionUnlocked(minionId);
     }
 
-    internal bool IsOrnamentUnlocked(uint ornamentId) {
+    internal static bool IsOrnamentUnlocked(uint ornamentId) {
         return PlayerState.Instance()->IsOrnamentUnlocked(ornamentId);
     }
 
-    internal bool IsBuddyEquipUnlocked(uint equipId) {
+    internal static bool IsBuddyEquipUnlocked(uint equipId) {
         return UIState.Instance()->Buddy.CompanionInfo.IsBuddyEquipUnlocked(equipId);
     }
 
-    internal bool IsOrchestrionUnlocked(uint orchestrionId) {
+    internal static bool IsOrchestrionUnlocked(uint orchestrionId) {
         return PlayerState.Instance()->IsOrchestrionRollUnlocked(orchestrionId);
     }
 
-    internal bool IsMasterTomeUnlocked(uint tomeId) {
+    internal static bool IsMasterTomeUnlocked(uint tomeId) {
         return PlayerState.Instance()->IsSecretRecipeBookUnlocked(tomeId);
     }
 
-    internal bool IsFolkloreTomeUnlocked(uint tomeId) {
+    internal static bool IsFolkloreTomeUnlocked(uint tomeId) {
         return PlayerState.Instance()->IsFolkloreBookUnlocked(tomeId);
     }
 
-    internal bool IsFramersKitUnlocked(uint kitId) {
+    internal static bool IsFramersKitUnlocked(uint kitId) {
         return PlayerState.Instance()->IsFramersKitUnlocked(kitId);
     }
 
-    internal bool IsInArmoire(uint armoireEntryId) {
+    internal static bool IsInArmoire(uint armoireEntryId) {
         return UIState.Instance()->Cabinet.IsItemInCabinet((int) armoireEntryId);
     }
 
-    internal bool IsArmoirePopulated() {
+    internal static bool IsArmoirePopulated() {
         return UIState.Instance()->Cabinet.IsCabinetLoaded();
     }
 
-    internal bool IsDutyUnlocked(uint dutyId) {
+    internal static bool IsDutyUnlocked(uint dutyId) {
         return UIState.IsInstanceContentUnlocked(dutyId);
     }
 
-    internal bool IsDutyCompleted(uint dutyId) {
+    internal static bool IsDutyCompleted(uint dutyId) {
         return UIState.IsInstanceContentCompleted(dutyId);
     }
 
-    internal bool IsGlassesUnlocked(ushort glassesId) {
+    internal static bool IsGlassesUnlocked(ushort glassesId) {
         return PlayerState.Instance()->IsGlassesUnlocked(glassesId);
     }
 }

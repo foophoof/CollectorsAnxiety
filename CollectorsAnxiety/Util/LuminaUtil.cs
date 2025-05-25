@@ -1,4 +1,3 @@
-using CollectorsAnxiety.Base;
 using Lumina.Excel.Sheets;
 
 namespace CollectorsAnxiety.Util;

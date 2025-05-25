@@ -1,49 +1,57 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using CollectorsAnxiety.Base;
+using System.Threading;
+using System.Threading.Tasks;
+using Dalamud.Plugin;
 using Dalamud.Plugin.Ipc;
+using Dalamud.Plugin.Services;
+using Microsoft.Extensions.Hosting;
 
 namespace CollectorsAnxiety.IPC.Subscribers;
 
-internal class TippyIPC : IPluginIpcClient {
-    public bool Enabled { get; private set; }
+internal class TippyIPC : IHostedService {
 
     private ICallGateSubscriber<int>? _tippyApiVersionSubscriber;
     private ICallGateSubscriber<string, bool>? _tippyRegisterTipSubscriber;
 
-    private readonly ICallGateSubscriber<bool> _tippyRegisteredSubscriber;
+    private ICallGateSubscriber<bool>? _tippyRegisteredSubscriber;
 
-    internal TippyIPC() {
+    public required IPluginLog PluginLog { protected get; init; }
+    public required IDalamudPluginInterface PluginInterface { protected get; init; }
+
+    public Task StartAsync(CancellationToken cancellationToken) {
         try {
             this._initializeIpc();
         } catch (Exception ex) {
-            Injections.PluginLog.Warning(ex, "Failed to initialize Tippy IPC");
+            this.PluginLog.Warning(ex, "Failed to initialize Tippy IPC");
         }
 
         // doesn't exist, but just in case.
-        this._tippyRegisteredSubscriber = Injections.PluginInterface.GetIpcSubscriber<bool>("Tippy.Initialized");
+        this._tippyRegisteredSubscriber = this.PluginInterface.GetIpcSubscriber<bool>("Tippy.Initialized");
         this._tippyRegisteredSubscriber.Subscribe(this._initializeIpc);
+
+        return Task.CompletedTask;
     }
 
-    public void Dispose() {
-        this._tippyRegisteredSubscriber.Unsubscribe(this._initializeIpc);
+    public Task StopAsync(CancellationToken cancellationToken) {
+        this._tippyRegisteredSubscriber?.Unsubscribe(this._initializeIpc);
 
         this._tippyApiVersionSubscriber = null;
         this._tippyRegisterTipSubscriber = null;
 
-        GC.SuppressFinalize(this);
+        return Task.CompletedTask;
     }
 
     public int Version => this._tippyApiVersionSubscriber?.InvokeFunc() ?? 0;
 
     private void _initializeIpc() {
-        if (Injections.PluginInterface.InstalledPlugins.All(p => p.Name != "Tippy")) {
-            Injections.PluginLog.Debug("Tippy was not found, will not create IPC at this time");
+        if (this.PluginInterface.InstalledPlugins.All(p => p.Name != "Tippy")) {
+            this.PluginLog.Debug("Tippy was not found, will not create IPC at this time");
             return;
         }
 
-        var versionEndpoint = Injections.PluginInterface.GetIpcSubscriber<int>("Tippy.APIVersion");
+        var versionEndpoint = this.PluginInterface.GetIpcSubscriber<int>("Tippy.APIVersion");
 
         // this line may explode with an exception, but that should be fine as we'd normally catch that.
         var version = versionEndpoint.InvokeFunc();
@@ -52,13 +60,12 @@ internal class TippyIPC : IPluginIpcClient {
 
         if (version == 1) {
             this._tippyRegisterTipSubscriber =
-                Injections.PluginInterface.GetIpcSubscriber<string, bool>("Tippy.RegisterTip");
-            this.Enabled = true;
-            Injections.PluginLog.Information("Enabled Tippy IPC connection!");
+                this.PluginInterface.GetIpcSubscriber<string, bool>("Tippy.RegisterTip");
+            this.PluginLog.Information("Enabled Tippy IPC connection!");
 
             this.RegisterTips();
         } else if (version > 0) {
-            Injections.PluginLog.Warning($"Tippy IPC detected, but version {version} is incompatible!");
+            this.PluginLog.Warning($"Tippy IPC detected, but version {version} is incompatible!");
         }
     }
 

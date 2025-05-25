@@ -1,6 +1,7 @@
 using System.Globalization;
 using System.Numerics;
 using CollectorsAnxiety.Base;
+using CollectorsAnxiety.Services;
 using Dalamud.Interface.Colors;
 using Dalamud.Interface.Components;
 using Dalamud.Interface.Utility;
@@ -13,13 +14,15 @@ public class SettingsTab : ITab {
     public string Name => $"Settings###{nameof(SettingsTab)}";
 
     private readonly PluginConfig _config;
+    private readonly ConfigurationLoaderService _configurationLoaderService;
 
     // settings cache
     private bool _hideSpoilers;
     private bool _hiddenItemsInOverview;
 
-    public SettingsTab() {
-        this._config = CollectorsAnxietyPlugin.Instance.Configuration;
+    public SettingsTab(PluginConfig pluginConfig, ConfigurationLoaderService configurationLoaderService) {
+        this._config = pluginConfig;
+        this._configurationLoaderService = configurationLoaderService;
 
         this._hideSpoilers = this._config.HideSpoilers;
         this._hiddenItemsInOverview = this._config.CountHiddenItemsInOverview;
@@ -39,7 +42,7 @@ public class SettingsTab : ITab {
             using (ImRaii.PushIndent()) {
                 if (ImGui.Checkbox("Spoiler-Free Mode", ref this._hideSpoilers)) {
                     this._config.HideSpoilers = this._hideSpoilers;
-                    this._config.Save();
+                    this._configurationLoaderService.Save();
                 }
 
                 ImGuiComponents.HelpMarker(
@@ -47,7 +50,7 @@ public class SettingsTab : ITab {
 
                 if (ImGui.Checkbox("Count Hidden Items in Overview", ref this._hiddenItemsInOverview)) {
                     this._config.CountHiddenItemsInOverview = this._hiddenItemsInOverview;
-                    this._config.Save();
+                    this._configurationLoaderService.Save();
                 }
 
                 ImGuiComponents.HelpMarker(
@@ -60,7 +63,7 @@ public class SettingsTab : ITab {
             using (ImRaii.PushIndent()) {
                 if (ImGui.Button("Unhide All Items")) {
                     this._config.HiddenItems.Clear();
-                    this._config.Save();
+                    this._configurationLoaderService.Save();
                 }
             }
         }

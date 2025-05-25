@@ -1,3 +1,4 @@
+using CollectorsAnxiety.Game;
 using CollectorsAnxiety.Util;
 using Dalamud.Utility;
 using Lumina.Excel.Sheets;
@@ -14,11 +15,11 @@ public class DutyEntry : Unlockable<ContentFinderCondition> {
     public override uint? IconId => this.GetIconId();
 
     public override bool IsUnlocked() {
-        return CollectorsAnxietyPlugin.Instance.GameState.IsDutyUnlocked(this.LuminaEntry.Content.RowId);
+        return GameState.IsDutyUnlocked(this.LuminaEntry.Content.RowId);
     }
 
     public bool IsCompleted() {
-        return CollectorsAnxietyPlugin.Instance.GameState.IsDutyCompleted(this.LuminaEntry.Content.RowId);
+        return GameState.IsDutyCompleted(this.LuminaEntry.Content.RowId);
     }
 
     public override bool IsValid() {

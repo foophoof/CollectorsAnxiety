@@ -1,16 +1,17 @@
+using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
-using CollectorsAnxiety.Base;
 using CollectorsAnxiety.Game;
+using Dalamud.Plugin.Services;
 using Lumina.Excel;
 using Lumina.Excel.Sheets;
 
 namespace CollectorsAnxiety.Data.Unlockables;
 
 public class HairstyleEntry : Unlockable<CharaMakeCustomize> {
-    public HairstyleEntry(CharaMakeCustomize excelRow) : base(excelRow) {
+    public HairstyleEntry(CharaMakeCustomize excelRow, UnlockItemCache unlockItemCache) : base(excelRow) {
         this.Id = this.LuminaEntry.UnlockLink;
-        this.UnlockItem = CollectorsAnxietyPlugin.Instance.UnlockItemCache.GetItemForUnlockLink(excelRow.UnlockLink);
+        this.UnlockItem = unlockItemCache.GetItemForUnlockLink(excelRow.UnlockLink);
     }
 
     public bool WearableByMale;
@@ -30,7 +31,7 @@ public class HairstyleEntry : Unlockable<CharaMakeCustomize> {
     public override Item? UnlockItem { get; }
 
     public override bool IsUnlocked() {
-        return CollectorsAnxietyPlugin.Instance.GameState.IsUnlockLinkUnlocked(this.Id);
+        return GameState.IsUnlockLinkUnlocked(this.Id);
     }
 
     public override bool IsValid() {
@@ -46,6 +47,9 @@ public class HairstyleEntry : Unlockable<CharaMakeCustomize> {
 }
 
 public class HairstyleController : Controller<HairstyleEntry, CharaMakeCustomize> {
+    public required Func<CharaMakeCustomize, HairstyleEntry> HairstyleEntryFactory { protected get; init; }
+    public required IDataManager DataManager { protected get; init; }
+
     private ImmutableList<HairstyleEntry>? _itemCache;
 
     public override ImmutableList<HairstyleEntry> GetItems(bool useCache = true) {
@@ -55,11 +59,11 @@ public class HairstyleController : Controller<HairstyleEntry, CharaMakeCustomize
         var itemDict = new Dictionary<uint, HairstyleEntry>();
         var styleIdDict = new Dictionary<uint, HairstyleEntry>();
 
-        foreach (var styleRow in Injections.DataManager.GetExcelSheet<CharaMakeCustomize>()) {
+        foreach (var styleRow in this.Sheet) {
             if (styleRow.UnlockLink == 0) continue;
 
             if (!itemDict.TryGetValue(styleRow.UnlockLink, out var styleEntry)) {
-                styleEntry = new HairstyleEntry(styleRow);
+                styleEntry = this.HairstyleEntryFactory(styleRow);
                 if (!styleEntry.IsValid()) continue;
 
                 itemDict[styleRow.UnlockLink] = styleEntry;
@@ -68,7 +72,7 @@ public class HairstyleController : Controller<HairstyleEntry, CharaMakeCustomize
             styleIdDict[styleRow.RowId] = styleEntry;
         }
 
-        foreach (var row in Injections.DataManager.GetExcelSheet<RawRow>(name: "HairMakeType")) {
+        foreach (var row in this.DataManager.GetExcelSheet<RawRow>(name: "HairMakeType")) {
             var race = (GameCompat.PlayerRace) row.ReadInt32Column(0);
             var gender = (GameCompat.PlayerGender) row.ReadInt8Column(2);
 
