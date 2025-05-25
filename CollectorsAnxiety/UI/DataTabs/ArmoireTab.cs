@@ -1,4 +1,5 @@
 using CollectorsAnxiety.Data.Unlockables;
+using CollectorsAnxiety.Game;
 using CollectorsAnxiety.UI.Tabs;
 using CollectorsAnxiety.Util;
 using Dalamud.Interface.Colors;
@@ -14,7 +15,7 @@ public class ArmoireTab : DataTab<ArmoireEntry, Cabinet> {
     public override bool ShowInOverview => false;
 
     public override void Draw() {
-        if (!CollectorsAnxietyPlugin.Instance.GameState.IsArmoirePopulated()) {
+        if (!GameState.IsArmoirePopulated()) {
             ImGuiHelpers.ScaledDummy(5f);
             using (ImRaii.PushColor(ImGuiCol.Text, ImGuiColors.DalamudYellow)) {
                 ImGuiUtil.CenteredWrappedText("The Armoire is currently not loaded.");

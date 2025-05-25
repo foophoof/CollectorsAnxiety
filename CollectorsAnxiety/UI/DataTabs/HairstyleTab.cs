@@ -10,10 +10,6 @@ using Lumina.Excel.Sheets;
 namespace CollectorsAnxiety.UI.DataTabs;
 
 public class HairstyleTab : DataTab<HairstyleEntry, CharaMakeCustomize> {
-    public HairstyleTab() {
-        this.Controller = new HairstyleController();
-    }
-
     public override string Name => "Appearances";
 
     protected override void DrawEntryIcons(HairstyleEntry entry) {

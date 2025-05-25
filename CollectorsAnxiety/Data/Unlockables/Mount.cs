@@ -1,6 +1,4 @@
-using System.Collections.Generic;
-using System.Linq;
-using CollectorsAnxiety.Base;
+using CollectorsAnxiety.Game;
 using CollectorsAnxiety.Util;
 using Dalamud.Utility;
 using Lumina.Excel.Sheets;
@@ -8,14 +6,10 @@ using Lumina.Excel.Sheets;
 namespace CollectorsAnxiety.Data.Unlockables;
 
 public class MountEntry : Unlockable<Mount> {
-    private static HashSet<Mount> _uniqueMusicMounts = Injections.DataManager.Excel.GetSheet<Mount>()!
-        .GroupBy(n => n.RideBGM.RowId)
-        .Where(g => g.Count() == 1)
-        .Select(g => g.First())
-        .ToHashSet();
-
-    public MountEntry(Mount excelRow) : base(excelRow) {
-        this.UnlockItem = CollectorsAnxietyPlugin.Instance.UnlockItemCache.GetItemForObject(this.LuminaEntry);
+    public required UniqueMusicMounts UniqueMusicMounts { protected get; init; }
+    
+    public MountEntry(Mount excelRow, UnlockItemCache unlockItemCache) : base(excelRow) {
+        this.UnlockItem = unlockItemCache.GetItemForObject(this.LuminaEntry);
 
         this.NumberSeats = this.LuminaEntry.ExtraSeats + 1;
         this.HasActions = this.LuminaEntry.MountAction.RowId != 0;
@@ -32,10 +26,10 @@ public class MountEntry : Unlockable<Mount> {
     public int NumberSeats { get; }
     public bool HasActions { get; }
 
-    public bool HasUniqueMusic => _uniqueMusicMounts.Contains(this.LuminaEntry);
+    public bool HasUniqueMusic => this.UniqueMusicMounts.HasUniqueMusic(this.LuminaEntry);
 
     public override bool IsUnlocked() {
-        return CollectorsAnxietyPlugin.Instance.GameState.IsMountUnlocked(this.Id);
+        return GameState.IsMountUnlocked(this.Id);
     }
 
     public override bool IsValid() {

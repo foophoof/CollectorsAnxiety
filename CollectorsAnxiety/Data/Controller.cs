@@ -2,6 +2,7 @@ using System;
 using System.Collections.Immutable;
 using System.Linq;
 using CollectorsAnxiety.Base;
+using Dalamud.Plugin.Services;
 using Lumina.Excel;
 
 namespace CollectorsAnxiety.Data;
@@ -25,16 +26,17 @@ public class Controller<TEntry, TSheet> : IController where TEntry : Unlockable<
 
     private ImmutableList<TEntry>? _itemCache;
 
-    private static ExcelSheet<TSheet> GetSheet() {
-        return Injections.DataManager.GetExcelSheet<TSheet>();
-    }
+    public required PluginConfig PluginConfig { protected get; init; }
+    public required ExcelSheet<TSheet> Sheet { protected get; init; }
+    public required IPluginLog PluginLog { protected get; init; }
+    public required Func<TSheet, TEntry> EntryFactory { protected get; init; }
 
     public (int UnlockedCount, int TotalCount) GetCounts(bool respectHidden = true) {
         var unlockedCount = 0;
         var totalCount = 0;
 
         foreach (var item in this.GetItems()) {
-            if (respectHidden && CollectorsAnxietyPlugin.Instance.Configuration.IsItemHidden(item))
+            if (respectHidden && this.PluginConfig.IsItemHidden(item))
                 continue;
 
             if (item.IsUnlocked())
@@ -46,7 +48,7 @@ public class Controller<TEntry, TSheet> : IController where TEntry : Unlockable<
         return (unlockedCount, totalCount);
     }
 
-    public bool ParseTainted => CollectorsAnxietyPlugin.Instance.Configuration.HiddenItems
+    public bool ParseTainted => this.PluginConfig.HiddenItems
         .ContainsKey(typeof(TEntry).Name);
 
     public virtual ImmutableList<TEntry> GetItems(bool useCache = true) {
@@ -54,10 +56,10 @@ public class Controller<TEntry, TSheet> : IController where TEntry : Unlockable<
             return this._itemCache;
         }
 
-        Injections.PluginLog.Debug($"Cache miss or invalidated getting items for {typeof(TEntry).Name}, regenerating list");
+        this.PluginLog.Debug($"Cache miss or invalidated getting items for {typeof(TEntry).Name}, regenerating list");
 
-        this._itemCache = GetSheet()
-            .Select(row => (TEntry) Activator.CreateInstance(typeof(TEntry), row)!)
+        this._itemCache = this.Sheet
+            .Select(this.EntryFactory)
             .Where(entry => entry.IsValid())
             .OrderBy(entry => entry.SortKey)
             .ToImmutableList();

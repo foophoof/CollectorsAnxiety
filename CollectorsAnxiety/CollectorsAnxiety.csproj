@@ -3,4 +3,8 @@
         <PackageProjectUrl>https://github.com/foophoof/CollectorsAnxiety</PackageProjectUrl>
         <Version>0.0.12</Version>
     </PropertyGroup>
+    <ItemGroup>
+        <PackageReference Include="DalaMock.Host" Version="2.2.5"/>
+        <PackageReference Include="DalaMock.Shared" Version="2.2.6"/>
+    </ItemGroup>
 </Project>
