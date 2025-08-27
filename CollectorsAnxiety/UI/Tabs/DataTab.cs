@@ -12,7 +12,7 @@ using Dalamud.Interface.Components;
 using Dalamud.Interface.Textures;
 using Dalamud.Interface.Utility;
 using Dalamud.Interface.Utility.Raii;
-using ImGuiNET;
+using Dalamud.Bindings.ImGui;
 using Lumina.Excel;
 
 namespace CollectorsAnxiety.UI.Tabs;
@@ -72,14 +72,7 @@ public class DataTab<TEntry, TSheet> : IDataTab where TEntry : Unlockable<TSheet
 
     protected DataTab() {
         this.Controller = new Controller<TEntry, TSheet>();
-
-        unsafe {
-            this._clipperPtr = new ImGuiListClipperPtr(ImGuiNative.ImGuiListClipper_ImGuiListClipper());
-        }
-    }
-
-    unsafe ~DataTab() {
-        Marshal.FreeHGlobal(new IntPtr(this._clipperPtr.NativePtr));
+        this._clipperPtr = ImGui.ImGuiListClipper();
     }
 
     public IController GetController() {
@@ -224,7 +217,7 @@ public class DataTab<TEntry, TSheet> : IDataTab where TEntry : Unlockable<TSheet
                 if (iconId != null &&
                     Injections.TextureProvider.TryGetFromGameIcon(new GameIconLookup(iconId.Value), out var iconTex) &&
                     iconTex.TryGetWrap(out var icon, out _)) {
-                    ImGui.Image(icon.ImGuiHandle, new Vector2(IconSize));
+                    ImGui.Image(icon.Handle, new Vector2(IconSize));
                 }
 
                 ImGui.TableSetColumnIndex(2);

@@ -1,6 +1,6 @@
 using Dalamud.Interface.Colors;
 using FFXIVClientStructs.FFXIV.Client.Game.UI;
-using ImGuiNET;
+using Dalamud.Bindings.ImGui;
 
 namespace CollectorsAnxiety.UI.Tabs;
 

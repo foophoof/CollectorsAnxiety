@@ -3,7 +3,7 @@ using CollectorsAnxiety.UI.Windows;
 using CollectorsAnxiety.Util;
 using Dalamud.Interface.Colors;
 using Dalamud.Interface.Utility.Raii;
-using ImGuiNET;
+using Dalamud.Bindings.ImGui;
 
 namespace CollectorsAnxiety.UI.Tabs;
 

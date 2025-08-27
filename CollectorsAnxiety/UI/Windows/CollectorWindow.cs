@@ -10,7 +10,7 @@ using Dalamud.Interface.Colors;
 using Dalamud.Interface.Utility;
 using Dalamud.Interface.Utility.Raii;
 using Dalamud.Interface.Windowing;
-using ImGuiNET;
+using Dalamud.Bindings.ImGui;
 
 namespace CollectorsAnxiety.UI.Windows;
 
@@ -70,7 +70,7 @@ public class CollectorWindow : Window {
             }
         }
 
-        using (ImRaii.TabBar("mainBar", ImGuiTabBarFlags.FittingPolicyScroll | ImGuiTabBarFlags.TabListPopupButton)) {
+        using (ImRaii.TabBar("mainBar", ImGuiTabBarFlags.FittingPolicyScroll | ImGuiTabBarFlags.ListPopupButton)) {
             foreach (var tab in this._tabs) {
                 using var tabItem = ImRaii.TabItem($"{tab.Name}###{tab.GetType().Name}");
                 if (!tabItem)
