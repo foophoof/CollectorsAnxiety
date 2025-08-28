@@ -1,3 +1,4 @@
+using CollectorsAnxiety.Game;
 using CollectorsAnxiety.Util;
 using Lumina.Excel.Sheets;
 
@@ -20,7 +21,7 @@ public class ArmoireEntry : Unlockable<Cabinet> {
     public override uint SortKey => this.LuminaEntry.Order;
 
     public override bool IsUnlocked() {
-        return CollectorsAnxietyPlugin.Instance.GameState.IsInArmoire(this.Id);
+        return GameState.IsInArmoire(this.Id);
     }
 
     public override bool IsValid() {

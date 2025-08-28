@@ -2,7 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Numerics;
+using Autofac.Features.Indexed;
 using CollectorsAnxiety.Base;
+using CollectorsAnxiety.Services;
 using CollectorsAnxiety.UI.DataTabs;
 using CollectorsAnxiety.UI.Tabs;
 using CollectorsAnxiety.Util;
@@ -10,35 +12,51 @@ using Dalamud.Interface.Colors;
 using Dalamud.Interface.Utility;
 using Dalamud.Interface.Utility.Raii;
 using Dalamud.Interface.Windowing;
+using Dalamud.Plugin;
+using Dalamud.Plugin.Services;
 using Dalamud.Bindings.ImGui;
 
 namespace CollectorsAnxiety.UI.Windows;
 
 public class CollectorWindow : Window {
     public static string WindowKey => "Collector's Anxiety###mainWindow";
+    
+    public required IClientState ClientState { protected get; init; }
+    public required IPluginLog PluginLog { protected get; init; }
+    public required IDalamudPluginInterface PluginInterface { protected get; init; }
 
-    public CollectorWindow() : base(WindowKey) {
+    public CollectorWindow(
+        IIndex<string, IDataTab> dataTabs,
+        OverviewTab overviewTab,
+        SettingsTab settingsTab,
+        DevTab devTab
+    ) : base(WindowKey) {
         this.SizeCondition = ImGuiCond.FirstUseEver;
         this.SizeConstraints = new WindowSizeConstraints {
             MinimumSize = new Vector2(640, 480),
             MaximumSize = new Vector2(1024, 768)
         };
-    }
 
-    public readonly List<IDataTab> DataTabs = new() {
-        new EmoteTab(),
-        new MountTab(),
-        new MinionTab(),
-        new BuddyEquipTab(),
-        new HairstyleTab(),
-        new TomesTab(),
-        new ArmoireTab(),
-        new DutyTab(),
-        new OrchestrionTab(),
-        new OrnamentTab(),
-        new FramersKitTab(),
-        new GlassesTab()
-    };
+        this._tabs = [
+            overviewTab,
+            dataTabs["Emote"],
+            dataTabs["Mount"],
+            dataTabs["Minion"],
+            dataTabs["BuddyEquip"],
+            dataTabs["Hairstyle"],
+            dataTabs["Tomes"],
+            dataTabs["Armoire"],
+            dataTabs["Duty"],
+            dataTabs["Orchestrion"],
+            dataTabs["Ornament"],
+            dataTabs["FramersKit"],
+            dataTabs["Glasses"],
+            settingsTab,
+        ];
+#if DEBUG
+        this._tabs.Add(devTab);
+#endif
+    }
 
     private readonly List<ITab> _tabs = new();
     private readonly Stopwatch _stopwatch = new();
@@ -46,25 +64,11 @@ public class CollectorWindow : Window {
 
     private readonly Dictionary<ITab, CrashTab> _crashTabs = new();
 
-    public override void OnOpen() {
-        base.OnOpen();
-
-        // Load in tabs if none are found, somehow.
-        if (this._tabs.Count == 0) {
-            this._tabs.Add(new OverviewTab(this));
-            this._tabs.AddRange(this.DataTabs);
-            this._tabs.Add(new SettingsTab());
-#if DEBUG
-            this._tabs.Add(new DevTab());
-#endif
-        }
-    }
-
     public override void Draw() {
         this.WindowName = WindowKey;
         var pbs = ImGuiHelpers.GetButtonSize(".");
 
-        if (!Injections.ClientState.IsLoggedIn || Injections.ClientState.LocalPlayer == null) {
+        if (!this.ClientState.IsLoggedIn || this.ClientState.LocalPlayer == null) {
             using (ImRaii.PushColor(ImGuiCol.Text, ImGuiColors.DalamudOrange)) {
                 ImGuiUtil.CenteredWrappedText("WARNING: A player is not logged in. Data may be invalid or incomplete.");
             }
@@ -95,7 +99,7 @@ public class CollectorWindow : Window {
                     // check if things are ***really*** broken
                     if (tabToDraw is CrashTab) throw;
 
-                    Injections.PluginLog.Error(ex, $"Error drawing tab {tabToDraw.Name}!");
+                    this.PluginLog.Error(ex, $"Error drawing tab {tabToDraw.Name}!");
                     this._crashTabs[tab] = new CrashTab(tab, ex);
                 }
 
@@ -107,7 +111,7 @@ public class CollectorWindow : Window {
 
         ImGui.TextColored(ImGuiColors.DalamudGrey2, $"v{this._versionString}");
 
-        if (Injections.PluginInterface.IsDevMenuOpen || Injections.PluginInterface.IsDev) {
+        if (this.PluginInterface.IsDevMenuOpen || this.PluginInterface.IsDev) {
             ImGui.SameLine();
             var stopwatchTime = this._stopwatch.ElapsedTicks / (double) 10000;
             var framerate = ImGui.GetIO().Framerate;

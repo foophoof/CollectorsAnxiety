@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
-using CollectorsAnxiety.Base;
+using Dalamud.Plugin.Services;
 using Lumina.Excel;
 using Lumina.Excel.Sheets;
 
@@ -16,14 +16,14 @@ public class UnlockItemCache {
 
     private readonly Dictionary<(string UnlockableType, uint UnlockableId), Item> _cache = new();
 
-    public UnlockItemCache() {
-        this.LoadCache();
+    public UnlockItemCache(IPluginLog pluginLog, IDataManager dataManager) {
+        this.LoadCache(pluginLog, dataManager);
     }
 
-    private void LoadCache(bool force = false) {
+    private void LoadCache(IPluginLog pluginLog, IDataManager dataManager, bool force = false) {
         if (this._cache.Count != 0 && !force) return;
 
-        var itemSheet = Injections.DataManager.Excel.GetSheet<Item>();
+        var itemSheet = dataManager.Excel.GetSheet<Item>();
 
         foreach (var item in itemSheet) {
             if (BlockedItemIds.Contains(item.RowId)) continue;
@@ -68,7 +68,7 @@ public class UnlockItemCache {
             }
         }
 
-        Injections.PluginLog.Debug($"Loaded {this._cache.Count} unlockable items into cache.");
+        pluginLog.Debug($"Loaded {this._cache.Count} unlockable items into cache.");
     }
 
     public Item? GetItemForUnlockLink(uint unlockLink) {

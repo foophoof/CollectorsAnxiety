@@ -1,10 +1,11 @@
+using CollectorsAnxiety.Game;
 using Lumina.Excel.Sheets;
 
 namespace CollectorsAnxiety.Data.Unlockables;
 
 public class BardingEntry : Unlockable<BuddyEquip> {
-    public BardingEntry(BuddyEquip excelRow) : base(excelRow) {
-        this.UnlockItem = CollectorsAnxietyPlugin.Instance.UnlockItemCache.GetItemForObject(excelRow);
+    public BardingEntry(BuddyEquip excelRow, UnlockItemCache unlockItemCache) : base(excelRow) {
+        this.UnlockItem = unlockItemCache.GetItemForObject(excelRow);
     }
 
     public override string Name => this.LuminaEntry.Name.ExtractText();
@@ -16,7 +17,7 @@ public class BardingEntry : Unlockable<BuddyEquip> {
     public override uint SortKey => this.LuminaEntry.Order;
 
     public override bool IsUnlocked() {
-        return CollectorsAnxietyPlugin.Instance.GameState.IsBuddyEquipUnlocked(this.Id);
+        return GameState.IsBuddyEquipUnlocked(this.Id);
     }
 
     public override bool IsValid() {

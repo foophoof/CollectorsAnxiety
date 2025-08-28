@@ -1,5 +1,7 @@
+using System.Collections.Generic;
 using System.Linq;
-using CollectorsAnxiety.UI.Windows;
+using Autofac.Features.Indexed;
+using CollectorsAnxiety.Base;
 using CollectorsAnxiety.Util;
 using Dalamud.Interface.Colors;
 using Dalamud.Interface.Utility.Raii;
@@ -7,21 +9,34 @@ using Dalamud.Bindings.ImGui;
 
 namespace CollectorsAnxiety.UI.Tabs;
 
-public class OverviewTab : ITab {
-    private readonly CollectorWindow _baseWindow;
-
-    public OverviewTab(CollectorWindow window) {
-        this._baseWindow = window;
-    }
+public class OverviewTab(IIndex<string, IDataTab> dataTabs) : ITab {
 
     public string Name => "Overview";
+    
+    public required PluginConfig PluginConfig { protected get; init; }
+
+    private readonly List<IDataTab> DataTabs = [
+        dataTabs["Emote"],
+        dataTabs["Mount"],
+        dataTabs["Minion"],
+        dataTabs["BuddyEquip"],
+        dataTabs["Hairstyle"],
+        dataTabs["Tomes"],
+        dataTabs["Armoire"],
+        dataTabs["Duty"],
+        dataTabs["Orchestrion"],
+        dataTabs["Ornament"],
+        dataTabs["FramersKit"],
+        dataTabs["Glasses"],
+    ];
+
     public void Draw() {
         var grandTotalUnlocked = 0;
         var grandTotalItems = 0;
         var tainted = false;
 
-        var labelWidth = this._baseWindow.DataTabs.Max(t => ImGui.CalcTextSize(t.Name).X) + 10;
-        var forceShowHidden = CollectorsAnxietyPlugin.Instance.Configuration.CountHiddenItemsInOverview;
+        var labelWidth = this.DataTabs.Max(t => ImGui.CalcTextSize(t.Name).X) + 10;
+        var forceShowHidden = this.PluginConfig.CountHiddenItemsInOverview;
 
         using (var table = ImRaii.Table("##overview", 2)) {
             if (table) {
@@ -30,7 +45,7 @@ public class OverviewTab : ITab {
                 // ImGui.TableHeadersRow();
                 ImGui.TableNextRow();
 
-                foreach (var tab in this._baseWindow.DataTabs) {
+                foreach (var tab in this.DataTabs) {
                     if (!tab.ShowInOverview) continue;
 
                     var controller = tab.GetController();

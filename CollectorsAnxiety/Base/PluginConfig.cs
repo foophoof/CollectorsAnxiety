@@ -13,14 +13,6 @@ public class PluginConfig : IPluginConfiguration {
     public bool HideSpoilers { get; set; } = true;
     public bool CountHiddenItemsInOverview { get; set; } = false;
 
-    public PluginConfig() {
-        this.PerformCleanups();
-    }
-
-    public void Save() {
-        Injections.PluginInterface.SavePluginConfig(this);
-    }
-
     public bool IsItemHidden<T>(T entry) where T : IUnlockable {
         var entryKey = typeof(T).Name;
 
@@ -34,7 +26,6 @@ public class PluginConfig : IPluginConfiguration {
             thisSet = this.HiddenItems[entryKey] = new HashSet<uint>();
 
         thisSet.Add(entry.Id);
-        this.Save();
     }
 
     public void UnhideItem<T>(T entry) where T : IUnlockable {
@@ -46,11 +37,9 @@ public class PluginConfig : IPluginConfiguration {
         if (thisSet.Contains(entry.Id)) thisSet.Remove(entry.Id);
 
         if (thisSet.Count == 0) this.HiddenItems.Remove(entryKey);
-
-        this.Save();
     }
 
-    private void PerformCleanups() {
+    internal bool PerformCleanups() {
         var wasCleanupDone = false;
 
         // Clean up empty hidden items that (somehow) managed to get in to config.
@@ -62,7 +51,6 @@ public class PluginConfig : IPluginConfiguration {
             wasCleanupDone = true;
         }
 
-        if (wasCleanupDone)
-            this.Save();
+        return wasCleanupDone;
     }
 }

@@ -1,3 +1,4 @@
+using CollectorsAnxiety.Game;
 using CollectorsAnxiety.Util;
 using Lumina.Excel.Sheets;
 
@@ -16,7 +17,7 @@ public class FramersKitEntry : Unlockable<Item> {
     public override uint? IconId => this.LuminaEntry.Icon;
 
     public override bool IsUnlocked() {
-        return CollectorsAnxietyPlugin.Instance.GameState.IsFramersKitUnlocked(this.LuminaEntry.AdditionalData.RowId);
+        return GameState.IsFramersKitUnlocked(this.LuminaEntry.AdditionalData.RowId);
     }
 
     public override bool IsValid() {

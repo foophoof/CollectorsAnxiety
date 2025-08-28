@@ -5,6 +5,7 @@ using System.Numerics;
 using System.Runtime.InteropServices;
 using CollectorsAnxiety.Base;
 using CollectorsAnxiety.Data;
+using CollectorsAnxiety.Services;
 using CollectorsAnxiety.Util;
 using Dalamud.Interface;
 using Dalamud.Interface.Colors;
@@ -12,6 +13,8 @@ using Dalamud.Interface.Components;
 using Dalamud.Interface.Textures;
 using Dalamud.Interface.Utility;
 using Dalamud.Interface.Utility.Raii;
+using Dalamud.Plugin;
+using Dalamud.Plugin.Services;
 using Dalamud.Bindings.ImGui;
 using Lumina.Excel;
 
@@ -54,7 +57,7 @@ public class DataTab<TEntry, TSheet> : IDataTab where TEntry : Unlockable<TSheet
     public virtual string Name => "Tab";
     public virtual bool ShowInOverview => true;
 
-    protected Controller<TEntry, TSheet> Controller;
+    public required Controller<TEntry, TSheet> Controller { protected get; init; }
 
     private readonly TableColumn[] _tableColumns = {
         new("Unlocked", ImGuiTableColumnFlags.WidthFixed | ImGuiTableColumnFlags.NoHeaderLabel, 32),
@@ -70,8 +73,14 @@ public class DataTab<TEntry, TSheet> : IDataTab where TEntry : Unlockable<TSheet
 
     private ImGuiListClipperPtr _clipperPtr;
 
-    protected DataTab() {
-        this.Controller = new Controller<TEntry, TSheet>();
+    public required PluginConfig PluginConfig { protected get; init; }
+    public required ConfigurationLoaderService ConfigurationLoaderService { protected get; init; }
+    public required IClientState ClientState { protected get; init; }
+    public required IChatGui ChatGui { protected get; init; }
+    public required IDalamudPluginInterface PluginInterface { protected get; init; }
+    public required ITextureProvider TextureProvider { protected get; init; }
+
+    protected DataTab() { 
         this._clipperPtr = ImGui.ImGuiListClipper();
     }
 
@@ -80,7 +89,7 @@ public class DataTab<TEntry, TSheet> : IDataTab where TEntry : Unlockable<TSheet
     }
 
     public virtual void Draw() {
-        var hideSpoilers = CollectorsAnxietyPlugin.Instance.Configuration.HideSpoilers;
+        var hideSpoilers = this.PluginConfig.HideSpoilers;
         uint? spoilerIconId = null;
         if (hideSpoilers)
             spoilerIconId = 000786;
@@ -118,7 +127,7 @@ public class DataTab<TEntry, TSheet> : IDataTab where TEntry : Unlockable<TSheet
         // render.
         foreach (var item in this.Controller.GetItems()) {
             var isItemUnlocked = item.IsUnlocked();
-            var isItemHidden = CollectorsAnxietyPlugin.Instance.Configuration.IsItemHidden(item);
+            var isItemHidden = this.PluginConfig.IsItemHidden(item);
 
             if (!isItemHidden || this._showHidden) totalVisibleItems += 1;
             if (isItemUnlocked && (!isItemHidden || this._showHidden)) unlockedVisibleItems += 1;
@@ -173,9 +182,11 @@ public class DataTab<TEntry, TSheet> : IDataTab where TEntry : Unlockable<TSheet
                     if (popupItem) {
                         if (ImGui.MenuItem("Hide Entry", "", hidden)) {
                             if (!hidden) {
-                                CollectorsAnxietyPlugin.Instance.Configuration.HideItem(item);
+                                this.PluginConfig.HideItem(item);
+                                this.ConfigurationLoaderService.Save();
                             } else {
-                                CollectorsAnxietyPlugin.Instance.Configuration.UnhideItem(item);
+                                this.PluginConfig.UnhideItem(item);
+                                this.ConfigurationLoaderService.Save();
                             }
                         }
 
@@ -195,13 +206,13 @@ public class DataTab<TEntry, TSheet> : IDataTab where TEntry : Unlockable<TSheet
                                     ImGui.MenuItem("View in Universalis"))
                                     ItemLinkUtil.OpenUniversalisLink(item.UnlockItem.Value);
 
-                                if (Injections.ClientState.IsLoggedIn &&
+                                if (this.ClientState.IsLoggedIn &&
                                     ImGui.MenuItem("Link in Chat"))
-                                    ItemLinkUtil.SendChatLink(item.UnlockItem.Value);
+                                    this.ChatGui.SendChatLink(item.UnlockItem.Value);
                             }
                         }
 
-                        if (Injections.PluginInterface.IsDevMenuOpen || Injections.PluginInterface.IsDev) {
+                        if (this.PluginInterface.IsDevMenuOpen || this.PluginInterface.IsDev) {
                             ImGuiHelpers.ScaledDummy(2.0f);
                             ImGui.MenuItem("=== Developer ===", false);
                             ImGui.MenuItem($"Unlock Item ID: {item.UnlockItem?.RowId.ToString() ?? "N/A"}", false);
@@ -215,7 +226,7 @@ public class DataTab<TEntry, TSheet> : IDataTab where TEntry : Unlockable<TSheet
                 ImGui.TableSetColumnIndex(1);
                 var iconId = censorItem ? spoilerIconId : item.IconId;
                 if (iconId != null &&
-                    Injections.TextureProvider.TryGetFromGameIcon(new GameIconLookup(iconId.Value), out var iconTex) &&
+                    this.TextureProvider.TryGetFromGameIcon(new GameIconLookup(iconId.Value), out var iconTex) &&
                     iconTex.TryGetWrap(out var icon, out _)) {
                     ImGui.Image(icon.Handle, new Vector2(IconSize));
                 }

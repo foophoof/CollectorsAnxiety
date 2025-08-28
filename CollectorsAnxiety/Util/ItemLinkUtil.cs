@@ -1,6 +1,6 @@
-﻿using CollectorsAnxiety.Base;
-using Dalamud.Game.Text;
+﻿using Dalamud.Game.Text;
 using Dalamud.Game.Text.SeStringHandling;
+using Dalamud.Plugin.Services;
 using Lumina.Excel.Sheets;
 
 namespace CollectorsAnxiety.Util;
@@ -26,8 +26,8 @@ public static class ItemLinkUtil {
 
     }
 
-    public static void SendChatLink(Item item) {
-        Injections.Chat.Print(new XivChatEntry {
+    public static void SendChatLink(this IChatGui chatGui, Item item) {
+        chatGui.Print(new XivChatEntry {
             Message = SeString.CreateItemLink(item, false),
             Type = XivChatType.Echo
         });

@@ -1,14 +1,15 @@
-using CollectorsAnxiety.Base;
+using CollectorsAnxiety.Game;
 using CollectorsAnxiety.Util;
+using Lumina.Excel;
 using Lumina.Excel.Sheets;
 
 namespace CollectorsAnxiety.Data.Unlockables;
 
 public class OrchestrionEntry : Unlockable<Orchestrion> {
-    public OrchestrionEntry(Orchestrion excelRow) : base(excelRow) {
-        this.UnlockItem = CollectorsAnxietyPlugin.Instance.UnlockItemCache.GetItemForObject(excelRow);
-        this.Category = Injections.DataManager.GetExcelSheet<OrchestrionUiparam>()
-            .GetRow(excelRow.RowId).OrchestrionCategory.Value.Name.ToString();
+    public OrchestrionEntry(Orchestrion excelRow, UnlockItemCache unlockItemCache, ExcelSheet<OrchestrionUiparam> orchestrionUiparamsSheet) :
+        base(excelRow) {
+        this.UnlockItem = unlockItemCache.GetItemForObject(excelRow);
+        this.Category = orchestrionUiparamsSheet.GetRow(excelRow.RowId).OrchestrionCategory.Value.Name.ToString();
     }
 
     public override string Name => this.LuminaEntry.Name.ExtractText().ToTitleCase();
@@ -20,7 +21,7 @@ public class OrchestrionEntry : Unlockable<Orchestrion> {
     public string? Category { get; }
 
     public override bool IsUnlocked() {
-        return CollectorsAnxietyPlugin.Instance.GameState.IsOrchestrionUnlocked(this.Id);
+        return GameState.IsOrchestrionUnlocked(this.Id);
     }
 
     public override bool IsValid() {

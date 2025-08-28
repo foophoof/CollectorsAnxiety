@@ -1,3 +1,4 @@
+using CollectorsAnxiety.Game;
 using CollectorsAnxiety.Util;
 using Dalamud.Utility;
 using Lumina.Excel.Sheets;
@@ -5,8 +6,8 @@ using Lumina.Excel.Sheets;
 namespace CollectorsAnxiety.Data.Unlockables;
 
 public class MinionEntry : Unlockable<Companion> {
-    public MinionEntry(Companion excelRow) : base(excelRow) {
-        this.UnlockItem = CollectorsAnxietyPlugin.Instance.UnlockItemCache.GetItemForObject(excelRow);
+    public MinionEntry(Companion excelRow, UnlockItemCache unlockItemCache) : base(excelRow) {
+        this.UnlockItem = unlockItemCache.GetItemForObject(excelRow);
     }
 
     public override string Name => this.LuminaEntry.Singular.ToDalamudString().ToTitleCase();
@@ -18,7 +19,7 @@ public class MinionEntry : Unlockable<Companion> {
     public override uint SortKey => this.LuminaEntry.Order;
 
     public override bool IsUnlocked() {
-        return CollectorsAnxietyPlugin.Instance.GameState.IsMinionUnlocked(this.Id);
+        return GameState.IsMinionUnlocked(this.Id);
     }
 
     public override bool IsValid() {

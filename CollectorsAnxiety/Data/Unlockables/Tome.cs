@@ -1,3 +1,4 @@
+using CollectorsAnxiety.Game;
 using CollectorsAnxiety.Util;
 using Lumina.Excel.Sheets;
 
@@ -17,8 +18,8 @@ public class TomeEntry : Unlockable<Item> {
 
     public override bool IsUnlocked() {
         return this.LuminaEntry.FilterGroup switch {
-            23 => CollectorsAnxietyPlugin.Instance.GameState.IsMasterTomeUnlocked(this.Id),
-            30 => CollectorsAnxietyPlugin.Instance.GameState.IsFolkloreTomeUnlocked(this.Id),
+            23 => GameState.IsMasterTomeUnlocked(this.Id),
+            30 => GameState.IsFolkloreTomeUnlocked(this.Id),
             _ => false
         };
     }
