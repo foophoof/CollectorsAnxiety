@@ -5,8 +5,10 @@ using Lumina.Excel.Sheets;
 
 namespace CollectorsAnxiety.Data.Unlockables;
 
-public class OrnamentEntry : Unlockable<Ornament> {
-    public OrnamentEntry(Ornament excelRow, UnlockItemCache unlockItemCache) : base(excelRow) {
+public class OrnamentEntry : Unlockable<Ornament>
+{
+    public OrnamentEntry(Ornament excelRow, UnlockItemCache unlockItemCache) : base(excelRow)
+    {
         this.UnlockItem = unlockItemCache.GetItemForObject(excelRow);
     }
 
@@ -16,13 +18,15 @@ public class OrnamentEntry : Unlockable<Ornament> {
 
     public override Item? UnlockItem { get; }
 
-    public override uint SortKey => (uint) this.LuminaEntry.Order;
+    public override uint SortKey => (uint)this.LuminaEntry.Order;
 
-    public override bool IsUnlocked() {
+    public override bool IsUnlocked()
+    {
         return GameState.IsOrnamentUnlocked(this.Id);
     }
 
-    public override bool IsValid() {
+    public override bool IsValid()
+    {
         return this.LuminaEntry.Model > 0;
     }
 }

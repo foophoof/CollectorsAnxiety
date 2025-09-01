@@ -8,29 +8,37 @@ using Microsoft.Extensions.Hosting;
 
 namespace CollectorsAnxiety.Services;
 
-public class ConfigurationLoaderService(IDalamudPluginInterface pluginInterface, IPluginLog pluginLog) : IHostedService {
+public class ConfigurationLoaderService(IDalamudPluginInterface pluginInterface, IPluginLog pluginLog) : IHostedService
+{
     private PluginConfig? _pluginConfig;
 
-    public Task StartAsync(CancellationToken cancellationToken) {
+    public Task StartAsync(CancellationToken cancellationToken)
+    {
         return Task.CompletedTask;
     }
 
-    public Task StopAsync(CancellationToken cancellationToken) {
+    public Task StopAsync(CancellationToken cancellationToken)
+    {
         this.Save();
         pluginLog.Verbose("Stopping configuration loader, saving.");
         return Task.CompletedTask;
     }
 
-    public PluginConfig GetPluginConfig() {
+    public PluginConfig GetPluginConfig()
+    {
         if (this._pluginConfig != null)
             return this._pluginConfig;
 
-        try {
+        try
+        {
             this._pluginConfig = pluginInterface.GetPluginConfig() as PluginConfig ?? new PluginConfig();
-            if (this._pluginConfig.PerformCleanups()) {
+            if (this._pluginConfig.PerformCleanups())
+            {
                 this.Save();
             }
-        } catch (Exception e) {
+        }
+        catch (Exception e)
+        {
             pluginLog.Error(e, "Failed to load configuration");
             this._pluginConfig = new PluginConfig();
         }
@@ -38,7 +46,8 @@ public class ConfigurationLoaderService(IDalamudPluginInterface pluginInterface,
         return this._pluginConfig;
     }
 
-    public void Save() {
+    public void Save()
+    {
         pluginInterface.SavePluginConfig(this.GetPluginConfig());
     }
 }

@@ -8,20 +8,24 @@ using Dalamud.Bindings.ImGui;
 
 namespace CollectorsAnxiety.UI.Tabs;
 
-public class CrashTab : ITab {
+public class CrashTab : ITab
+{
     public string Name => "*thud* Ow.";
 
     private ITab _crashedTab;
     private string _exceptionRecord;
 
-    public CrashTab(ITab tab, Exception ex) {
+    public CrashTab(ITab tab, Exception ex)
+    {
         this._crashedTab = tab;
         this._exceptionRecord = RenderExceptionText(ex);
     }
 
-    public void Draw() {
+    public void Draw()
+    {
         ImGuiHelpers.ScaledDummy(5f);
-        using (ImRaii.PushColor(ImGuiCol.Text, ImGuiColors.DalamudRed)) {
+        using (ImRaii.PushColor(ImGuiCol.Text, ImGuiColors.DalamudRed))
+        {
             ImGuiUtil.CenteredWrappedText("Ow. Something went wrong.");
         }
 
@@ -34,21 +38,25 @@ public class CrashTab : ITab {
 
         ImGuiHelpers.ScaledDummy(5f);
 
-        if (ImGui.Button("Open GitHub Issues Page")) {
+        if (ImGui.Button("Open GitHub Issues Page"))
+        {
             Dalamud.Utility.Util.OpenLink($"{Constants.GITHUB_URL}/issues");
         }
 
         ImGuiHelpers.ScaledDummy(20f);
 
         ImGui.TextUnformatted("=== Technical Information ===");
-        using (ImRaii.PushFont(UiBuilder.MonoFont)) {
-            using (ImRaii.Child("##exception", ImGui.GetContentRegionAvail(), false, ImGuiWindowFlags.HorizontalScrollbar)) {
+        using (ImRaii.PushFont(UiBuilder.MonoFont))
+        {
+            using (ImRaii.Child("##exception", ImGui.GetContentRegionAvail(), false, ImGuiWindowFlags.HorizontalScrollbar))
+            {
                 ImGui.TextUnformatted(this._exceptionRecord);
             }
         }
     }
 
-    private static string RenderExceptionText(Exception ex) {
+    private static string RenderExceptionText(Exception ex)
+    {
         return ex.ToString()
             .Replace(" in ", "\n      in ");
     }

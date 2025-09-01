@@ -5,8 +5,10 @@ using Lumina.Excel.Sheets;
 
 namespace CollectorsAnxiety.Data.Unlockables;
 
-public class EmoteEntry : Unlockable<Emote> {
-    public EmoteEntry(Emote excelRow, UnlockItemCache unlockItemCache) : base(excelRow) {
+public class EmoteEntry : Unlockable<Emote>
+{
+    public EmoteEntry(Emote excelRow, UnlockItemCache unlockItemCache) : base(excelRow)
+    {
         this.UnlockItem = unlockItemCache.GetItemForUnlockLink(this.LuminaEntry.UnlockLink);
     }
 
@@ -21,11 +23,13 @@ public class EmoteEntry : Unlockable<Emote> {
     public string Category => this.LuminaEntry.EmoteCategory.ValueNullable?.Name.ToDalamudString().ToTitleCase() ?? "Unknown";
 
 
-    public override bool IsUnlocked() {
+    public override bool IsUnlocked()
+    {
         return GameState.IsEmoteUnlocked(this.LuminaEntry);
     }
 
-    public override bool IsValid() {
+    public override bool IsValid()
+    {
         return this.LuminaEntry.UnlockLink != 0 && this.LuminaEntry.Order != 0;
     }
 }

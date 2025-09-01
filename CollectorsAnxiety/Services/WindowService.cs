@@ -12,11 +12,14 @@ namespace CollectorsAnxiety.Services;
 public class WindowService(
     IDalamudPluginInterface pluginInterface,
     IEnumerable<Window> pluginWindows,
-    IWindowSystemFactory windowSystemFactory) : IHostedService {
+    IWindowSystemFactory windowSystemFactory) : IHostedService
+{
     private IWindowSystem WindowSystem { get; } = windowSystemFactory.Create("Collector's Anxiety");
 
-    public Task StartAsync(CancellationToken cancellationToken) {
-        foreach (var pluginWindow in pluginWindows) {
+    public Task StartAsync(CancellationToken cancellationToken)
+    {
+        foreach (var pluginWindow in pluginWindows)
+        {
             this.WindowSystem.AddWindow(pluginWindow);
         }
 
@@ -25,7 +28,8 @@ public class WindowService(
         return Task.CompletedTask;
     }
 
-    public Task StopAsync(CancellationToken cancellationToken) {
+    public Task StopAsync(CancellationToken cancellationToken)
+    {
         pluginInterface.UiBuilder.Draw -= this.UiBuilderOnDraw;
 
         this.WindowSystem.RemoveAllWindows();
@@ -33,7 +37,8 @@ public class WindowService(
         return Task.CompletedTask;
     }
 
-    private void UiBuilderOnDraw() {
+    private void UiBuilderOnDraw()
+    {
         this.WindowSystem.Draw();
     }
 }

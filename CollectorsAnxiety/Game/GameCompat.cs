@@ -1,7 +1,9 @@
 namespace CollectorsAnxiety.Game;
 
-public class GameCompat {
-    public enum PlayerRace : uint {
+public class GameCompat
+{
+    public enum PlayerRace : uint
+    {
         Hyur = 1,
         Elezen = 2,
         Lalafell = 3,
@@ -12,7 +14,8 @@ public class GameCompat {
         Viera = 8
     }
 
-    public enum PlayerGender : sbyte {
+    public enum PlayerGender : sbyte
+    {
         Male = 0,
         Female = 1
     }

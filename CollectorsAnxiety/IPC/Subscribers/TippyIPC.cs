@@ -10,7 +10,8 @@ using Microsoft.Extensions.Hosting;
 
 namespace CollectorsAnxiety.IPC.Subscribers;
 
-internal class TippyIPC : IHostedService {
+internal class TippyIPC : IHostedService
+{
 
     private ICallGateSubscriber<int>? _tippyApiVersionSubscriber;
     private ICallGateSubscriber<string, bool>? _tippyRegisterTipSubscriber;
@@ -20,10 +21,14 @@ internal class TippyIPC : IHostedService {
     public required IPluginLog PluginLog { protected get; init; }
     public required IDalamudPluginInterface PluginInterface { protected get; init; }
 
-    public Task StartAsync(CancellationToken cancellationToken) {
-        try {
+    public Task StartAsync(CancellationToken cancellationToken)
+    {
+        try
+        {
             this._initializeIpc();
-        } catch (Exception ex) {
+        }
+        catch (Exception ex)
+        {
             this.PluginLog.Warning(ex, "Failed to initialize Tippy IPC");
         }
 
@@ -34,7 +39,8 @@ internal class TippyIPC : IHostedService {
         return Task.CompletedTask;
     }
 
-    public Task StopAsync(CancellationToken cancellationToken) {
+    public Task StopAsync(CancellationToken cancellationToken)
+    {
         this._tippyRegisteredSubscriber?.Unsubscribe(this._initializeIpc);
 
         this._tippyApiVersionSubscriber = null;
@@ -45,8 +51,10 @@ internal class TippyIPC : IHostedService {
 
     public int Version => this._tippyApiVersionSubscriber?.InvokeFunc() ?? 0;
 
-    private void _initializeIpc() {
-        if (this.PluginInterface.InstalledPlugins.All(p => p.Name != "Tippy")) {
+    private void _initializeIpc()
+    {
+        if (this.PluginInterface.InstalledPlugins.All(p => p.Name != "Tippy"))
+        {
             this.PluginLog.Debug("Tippy was not found, will not create IPC at this time");
             return;
         }
@@ -58,24 +66,30 @@ internal class TippyIPC : IHostedService {
 
         this._tippyApiVersionSubscriber = versionEndpoint;
 
-        if (version == 1) {
+        if (version == 1)
+        {
             this._tippyRegisterTipSubscriber =
                 this.PluginInterface.GetIpcSubscriber<string, bool>("Tippy.RegisterTip");
             this.PluginLog.Information("Enabled Tippy IPC connection!");
 
             this.RegisterTips();
-        } else if (version > 0) {
+        }
+        else if (version > 0)
+        {
             this.PluginLog.Warning($"Tippy IPC detected, but version {version} is incompatible!");
         }
     }
 
-    public bool RegisterTip(string tip) {
+    public bool RegisterTip(string tip)
+    {
         return this._tippyRegisterTipSubscriber?.InvokeFunc(tip) ?? false;
     }
 
-    private void RegisterTips() {
+    private void RegisterTips()
+    {
         var rng = new Random();
-        var tips = new List<string> {
+        var tips = new List<string>
+        {
             "Did you know that certain collectable items can be bought on the marketboard? Contact your server's gil sellers for more information!",
             "Hey guys, Famous YouTuber here. Do you ever get collector's anxiety in huge open-world MMORPGs?",
             "Did you know that the GM command to delete collectables works with no-longer-obtainable items? Ask for a demo!",

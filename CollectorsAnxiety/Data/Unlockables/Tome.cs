@@ -4,8 +4,10 @@ using Lumina.Excel.Sheets;
 
 namespace CollectorsAnxiety.Data.Unlockables;
 
-public class TomeEntry : Unlockable<Item> {
-    public TomeEntry(Item excelRow) : base(excelRow) {
+public class TomeEntry : Unlockable<Item>
+{
+    public TomeEntry(Item excelRow) : base(excelRow)
+    {
         this.Id = excelRow.ItemAction.Value!.Data[0];
         this.UnlockItem = excelRow;
     }
@@ -16,15 +18,18 @@ public class TomeEntry : Unlockable<Item> {
 
     public override uint? IconId => this.LuminaEntry.Icon;
 
-    public override bool IsUnlocked() {
-        return this.LuminaEntry.FilterGroup switch {
+    public override bool IsUnlocked()
+    {
+        return this.LuminaEntry.FilterGroup switch
+        {
             23 => GameState.IsMasterTomeUnlocked(this.Id),
             30 => GameState.IsFolkloreTomeUnlocked(this.Id),
             _ => false
         };
     }
 
-    public override bool IsValid() {
+    public override bool IsValid()
+    {
         return this.LuminaEntry.ItemAction.Value is {Type: 0x100B or 0x858};
     }
 }

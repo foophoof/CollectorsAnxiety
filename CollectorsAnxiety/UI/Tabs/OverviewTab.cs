@@ -9,13 +9,15 @@ using Dalamud.Bindings.ImGui;
 
 namespace CollectorsAnxiety.UI.Tabs;
 
-public class OverviewTab(IIndex<string, IDataTab> dataTabs) : ITab {
+public class OverviewTab(IIndex<string, IDataTab> dataTabs) : ITab
+{
 
     public string Name => "Overview";
-    
+
     public required PluginConfig PluginConfig { protected get; init; }
 
-    private readonly List<IDataTab> DataTabs = [
+    private readonly List<IDataTab> DataTabs =
+    [
         dataTabs["Emote"],
         dataTabs["Mount"],
         dataTabs["Minion"],
@@ -30,7 +32,8 @@ public class OverviewTab(IIndex<string, IDataTab> dataTabs) : ITab {
         dataTabs["Glasses"],
     ];
 
-    public void Draw() {
+    public void Draw()
+    {
         var grandTotalUnlocked = 0;
         var grandTotalItems = 0;
         var tainted = false;
@@ -38,24 +41,28 @@ public class OverviewTab(IIndex<string, IDataTab> dataTabs) : ITab {
         var labelWidth = this.DataTabs.Max(t => ImGui.CalcTextSize(t.Name).X) + 10;
         var forceShowHidden = this.PluginConfig.CountHiddenItemsInOverview;
 
-        using (var table = ImRaii.Table("##overview", 2)) {
-            if (table) {
+        using (var table = ImRaii.Table("##overview", 2))
+        {
+            if (table)
+            {
                 ImGui.TableSetupColumn("Label", ImGuiTableColumnFlags.WidthFixed, labelWidth);
                 ImGui.TableSetupColumn("ProgressBar");
                 // ImGui.TableHeadersRow();
                 ImGui.TableNextRow();
 
-                foreach (var tab in this.DataTabs) {
+                foreach (var tab in this.DataTabs)
+                {
                     if (!tab.ShowInOverview) continue;
 
                     var controller = tab.GetController();
                     var counts = controller.GetCounts(!forceShowHidden);
 
-                    var percentage = counts.UnlockedCount / (double) counts.TotalCount;
+                    var percentage = counts.UnlockedCount / (double)counts.TotalCount;
 
                     ImGui.TableSetColumnIndex(0);
                     ImGui.TextColored(ImGuiUtil.GetBarseColor(percentage), tab.Name);
-                    if (!forceShowHidden && controller.ParseTainted) {
+                    if (!forceShowHidden && controller.ParseTainted)
+                    {
                         ImGui.SameLine();
                         ImGui.TextColored(ImGuiColors.DalamudRed, "*");
                         tainted = true;
@@ -72,8 +79,9 @@ public class OverviewTab(IIndex<string, IDataTab> dataTabs) : ITab {
                 ImGui.TableNextRow();
 
                 ImGui.TableSetColumnIndex(0);
-                ImGui.TextColored(ImGuiUtil.GetBarseColor(grandTotalUnlocked / (double) grandTotalItems), "TOTAL");
-                if (tainted) {
+                ImGui.TextColored(ImGuiUtil.GetBarseColor(grandTotalUnlocked / (double)grandTotalItems), "TOTAL");
+                if (tainted)
+                {
                     ImGui.SameLine();
                     ImGui.TextColored(ImGuiColors.DalamudRed, "*");
                     tainted = true;
@@ -84,7 +92,8 @@ public class OverviewTab(IIndex<string, IDataTab> dataTabs) : ITab {
             }
         }
 
-        if (tainted) {
+        if (tainted)
+        {
             using var indent = ImRaii.PushIndent();
             ImGui.TextColored(ImGuiColors.DalamudRed, "*");
             ImGui.SameLine();

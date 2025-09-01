@@ -7,10 +7,12 @@ using Lumina.Excel.Sheets;
 
 namespace CollectorsAnxiety.UI.DataTabs;
 
-public class MountTab : DataTab<MountEntry, Mount> {
+public class MountTab : DataTab<MountEntry, Mount>
+{
     public override string Name => "Mounts";
 
-    protected override void DrawEntryIcons(MountEntry entry) {
+    protected override void DrawEntryIcons(MountEntry entry)
+    {
         base.DrawEntryIcons(entry);
 
         if (entry.HasActions)
@@ -23,7 +25,8 @@ public class MountTab : DataTab<MountEntry, Mount> {
             ImGuiUtil.HoverMarker(FontAwesomeIcon.Users, $"Mount holds {entry.NumberSeats} players");
     }
 
-    protected override void DrawDevContextMenuItems(MountEntry entry) {
+    protected override void DrawDevContextMenuItems(MountEntry entry)
+    {
         ImGui.MenuItem($"RideBGM ID: {entry.LuminaEntry.RideBGM.RowId}", false);
     }
 }

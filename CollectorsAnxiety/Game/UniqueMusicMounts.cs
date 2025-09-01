@@ -5,18 +5,21 @@ using Lumina.Excel.Sheets;
 
 namespace CollectorsAnxiety.Game;
 
-public class UniqueMusicMounts {
-    public UniqueMusicMounts(ExcelSheet<Mount> mountSheet) {
+public class UniqueMusicMounts
+{
+    public UniqueMusicMounts(ExcelSheet<Mount> mountSheet)
+    {
         this.UniqueMounts = mountSheet
             .GroupBy(n => n.RideBGM.RowId)
             .Where(g => g.Count() == 1)
             .Select(g => g.First())
             .ToHashSet();
     }
-    
+
     private HashSet<Mount> UniqueMounts { get; }
 
-    public bool HasUniqueMusic(Mount mount) {
+    public bool HasUniqueMusic(Mount mount)
+    {
         return this.UniqueMounts.Contains(mount);
     }
 }

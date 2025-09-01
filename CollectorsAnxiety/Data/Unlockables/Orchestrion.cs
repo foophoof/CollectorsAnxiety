@@ -5,9 +5,11 @@ using Lumina.Excel.Sheets;
 
 namespace CollectorsAnxiety.Data.Unlockables;
 
-public class OrchestrionEntry : Unlockable<Orchestrion> {
+public class OrchestrionEntry : Unlockable<Orchestrion>
+{
     public OrchestrionEntry(Orchestrion excelRow, UnlockItemCache unlockItemCache, ExcelSheet<OrchestrionUiparam> orchestrionUiparamsSheet) :
-        base(excelRow) {
+        base(excelRow)
+    {
         this.UnlockItem = unlockItemCache.GetItemForObject(excelRow);
         this.Category = orchestrionUiparamsSheet.GetRow(excelRow.RowId).OrchestrionCategory.Value.Name.ToString();
     }
@@ -20,11 +22,13 @@ public class OrchestrionEntry : Unlockable<Orchestrion> {
 
     public string? Category { get; }
 
-    public override bool IsUnlocked() {
+    public override bool IsUnlocked()
+    {
         return GameState.IsOrchestrionUnlocked(this.Id);
     }
 
-    public override bool IsValid() {
+    public override bool IsValid()
+    {
         return this.Id > 0 && this.Name != "";
     }
 }

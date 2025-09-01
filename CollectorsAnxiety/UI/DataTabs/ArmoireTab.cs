@@ -10,14 +10,18 @@ using Lumina.Excel.Sheets;
 
 namespace CollectorsAnxiety.UI.DataTabs;
 
-public class ArmoireTab : DataTab<ArmoireEntry, Cabinet> {
+public class ArmoireTab : DataTab<ArmoireEntry, Cabinet>
+{
     public override string Name => "Armoire";
     public override bool ShowInOverview => false;
 
-    public override void Draw() {
-        if (!GameState.IsArmoirePopulated()) {
+    public override void Draw()
+    {
+        if (!GameState.IsArmoirePopulated())
+        {
             ImGuiHelpers.ScaledDummy(5f);
-            using (ImRaii.PushColor(ImGuiCol.Text, ImGuiColors.DalamudYellow)) {
+            using (ImRaii.PushColor(ImGuiCol.Text, ImGuiColors.DalamudYellow))
+            {
                 ImGuiUtil.CenteredWrappedText("The Armoire is currently not loaded.");
             }
 
@@ -34,7 +38,8 @@ public class ArmoireTab : DataTab<ArmoireEntry, Cabinet> {
         base.Draw();
     }
 
-    protected override string GetTagline(ArmoireEntry entry) {
+    protected override string GetTagline(ArmoireEntry entry)
+    {
         return entry.Category;
     }
 }

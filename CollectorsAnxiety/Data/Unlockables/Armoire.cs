@@ -4,8 +4,10 @@ using Lumina.Excel.Sheets;
 
 namespace CollectorsAnxiety.Data.Unlockables;
 
-public class ArmoireEntry : Unlockable<Cabinet> {
-    public ArmoireEntry(Cabinet excelRow) : base(excelRow) {
+public class ArmoireEntry : Unlockable<Cabinet>
+{
+    public ArmoireEntry(Cabinet excelRow) : base(excelRow)
+    {
         this.UnlockItem = this.LuminaEntry.Item.Value; // rly. 
     }
 
@@ -20,11 +22,13 @@ public class ArmoireEntry : Unlockable<Cabinet> {
 
     public override uint SortKey => this.LuminaEntry.Order;
 
-    public override bool IsUnlocked() {
+    public override bool IsUnlocked()
+    {
         return GameState.IsInArmoire(this.Id);
     }
 
-    public override bool IsValid() {
+    public override bool IsValid()
+    {
         return this.LuminaEntry.Order != 0 && this.UnlockItem != null && this.UnlockItem.Value.ItemUICategory.RowId != 0;
     }
 }

@@ -3,14 +3,17 @@ using Lumina.Excel.Sheets;
 
 namespace CollectorsAnxiety.Data;
 
-public interface IUnlockable {
+public interface IUnlockable
+{
     public uint Id { get; }
 }
 
-public abstract class Unlockable<T> : IUnlockable where T : struct, IExcelRow<T> {
+public abstract class Unlockable<T> : IUnlockable where T : struct, IExcelRow<T>
+{
     internal readonly T LuminaEntry;
 
-    protected Unlockable(T excelRow) {
+    protected Unlockable(T excelRow)
+    {
         this.LuminaEntry = excelRow;
         this.Id = this.LuminaEntry.RowId;
     }

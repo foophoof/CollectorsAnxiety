@@ -3,8 +3,10 @@ using Lumina.Excel.Sheets;
 
 namespace CollectorsAnxiety.Data.Unlockables;
 
-public class BardingEntry : Unlockable<BuddyEquip> {
-    public BardingEntry(BuddyEquip excelRow, UnlockItemCache unlockItemCache) : base(excelRow) {
+public class BardingEntry : Unlockable<BuddyEquip>
+{
+    public BardingEntry(BuddyEquip excelRow, UnlockItemCache unlockItemCache) : base(excelRow)
+    {
         this.UnlockItem = unlockItemCache.GetItemForObject(excelRow);
     }
 
@@ -16,11 +18,13 @@ public class BardingEntry : Unlockable<BuddyEquip> {
 
     public override uint SortKey => this.LuminaEntry.Order;
 
-    public override bool IsUnlocked() {
+    public override bool IsUnlocked()
+    {
         return GameState.IsBuddyEquipUnlocked(this.Id);
     }
 
-    public override bool IsValid() {
+    public override bool IsValid()
+    {
         return this.LuminaEntry.Order != 0;
     }
 }

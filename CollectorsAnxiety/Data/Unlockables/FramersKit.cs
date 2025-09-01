@@ -4,8 +4,10 @@ using Lumina.Excel.Sheets;
 
 namespace CollectorsAnxiety.Data.Unlockables;
 
-public class FramersKitEntry : Unlockable<Item> {
-    public FramersKitEntry(Item excelRow) : base(excelRow) {
+public class FramersKitEntry : Unlockable<Item>
+{
+    public FramersKitEntry(Item excelRow) : base(excelRow)
+    {
         this.Id = excelRow.AdditionalData.RowId;
         this.UnlockItem = excelRow;
     }
@@ -16,11 +18,13 @@ public class FramersKitEntry : Unlockable<Item> {
 
     public override uint? IconId => this.LuminaEntry.Icon;
 
-    public override bool IsUnlocked() {
+    public override bool IsUnlocked()
+    {
         return GameState.IsFramersKitUnlocked(this.LuminaEntry.AdditionalData.RowId);
     }
 
-    public override bool IsValid() {
+    public override bool IsValid()
+    {
         return this.LuminaEntry.ItemAction.RowId == 2234;
     }
 }

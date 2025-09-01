@@ -7,7 +7,8 @@ using Lumina.Excel;
 
 namespace CollectorsAnxiety.Data;
 
-public interface IController {
+public interface IController
+{
     /// <summary>
     /// Get a named tuple of unlocked and total item counts for this controller object.
     ///
@@ -22,7 +23,8 @@ public interface IController {
     public bool ParseTainted { get; }
 }
 
-public class Controller<TEntry, TSheet> : IController where TEntry : Unlockable<TSheet> where TSheet : struct, IExcelRow<TSheet> {
+public class Controller<TEntry, TSheet> : IController where TEntry : Unlockable<TSheet> where TSheet : struct, IExcelRow<TSheet>
+{
 
     private ImmutableList<TEntry>? _itemCache;
 
@@ -31,11 +33,13 @@ public class Controller<TEntry, TSheet> : IController where TEntry : Unlockable<
     public required IPluginLog PluginLog { protected get; init; }
     public required Func<TSheet, TEntry> EntryFactory { protected get; init; }
 
-    public (int UnlockedCount, int TotalCount) GetCounts(bool respectHidden = true) {
+    public (int UnlockedCount, int TotalCount) GetCounts(bool respectHidden = true)
+    {
         var unlockedCount = 0;
         var totalCount = 0;
 
-        foreach (var item in this.GetItems()) {
+        foreach (var item in this.GetItems())
+        {
             if (respectHidden && this.PluginConfig.IsItemHidden(item))
                 continue;
 
@@ -51,8 +55,10 @@ public class Controller<TEntry, TSheet> : IController where TEntry : Unlockable<
     public bool ParseTainted => this.PluginConfig.HiddenItems
         .ContainsKey(typeof(TEntry).Name);
 
-    public virtual ImmutableList<TEntry> GetItems(bool useCache = true) {
-        if (this._itemCache != null && useCache) {
+    public virtual ImmutableList<TEntry> GetItems(bool useCache = true)
+    {
+        if (this._itemCache != null && useCache)
+        {
             return this._itemCache;
         }
 

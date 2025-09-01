@@ -20,38 +20,44 @@ using Lumina.Excel;
 
 namespace CollectorsAnxiety.UI.Tabs;
 
-public interface ITab {
+public interface ITab
+{
     public string Name { get; }
 
     public void Draw();
 }
 
-public interface IDataTab : ITab {
+public interface IDataTab : ITab
+{
     public bool ShowInOverview { get; }
 
     public IController GetController();
 }
 
-public enum FilterMode {
+public enum FilterMode
+{
     ShowAll,
     ShowUnlocked,
     ShowLocked,
     ShowHiddenOnly
 }
 
-public class TableColumn {
+public class TableColumn
+{
     public string Name { get; }
     public ImGuiTableColumnFlags Flags { get; }
     public int Width { get; }
 
-    public TableColumn(string name, ImGuiTableColumnFlags flags = ImGuiTableColumnFlags.None, int width = -1) {
+    public TableColumn(string name, ImGuiTableColumnFlags flags = ImGuiTableColumnFlags.None, int width = -1)
+    {
         this.Name = name;
         this.Flags = flags;
         this.Width = width;
     }
 }
 
-public class DataTab<TEntry, TSheet> : IDataTab where TEntry : Unlockable<TSheet> where TSheet : struct, IExcelRow<TSheet> {
+public class DataTab<TEntry, TSheet> : IDataTab where TEntry : Unlockable<TSheet> where TSheet : struct, IExcelRow<TSheet>
+{
     private const int IconSize = 48;
 
     public virtual string Name => "Tab";
@@ -59,7 +65,8 @@ public class DataTab<TEntry, TSheet> : IDataTab where TEntry : Unlockable<TSheet
 
     public required Controller<TEntry, TSheet> Controller { protected get; init; }
 
-    private readonly TableColumn[] _tableColumns = {
+    private readonly TableColumn[] _tableColumns =
+    {
         new("Unlocked", ImGuiTableColumnFlags.WidthFixed | ImGuiTableColumnFlags.NoHeaderLabel, 32),
         new("Icon", ImGuiTableColumnFlags.WidthFixed, 48),
         new("Number", ImGuiTableColumnFlags.WidthFixed, 48),
@@ -80,35 +87,36 @@ public class DataTab<TEntry, TSheet> : IDataTab where TEntry : Unlockable<TSheet
     public required IDalamudPluginInterface PluginInterface { protected get; init; }
     public required ITextureProvider TextureProvider { protected get; init; }
 
-    protected DataTab() { 
+    protected DataTab()
+    {
         this._clipperPtr = ImGui.ImGuiListClipper();
     }
 
-    public IController GetController() {
+    public IController GetController()
+    {
         return this.Controller;
     }
 
-    public virtual void Draw() {
+    public virtual void Draw()
+    {
         var hideSpoilers = this.PluginConfig.HideSpoilers;
         uint? spoilerIconId = null;
         if (hideSpoilers)
             spoilerIconId = 000786;
 
-        var displayMode = (int) this._displayFilter;
-        var filterLabels = new List<string> {
-            "Show All",
-            "Show Complete",
-            "Show Incomplete"
-        };
+        var displayMode = (int)this._displayFilter;
+        var filterLabels = new List<string> {"Show All", "Show Complete", "Show Incomplete"};
         if (this._showHidden) filterLabels.Add("Show Hidden Only");
-        if (ImGui.Combo("###filter", ref displayMode, filterLabels.ToArray(), filterLabels.Count)) {
-            this._displayFilter = (FilterMode) displayMode;
+        if (ImGui.Combo("###filter", ref displayMode, filterLabels.ToArray(), filterLabels.Count))
+        {
+            this._displayFilter = (FilterMode)displayMode;
         }
 
         ImGui.SameLine();
         ImGui.Dummy(new Vector2(10, 0));
         ImGui.SameLine();
-        if (ImGui.Checkbox("Show Hidden", ref this._showHidden)) {
+        if (ImGui.Checkbox("Show Hidden", ref this._showHidden))
+        {
             if (this._displayFilter == FilterMode.ShowHiddenOnly)
                 this._displayFilter = FilterMode.ShowAll;
         }
@@ -125,7 +133,8 @@ public class DataTab<TEntry, TSheet> : IDataTab where TEntry : Unlockable<TSheet
         // handle all parsing/processing in one easy place. This handles hidden item counts, filtering, and basically
         // everything else once a frame. Notably, this is the ***only*** iteration over the full list during this tab's
         // render.
-        foreach (var item in this.Controller.GetItems()) {
+        foreach (var item in this.Controller.GetItems())
+        {
             var isItemUnlocked = item.IsUnlocked();
             var isItemHidden = this.PluginConfig.IsItemHidden(item);
 
@@ -134,7 +143,8 @@ public class DataTab<TEntry, TSheet> : IDataTab where TEntry : Unlockable<TSheet
 
             if (isItemHidden && !this._showHidden) continue;
 
-            switch (this._displayFilter) {
+            switch (this._displayFilter)
+            {
                 case FilterMode.ShowLocked when isItemUnlocked:
                 case FilterMode.ShowUnlocked when !isItemUnlocked:
                 case FilterMode.ShowHiddenOnly when !isItemHidden:
@@ -147,7 +157,8 @@ public class DataTab<TEntry, TSheet> : IDataTab where TEntry : Unlockable<TSheet
         ImGuiUtil.CompletionProgressBar(unlockedVisibleItems, totalVisibleItems);
 
         var applicableColumns = this._tableColumns;
-        if (this.ExtraColumns != null) {
+        if (this.ExtraColumns != null)
+        {
             applicableColumns = applicableColumns.Concat(this.ExtraColumns).ToArray();
         }
 
@@ -157,7 +168,8 @@ public class DataTab<TEntry, TSheet> : IDataTab where TEntry : Unlockable<TSheet
             return;
 
         ImGui.TableSetupScrollFreeze(0, 1);
-        foreach (var col in applicableColumns) {
+        foreach (var col in applicableColumns)
+        {
             ImGui.TableSetupColumn(col.Name, col.Flags, col.Width);
         }
 
@@ -167,8 +179,10 @@ public class DataTab<TEntry, TSheet> : IDataTab where TEntry : Unlockable<TSheet
         // padding for table entries.
         var cellHeight = IconSize + 2 * ImGui.GetStyle().CellPadding.Y;
         this._clipperPtr.Begin(itemsToRender.Count, cellHeight);
-        while (this._clipperPtr.Step()) {
-            for (var index = this._clipperPtr.DisplayStart; index < this._clipperPtr.DisplayEnd; index++) {
+        while (this._clipperPtr.Step())
+        {
+            for (var index = this._clipperPtr.DisplayStart; index < this._clipperPtr.DisplayEnd; index++)
+            {
                 var (unlocked, hidden, item) = itemsToRender[index];
                 ImGui.TableNextRow(ImGuiTableRowFlags.None, IconSize);
 
@@ -178,24 +192,32 @@ public class DataTab<TEntry, TSheet> : IDataTab where TEntry : Unlockable<TSheet
                 ImGui.Dummy(new Vector2(0, 8));
                 ImGui.Checkbox("", ref unlocked);
 
-                using (var popupItem = ImRaii.ContextPopupItem($"context_{this.GetType().Name}#{item.Id}")) {
-                    if (popupItem) {
-                        if (ImGui.MenuItem("Hide Entry", "", hidden)) {
-                            if (!hidden) {
+                using (var popupItem = ImRaii.ContextPopupItem($"context_{this.GetType().Name}#{item.Id}"))
+                {
+                    if (popupItem)
+                    {
+                        if (ImGui.MenuItem("Hide Entry", "", hidden))
+                        {
+                            if (!hidden)
+                            {
                                 this.PluginConfig.HideItem(item);
                                 this.ConfigurationLoaderService.Save();
-                            } else {
+                            }
+                            else
+                            {
                                 this.PluginConfig.UnhideItem(item);
                                 this.ConfigurationLoaderService.Save();
                             }
                         }
 
                         ImGuiHelpers.ScaledDummy(2.0f);
-                        if (!censorItem) {
+                        if (!censorItem)
+                        {
                             // if (ImGui.MenuItem("View on FFXIV Collect"))
                             //     PluginLog.Debug("View on XIVCollect fired");
 
-                            if (item.UnlockItem != null) {
+                            if (item.UnlockItem != null)
+                            {
                                 if (ImGui.MenuItem("View in Garland Tools"))
                                     ItemLinkUtil.OpenGarlandToolsLink(item.UnlockItem.Value);
 
@@ -212,7 +234,8 @@ public class DataTab<TEntry, TSheet> : IDataTab where TEntry : Unlockable<TSheet
                             }
                         }
 
-                        if (this.PluginInterface.IsDevMenuOpen || this.PluginInterface.IsDev) {
+                        if (this.PluginInterface.IsDevMenuOpen || this.PluginInterface.IsDev)
+                        {
                             ImGuiHelpers.ScaledDummy(2.0f);
                             ImGui.MenuItem("=== Developer ===", false);
                             ImGui.MenuItem($"Unlock Item ID: {item.UnlockItem?.RowId.ToString() ?? "N/A"}", false);
@@ -227,7 +250,8 @@ public class DataTab<TEntry, TSheet> : IDataTab where TEntry : Unlockable<TSheet
                 var iconId = censorItem ? spoilerIconId : item.IconId;
                 if (iconId != null &&
                     this.TextureProvider.TryGetFromGameIcon(new GameIconLookup(iconId.Value), out var iconTex) &&
-                    iconTex.TryGetWrap(out var icon, out _)) {
+                    iconTex.TryGetWrap(out var icon, out _))
+                {
                     ImGui.Image(icon.Handle, new Vector2(IconSize));
                 }
 
@@ -236,16 +260,19 @@ public class DataTab<TEntry, TSheet> : IDataTab where TEntry : Unlockable<TSheet
 
                 ImGui.TableSetColumnIndex(3);
                 ImGui.Text(censorItem ? "Not yet obtained!" : item.Name);
-                if (hidden) {
+                if (hidden)
+                {
                     ImGui.SameLine();
                     ImGui.TextColored(ImGuiColors.DalamudGrey3, "(Hidden)");
                 }
 
-                if (!censorItem) {
+                if (!censorItem)
+                {
                     this.DrawEntryIcons(item);
 
                     var tagline = this.GetTagline(item);
-                    if (tagline != null) {
+                    if (tagline != null)
+                    {
                         ImGui.TextColored(ImGuiColors.DalamudGrey2, tagline);
                     }
                 }
@@ -257,14 +284,16 @@ public class DataTab<TEntry, TSheet> : IDataTab where TEntry : Unlockable<TSheet
 
     protected virtual void DrawExtraColumns(TEntry entry) { }
 
-    protected virtual void DrawEntryIcons(TEntry entry) {
+    protected virtual void DrawEntryIcons(TEntry entry)
+    {
         var unlockItem = entry.UnlockItem;
 
         if (unlockItem.IsMarketBoardEligible())
             ImGuiUtil.HoverMarker(FontAwesomeIcon.Coins, "Available from the Market Board");
     }
 
-    protected virtual string? GetTagline(TEntry entry) {
+    protected virtual string? GetTagline(TEntry entry)
+    {
         return null;
     }
 

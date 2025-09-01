@@ -18,9 +18,10 @@ using Dalamud.Bindings.ImGui;
 
 namespace CollectorsAnxiety.UI.Windows;
 
-public class CollectorWindow : Window {
+public class CollectorWindow : Window
+{
     public static string WindowKey => "Collector's Anxiety###mainWindow";
-    
+
     public required IClientState ClientState { protected get; init; }
     public required IPluginLog PluginLog { protected get; init; }
     public required IDalamudPluginInterface PluginInterface { protected get; init; }
@@ -30,14 +31,13 @@ public class CollectorWindow : Window {
         OverviewTab overviewTab,
         SettingsTab settingsTab,
         DevTab devTab
-    ) : base(WindowKey) {
+    ) : base(WindowKey)
+    {
         this.SizeCondition = ImGuiCond.FirstUseEver;
-        this.SizeConstraints = new WindowSizeConstraints {
-            MinimumSize = new Vector2(640, 480),
-            MaximumSize = new Vector2(1024, 768)
-        };
+        this.SizeConstraints = new WindowSizeConstraints {MinimumSize = new Vector2(640, 480), MaximumSize = new Vector2(1024, 768)};
 
-        this._tabs = [
+        this._tabs =
+        [
             overviewTab,
             dataTabs["Emote"],
             dataTabs["Mount"],
@@ -64,18 +64,23 @@ public class CollectorWindow : Window {
 
     private readonly Dictionary<ITab, CrashTab> _crashTabs = new();
 
-    public override void Draw() {
+    public override void Draw()
+    {
         this.WindowName = WindowKey;
         var pbs = ImGuiHelpers.GetButtonSize(".");
 
-        if (!this.ClientState.IsLoggedIn || this.ClientState.LocalPlayer == null) {
-            using (ImRaii.PushColor(ImGuiCol.Text, ImGuiColors.DalamudOrange)) {
+        if (!this.ClientState.IsLoggedIn || this.ClientState.LocalPlayer == null)
+        {
+            using (ImRaii.PushColor(ImGuiCol.Text, ImGuiColors.DalamudOrange))
+            {
                 ImGuiUtil.CenteredWrappedText("WARNING: A player is not logged in. Data may be invalid or incomplete.");
             }
         }
 
-        using (ImRaii.TabBar("mainBar", ImGuiTabBarFlags.FittingPolicyScroll | ImGuiTabBarFlags.ListPopupButton)) {
-            foreach (var tab in this._tabs) {
+        using (ImRaii.TabBar("mainBar", ImGuiTabBarFlags.FittingPolicyScroll | ImGuiTabBarFlags.ListPopupButton))
+        {
+            foreach (var tab in this._tabs)
+            {
                 using var tabItem = ImRaii.TabItem($"{tab.Name}###{tab.GetType().Name}");
                 if (!tabItem)
                     continue;
@@ -89,13 +94,17 @@ public class CollectorWindow : Window {
                 var tabToDraw = tab;
 
                 this._stopwatch.Start();
-                if (this._crashTabs.TryGetValue(tab, out var crashTab)) {
+                if (this._crashTabs.TryGetValue(tab, out var crashTab))
+                {
                     tabToDraw = crashTab;
                 }
 
-                try {
+                try
+                {
                     tabToDraw.Draw();
-                } catch (Exception ex) {
+                }
+                catch (Exception ex)
+                {
                     // check if things are ***really*** broken
                     if (tabToDraw is CrashTab) throw;
 
@@ -111,9 +120,10 @@ public class CollectorWindow : Window {
 
         ImGui.TextColored(ImGuiColors.DalamudGrey2, $"v{this._versionString}");
 
-        if (this.PluginInterface.IsDevMenuOpen || this.PluginInterface.IsDev) {
+        if (this.PluginInterface.IsDevMenuOpen || this.PluginInterface.IsDev)
+        {
             ImGui.SameLine();
-            var stopwatchTime = this._stopwatch.ElapsedTicks / (double) 10000;
+            var stopwatchTime = this._stopwatch.ElapsedTicks / (double)10000;
             var framerate = ImGui.GetIO().Framerate;
             var framesWasted = stopwatchTime / (1000 / framerate);
             ImGui.Text($"TAB RENDER: {stopwatchTime:F4}ms ({framesWasted:F2} frames @ {framerate:F0}fps)");

@@ -18,7 +18,8 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace CollectorsAnxiety;
 
-public sealed class CollectorsAnxietyPlugin : HostedPlugin {
+public sealed class CollectorsAnxietyPlugin : HostedPlugin
+{
     public CollectorsAnxietyPlugin(
         IDalamudPluginInterface pluginInterface,
         IPluginLog pluginLog,
@@ -36,12 +37,14 @@ public sealed class CollectorsAnxietyPlugin : HostedPlugin {
             dataManager,
             clientState,
             chatGui,
-            textureProvider) {
+            textureProvider)
+    {
         this.CreateHost();
         this.Start();
     }
 
-    public override void ConfigureContainer(ContainerBuilder containerBuilder) {
+    public override void ConfigureContainer(ContainerBuilder containerBuilder)
+    {
         // Services
         containerBuilder.RegisterType<CommandService>().SingleInstance();
         containerBuilder.RegisterType<ConfigurationLoaderService>().SingleInstance();
@@ -96,7 +99,7 @@ public sealed class CollectorsAnxietyPlugin : HostedPlugin {
             var gameData = context.Resolve<GameData>();
             var method = typeof(GameData).GetMethod(nameof(GameData.GetExcelSheet))
                 ?.MakeGenericMethod(parameters);
-            var sheet = method!.Invoke(gameData, [ null, null ])!;
+            var sheet = method!.Invoke(gameData, [null, null])!;
             return sheet;
         }).As(typeof(ExcelSheet<>));
 
@@ -112,7 +115,8 @@ public sealed class CollectorsAnxietyPlugin : HostedPlugin {
         }).SingleInstance();
     }
 
-    public override void ConfigureServices(IServiceCollection serviceCollection) {
+    public override void ConfigureServices(IServiceCollection serviceCollection)
+    {
         serviceCollection.AddHostedService(p => p.GetRequiredService<CommandService>());
         serviceCollection.AddHostedService(p => p.GetRequiredService<ConfigurationLoaderService>());
         serviceCollection.AddHostedService(p => p.GetRequiredService<InstallerWindowService>());

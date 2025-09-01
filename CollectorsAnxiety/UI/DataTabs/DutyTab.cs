@@ -7,30 +7,33 @@ using Lumina.Excel.Sheets;
 
 namespace CollectorsAnxiety.UI.DataTabs;
 
-public class DutyTab : DataTab<DutyEntry, ContentFinderCondition> {
+public class DutyTab : DataTab<DutyEntry, ContentFinderCondition>
+{
     public override string Name => "Duty";
 
-    protected override TableColumn[] ExtraColumns => new[] {
-        new TableColumn("Cleared", ImGuiTableColumnFlags.WidthFixed, 48)
-    };
+    protected override TableColumn[] ExtraColumns => new[] {new TableColumn("Cleared", ImGuiTableColumnFlags.WidthFixed, 48)};
 
-    protected override string? GetTagline(DutyEntry entry) {
+    protected override string? GetTagline(DutyEntry entry)
+    {
         var tagline = entry.Category;
 
-        if (entry.MinLevel > 0) {
+        if (entry.MinLevel > 0)
+        {
             tagline += $" (Level {entry.MinLevel})";
         }
 
         return tagline;
     }
 
-    protected override void DrawExtraColumns(DutyEntry entry) {
+    protected override void DrawExtraColumns(DutyEntry entry)
+    {
         ImGui.TableSetColumnIndex(4);
         var contentCleared = entry.IsCompleted();
         ImGui.Checkbox("", ref contentCleared);
     }
 
-    protected override void DrawEntryIcons(DutyEntry entry) {
+    protected override void DrawEntryIcons(DutyEntry entry)
+    {
         base.DrawEntryIcons(entry);
 
         if (entry.LuminaEntry.AllianceRoulette)

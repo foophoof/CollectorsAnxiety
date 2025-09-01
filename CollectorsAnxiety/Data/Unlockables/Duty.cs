@@ -5,7 +5,8 @@ using Lumina.Excel.Sheets;
 
 namespace CollectorsAnxiety.Data.Unlockables;
 
-public class DutyEntry : Unlockable<ContentFinderCondition> {
+public class DutyEntry : Unlockable<ContentFinderCondition>
+{
     public DutyEntry(ContentFinderCondition excelRow) : base(excelRow) { }
 
     public override string Name => this.LuminaEntry.Name.ToString().ToTitleCase();
@@ -14,15 +15,18 @@ public class DutyEntry : Unlockable<ContentFinderCondition> {
 
     public override uint? IconId => this.GetIconId();
 
-    public override bool IsUnlocked() {
+    public override bool IsUnlocked()
+    {
         return GameState.IsDutyUnlocked(this.LuminaEntry.Content.RowId);
     }
 
-    public bool IsCompleted() {
+    public bool IsCompleted()
+    {
         return GameState.IsDutyCompleted(this.LuminaEntry.Content.RowId);
     }
 
-    public override bool IsValid() {
+    public override bool IsValid()
+    {
         return this.LuminaEntry.SortKey != 0 &&
                this.LuminaEntry.SortKey < 9001 &&
                this.LuminaEntry.ContentType.RowId is (> 0 and <= 5) or 28 &&
@@ -35,11 +39,13 @@ public class DutyEntry : Unlockable<ContentFinderCondition> {
 
     public string? UnlockQuestName => this.LuminaEntry.UnlockQuest.Value.Name.ToString();
 
-    private uint GetIconId() {
+    private uint GetIconId()
+    {
         if (this.LuminaEntry.Icon != 0)
             return this.LuminaEntry.Icon;
 
-        return this.LuminaEntry.ContentType.RowId switch {
+        return this.LuminaEntry.ContentType.RowId switch
+        {
             2 => 60831,
             3 => 60833,
             4 => 60834,
