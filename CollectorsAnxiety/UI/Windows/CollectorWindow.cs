@@ -18,9 +18,10 @@ using Dalamud.Bindings.ImGui;
 
 namespace CollectorsAnxiety.UI.Windows;
 
-public class CollectorWindow : Window {
+public class CollectorWindow : Window
+{
     public static string WindowKey => "Collector's Anxiety###mainWindow";
-    
+
     public required IClientState ClientState { protected get; init; }
     public required IPluginLog PluginLog { protected get; init; }
     public required IDalamudPluginInterface PluginInterface { protected get; init; }
@@ -30,14 +31,13 @@ public class CollectorWindow : Window {
         OverviewTab overviewTab,
         SettingsTab settingsTab,
         DevTab devTab
-    ) : base(WindowKey) {
-        this.SizeCondition = ImGuiCond.FirstUseEver;
-        this.SizeConstraints = new WindowSizeConstraints {
-            MinimumSize = new Vector2(640, 480),
-            MaximumSize = new Vector2(1024, 768)
-        };
+    ) : base(WindowKey)
+    {
+        SizeCondition = ImGuiCond.FirstUseEver;
+        SizeConstraints = new WindowSizeConstraints {MinimumSize = new Vector2(640, 480), MaximumSize = new Vector2(1024, 768)};
 
-        this._tabs = [
+        _tabs =
+        [
             overviewTab,
             dataTabs["Emote"],
             dataTabs["Mount"],
@@ -54,7 +54,7 @@ public class CollectorWindow : Window {
             settingsTab,
         ];
 #if DEBUG
-        this._tabs.Add(devTab);
+        _tabs.Add(devTab);
 #endif
     }
 
@@ -64,21 +64,28 @@ public class CollectorWindow : Window {
 
     private readonly Dictionary<ITab, CrashTab> _crashTabs = new();
 
-    public override void Draw() {
-        this.WindowName = WindowKey;
+    public override void Draw()
+    {
+        WindowName = WindowKey;
         var pbs = ImGuiHelpers.GetButtonSize(".");
 
-        if (!this.ClientState.IsLoggedIn || this.ClientState.LocalPlayer == null) {
-            using (ImRaii.PushColor(ImGuiCol.Text, ImGuiColors.DalamudOrange)) {
+        if (!ClientState.IsLoggedIn || ClientState.LocalPlayer == null)
+        {
+            using (ImRaii.PushColor(ImGuiCol.Text, ImGuiColors.DalamudOrange))
+            {
                 ImGuiUtil.CenteredWrappedText("WARNING: A player is not logged in. Data may be invalid or incomplete.");
             }
         }
 
-        using (ImRaii.TabBar("mainBar", ImGuiTabBarFlags.FittingPolicyScroll | ImGuiTabBarFlags.ListPopupButton)) {
-            foreach (var tab in this._tabs) {
+        using (ImRaii.TabBar("mainBar", ImGuiTabBarFlags.FittingPolicyScroll | ImGuiTabBarFlags.ListPopupButton))
+        {
+            foreach (var tab in _tabs)
+            {
                 using var tabItem = ImRaii.TabItem($"{tab.Name}###{tab.GetType().Name}");
                 if (!tabItem)
+                {
                     continue;
+                }
 
                 var childSize = ImGui.GetContentRegionAvail();
                 var style = ImGui.GetStyle();
@@ -88,37 +95,45 @@ public class CollectorWindow : Window {
 
                 var tabToDraw = tab;
 
-                this._stopwatch.Start();
-                if (this._crashTabs.TryGetValue(tab, out var crashTab)) {
+                _stopwatch.Start();
+                if (_crashTabs.TryGetValue(tab, out var crashTab))
+                {
                     tabToDraw = crashTab;
                 }
 
-                try {
+                try
+                {
                     tabToDraw.Draw();
-                } catch (Exception ex) {
+                }
+                catch (Exception ex)
+                {
                     // check if things are ***really*** broken
-                    if (tabToDraw is CrashTab) throw;
+                    if (tabToDraw is CrashTab)
+                    {
+                        throw;
+                    }
 
-                    this.PluginLog.Error(ex, $"Error drawing tab {tabToDraw.Name}!");
-                    this._crashTabs[tab] = new CrashTab(tab, ex);
+                    PluginLog.Error(ex, $"Error drawing tab {tabToDraw.Name}!");
+                    _crashTabs[tab] = new CrashTab(tab, ex);
                 }
 
-                this._stopwatch.Stop();
+                _stopwatch.Stop();
             }
         }
 
         ImGui.Separator();
 
-        ImGui.TextColored(ImGuiColors.DalamudGrey2, $"v{this._versionString}");
+        ImGui.TextColored(ImGuiColors.DalamudGrey2, $"v{_versionString}");
 
-        if (this.PluginInterface.IsDevMenuOpen || this.PluginInterface.IsDev) {
+        if (PluginInterface.IsDevMenuOpen || PluginInterface.IsDev)
+        {
             ImGui.SameLine();
-            var stopwatchTime = this._stopwatch.ElapsedTicks / (double) 10000;
+            var stopwatchTime = _stopwatch.ElapsedTicks / (double)10000;
             var framerate = ImGui.GetIO().Framerate;
             var framesWasted = stopwatchTime / (1000 / framerate);
             ImGui.Text($"TAB RENDER: {stopwatchTime:F4}ms ({framesWasted:F2} frames @ {framerate:F0}fps)");
         }
 
-        this._stopwatch.Reset();
+        _stopwatch.Reset();
     }
 }

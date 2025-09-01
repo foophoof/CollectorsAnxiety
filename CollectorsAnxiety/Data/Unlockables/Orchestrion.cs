@@ -5,14 +5,16 @@ using Lumina.Excel.Sheets;
 
 namespace CollectorsAnxiety.Data.Unlockables;
 
-public class OrchestrionEntry : Unlockable<Orchestrion> {
+public class OrchestrionEntry : Unlockable<Orchestrion>
+{
     public OrchestrionEntry(Orchestrion excelRow, UnlockItemCache unlockItemCache, ExcelSheet<OrchestrionUiparam> orchestrionUiparamsSheet) :
-        base(excelRow) {
-        this.UnlockItem = unlockItemCache.GetItemForObject(excelRow);
-        this.Category = orchestrionUiparamsSheet.GetRow(excelRow.RowId).OrchestrionCategory.Value.Name.ToString();
+        base(excelRow)
+    {
+        UnlockItem = unlockItemCache.GetItemForObject(excelRow);
+        Category = orchestrionUiparamsSheet.GetRow(excelRow.RowId).OrchestrionCategory.Value.Name.ToString();
     }
 
-    public override string Name => this.LuminaEntry.Name.ExtractText().ToTitleCase();
+    public override string Name => LuminaEntry.Name.ExtractText().ToTitleCase();
 
     public override uint? IconId => 25945;
 
@@ -20,11 +22,13 @@ public class OrchestrionEntry : Unlockable<Orchestrion> {
 
     public string? Category { get; }
 
-    public override bool IsUnlocked() {
-        return GameState.IsOrchestrionUnlocked(this.Id);
+    public override bool IsUnlocked()
+    {
+        return GameState.IsOrchestrionUnlocked(Id);
     }
 
-    public override bool IsValid() {
-        return this.Id > 0 && this.Name != "";
+    public override bool IsValid()
+    {
+        return Id > 0 && Name != "";
     }
 }

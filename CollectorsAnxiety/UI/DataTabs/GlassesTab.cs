@@ -4,6 +4,7 @@ using Lumina.Excel.Sheets;
 
 namespace CollectorsAnxiety.UI.DataTabs;
 
-public class GlassesTab : DataTab<GlassesEntry, GlassesStyle> {
+public class GlassesTab : DataTab<GlassesEntry, GlassesStyle>
+{
     public override string Name => "Facewear";
 }

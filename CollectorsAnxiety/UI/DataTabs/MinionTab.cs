@@ -4,6 +4,7 @@ using Lumina.Excel.Sheets;
 
 namespace CollectorsAnxiety.UI.DataTabs;
 
-public class MinionTab : DataTab<MinionEntry, Companion> {
+public class MinionTab : DataTab<MinionEntry, Companion>
+{
     public override string Name => "Minions";
 }
