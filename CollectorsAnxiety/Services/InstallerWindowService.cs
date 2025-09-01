@@ -13,18 +13,18 @@ public class InstallerWindowService : IHostedService
 
     public Task StartAsync(CancellationToken cancellationToken)
     {
-        this.UiBuilder.OpenMainUi += this.ToggleMainUi;
+        UiBuilder.OpenMainUi += ToggleMainUi;
         return Task.CompletedTask;
     }
 
     public Task StopAsync(CancellationToken cancellationToken)
     {
-        this.UiBuilder.OpenMainUi -= this.ToggleMainUi;
+        UiBuilder.OpenMainUi -= ToggleMainUi;
         return Task.CompletedTask;
     }
 
     private void ToggleMainUi()
     {
-        this.CollectorWindow.Toggle();
+        CollectorWindow.Toggle();
     }
 }

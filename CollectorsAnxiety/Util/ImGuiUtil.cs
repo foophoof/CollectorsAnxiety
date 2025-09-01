@@ -44,7 +44,7 @@ public static class ImGuiUtil
             >= 0.75 => ImGuiColors.ParsedPurple,
             >= 0.50 => ImGuiColors.ParsedBlue,
             >= 0.25 => ImGuiColors.ParsedGreen,
-            _ => ImGuiColors.ParsedGrey * 1.75f
+            _ => ImGuiColors.ParsedGrey * 1.75f,
         };
     }
 
@@ -82,7 +82,10 @@ public static class ImGuiUtil
         }
 
         if (!ImGui.IsItemHovered())
+        {
             return;
+        }
+
         using (ImRaii.Tooltip())
         {
             using (ImRaii.TextWrapPos(ImGui.GetFontSize() * 35f))

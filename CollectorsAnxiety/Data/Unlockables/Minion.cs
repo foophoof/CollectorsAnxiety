@@ -9,28 +9,30 @@ public class MinionEntry : Unlockable<Companion>
 {
     public MinionEntry(Companion excelRow, UnlockItemCache unlockItemCache) : base(excelRow)
     {
-        this.UnlockItem = unlockItemCache.GetItemForObject(excelRow);
+        UnlockItem = unlockItemCache.GetItemForObject(excelRow);
     }
 
-    public override string Name => this.LuminaEntry.Singular.ToDalamudString().ToTitleCase();
+    public override string Name => LuminaEntry.Singular.ToDalamudString().ToTitleCase();
 
     public override Item? UnlockItem { get; }
 
-    public override uint? IconId => this.LuminaEntry.Icon;
+    public override uint? IconId => LuminaEntry.Icon;
 
-    public override uint SortKey => this.LuminaEntry.Order;
+    public override uint SortKey => LuminaEntry.Order;
 
     public override bool IsUnlocked()
     {
-        return GameState.IsMinionUnlocked(this.Id);
+        return GameState.IsMinionUnlocked(Id);
     }
 
     public override bool IsValid()
     {
-        if (this.LuminaEntry.Order == 0)
+        if (LuminaEntry.Order == 0)
+        {
             return false;
+        }
 
         // Exclude GC and WOL trio, as they aren't technically usable.
-        return this.Id is (< 68 or > 70) and (< 72 or > 74);
+        return Id is (< 68 or > 70) and (< 72 or > 74);
     }
 }

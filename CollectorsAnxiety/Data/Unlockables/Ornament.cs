@@ -9,24 +9,24 @@ public class OrnamentEntry : Unlockable<Ornament>
 {
     public OrnamentEntry(Ornament excelRow, UnlockItemCache unlockItemCache) : base(excelRow)
     {
-        this.UnlockItem = unlockItemCache.GetItemForObject(excelRow);
+        UnlockItem = unlockItemCache.GetItemForObject(excelRow);
     }
 
-    public override string Name => this.LuminaEntry.Singular.ToDalamudString().ToTitleCase();
+    public override string Name => LuminaEntry.Singular.ToDalamudString().ToTitleCase();
 
-    public override uint? IconId => this.LuminaEntry.Icon;
+    public override uint? IconId => LuminaEntry.Icon;
 
     public override Item? UnlockItem { get; }
 
-    public override uint SortKey => (uint)this.LuminaEntry.Order;
+    public override uint SortKey => (uint)LuminaEntry.Order;
 
     public override bool IsUnlocked()
     {
-        return GameState.IsOrnamentUnlocked(this.Id);
+        return GameState.IsOrnamentUnlocked(Id);
     }
 
     public override bool IsValid()
     {
-        return this.LuminaEntry.Model > 0;
+        return LuminaEntry.Model > 0;
     }
 }

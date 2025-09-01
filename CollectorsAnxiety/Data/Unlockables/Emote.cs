@@ -9,27 +9,27 @@ public class EmoteEntry : Unlockable<Emote>
 {
     public EmoteEntry(Emote excelRow, UnlockItemCache unlockItemCache) : base(excelRow)
     {
-        this.UnlockItem = unlockItemCache.GetItemForUnlockLink(this.LuminaEntry.UnlockLink);
+        UnlockItem = unlockItemCache.GetItemForUnlockLink(LuminaEntry.UnlockLink);
     }
 
     public override Item? UnlockItem { get; }
 
-    public override string Name => this.LuminaEntry.Name.ToDalamudString().ToTitleCase();
+    public override string Name => LuminaEntry.Name.ToDalamudString().ToTitleCase();
 
-    public override uint? IconId => this.LuminaEntry.Icon;
+    public override uint? IconId => LuminaEntry.Icon;
 
-    public override uint SortKey => this.LuminaEntry.Order;
+    public override uint SortKey => LuminaEntry.Order;
 
-    public string Category => this.LuminaEntry.EmoteCategory.ValueNullable?.Name.ToDalamudString().ToTitleCase() ?? "Unknown";
+    public string Category => LuminaEntry.EmoteCategory.ValueNullable?.Name.ToDalamudString().ToTitleCase() ?? "Unknown";
 
 
     public override bool IsUnlocked()
     {
-        return GameState.IsEmoteUnlocked(this.LuminaEntry);
+        return GameState.IsEmoteUnlocked(LuminaEntry);
     }
 
     public override bool IsValid()
     {
-        return this.LuminaEntry.UnlockLink != 0 && this.LuminaEntry.Order != 0;
+        return LuminaEntry.UnlockLink != 0 && LuminaEntry.Order != 0;
     }
 }

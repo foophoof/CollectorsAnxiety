@@ -25,64 +25,64 @@ internal class TippyIPC : IHostedService
     {
         try
         {
-            this._initializeIpc();
+            _initializeIpc();
         }
         catch (Exception ex)
         {
-            this.PluginLog.Warning(ex, "Failed to initialize Tippy IPC");
+            PluginLog.Warning(ex, "Failed to initialize Tippy IPC");
         }
 
         // doesn't exist, but just in case.
-        this._tippyRegisteredSubscriber = this.PluginInterface.GetIpcSubscriber<bool>("Tippy.Initialized");
-        this._tippyRegisteredSubscriber.Subscribe(this._initializeIpc);
+        _tippyRegisteredSubscriber = PluginInterface.GetIpcSubscriber<bool>("Tippy.Initialized");
+        _tippyRegisteredSubscriber.Subscribe(_initializeIpc);
 
         return Task.CompletedTask;
     }
 
     public Task StopAsync(CancellationToken cancellationToken)
     {
-        this._tippyRegisteredSubscriber?.Unsubscribe(this._initializeIpc);
+        _tippyRegisteredSubscriber?.Unsubscribe(_initializeIpc);
 
-        this._tippyApiVersionSubscriber = null;
-        this._tippyRegisterTipSubscriber = null;
+        _tippyApiVersionSubscriber = null;
+        _tippyRegisterTipSubscriber = null;
 
         return Task.CompletedTask;
     }
 
-    public int Version => this._tippyApiVersionSubscriber?.InvokeFunc() ?? 0;
+    public int Version => _tippyApiVersionSubscriber?.InvokeFunc() ?? 0;
 
     private void _initializeIpc()
     {
-        if (this.PluginInterface.InstalledPlugins.All(p => p.Name != "Tippy"))
+        if (PluginInterface.InstalledPlugins.All(p => p.Name != "Tippy"))
         {
-            this.PluginLog.Debug("Tippy was not found, will not create IPC at this time");
+            PluginLog.Debug("Tippy was not found, will not create IPC at this time");
             return;
         }
 
-        var versionEndpoint = this.PluginInterface.GetIpcSubscriber<int>("Tippy.APIVersion");
+        var versionEndpoint = PluginInterface.GetIpcSubscriber<int>("Tippy.APIVersion");
 
         // this line may explode with an exception, but that should be fine as we'd normally catch that.
         var version = versionEndpoint.InvokeFunc();
 
-        this._tippyApiVersionSubscriber = versionEndpoint;
+        _tippyApiVersionSubscriber = versionEndpoint;
 
         if (version == 1)
         {
-            this._tippyRegisterTipSubscriber =
-                this.PluginInterface.GetIpcSubscriber<string, bool>("Tippy.RegisterTip");
-            this.PluginLog.Information("Enabled Tippy IPC connection!");
+            _tippyRegisterTipSubscriber =
+                PluginInterface.GetIpcSubscriber<string, bool>("Tippy.RegisterTip");
+            PluginLog.Information("Enabled Tippy IPC connection!");
 
-            this.RegisterTips();
+            RegisterTips();
         }
         else if (version > 0)
         {
-            this.PluginLog.Warning($"Tippy IPC detected, but version {version} is incompatible!");
+            PluginLog.Warning($"Tippy IPC detected, but version {version} is incompatible!");
         }
     }
 
     public bool RegisterTip(string tip)
     {
-        return this._tippyRegisterTipSubscriber?.InvokeFunc(tip) ?? false;
+        return _tippyRegisterTipSubscriber?.InvokeFunc(tip) ?? false;
     }
 
     private void RegisterTips()
@@ -97,9 +97,9 @@ internal class TippyIPC : IHostedService
             "I only party with people with a gold parse in minions, sorry.",
             "Did you really buy a Shiva statue from eBay just to complete your collection?!",
             "The Legacy Chocobo sits there... taunting you. Even if you hide it, it'll still be there. Uncollected.",
-            "FFXIVCollect does collection tracking better than whatever plugin you installed. Also, they were first."
+            "FFXIVCollect does collection tracking better than whatever plugin you installed. Also, they were first.",
         };
 
-        tips.OrderBy(_ => rng.Next()).Take(3).ToList().ForEach(tip => this.RegisterTip(tip));
+        tips.OrderBy(_ => rng.Next()).Take(3).ToList().ForEach(tip => RegisterTip(tip));
     }
 }

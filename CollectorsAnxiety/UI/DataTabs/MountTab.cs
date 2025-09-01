@@ -16,13 +16,19 @@ public class MountTab : DataTab<MountEntry, Mount>
         base.DrawEntryIcons(entry);
 
         if (entry.HasActions)
+        {
             ImGuiUtil.HoverMarker(FontAwesomeIcon.Cog, "Mount has custom actions");
+        }
 
         if (entry.HasUniqueMusic)
+        {
             ImGuiUtil.HoverMarker(FontAwesomeIcon.Music, "Mount has unique music");
+        }
 
         if (entry.NumberSeats > 1)
+        {
             ImGuiUtil.HoverMarker(FontAwesomeIcon.Users, $"Mount holds {entry.NumberSeats} players");
+        }
     }
 
     protected override void DrawDevContextMenuItems(MountEntry entry)

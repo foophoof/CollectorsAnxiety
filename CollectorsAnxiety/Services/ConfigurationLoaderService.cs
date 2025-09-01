@@ -19,35 +19,37 @@ public class ConfigurationLoaderService(IDalamudPluginInterface pluginInterface,
 
     public Task StopAsync(CancellationToken cancellationToken)
     {
-        this.Save();
+        Save();
         pluginLog.Verbose("Stopping configuration loader, saving.");
         return Task.CompletedTask;
     }
 
     public PluginConfig GetPluginConfig()
     {
-        if (this._pluginConfig != null)
-            return this._pluginConfig;
+        if (_pluginConfig != null)
+        {
+            return _pluginConfig;
+        }
 
         try
         {
-            this._pluginConfig = pluginInterface.GetPluginConfig() as PluginConfig ?? new PluginConfig();
-            if (this._pluginConfig.PerformCleanups())
+            _pluginConfig = pluginInterface.GetPluginConfig() as PluginConfig ?? new PluginConfig();
+            if (_pluginConfig.PerformCleanups())
             {
-                this.Save();
+                Save();
             }
         }
         catch (Exception e)
         {
             pluginLog.Error(e, "Failed to load configuration");
-            this._pluginConfig = new PluginConfig();
+            _pluginConfig = new PluginConfig();
         }
 
-        return this._pluginConfig;
+        return _pluginConfig;
     }
 
     public void Save()
     {
-        pluginInterface.SavePluginConfig(this.GetPluginConfig());
+        pluginInterface.SavePluginConfig(GetPluginConfig());
     }
 }

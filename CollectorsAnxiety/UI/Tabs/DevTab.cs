@@ -21,21 +21,24 @@ public class DevTab : ITab
         ImGui.Text("IsUnlockLinkUnlockedOrQuestCompleted");
         ImGui.Indent();
 
-        if (ImGui.InputInt("Unlock Link/Quest", ref this._unlockLinkNumber, 1))
+        if (ImGui.InputInt("Unlock Link/Quest", ref _unlockLinkNumber, 1))
         {
-            if (this._unlockLinkNumber < 0) this._unlockLinkNumber = 0;
+            if (_unlockLinkNumber < 0)
+            {
+                _unlockLinkNumber = 0;
+            }
         }
 
-        ImGui.Checkbox("Var a3", ref this._unlockLinkA3);
+        ImGui.Checkbox("Var a3", ref _unlockLinkA3);
 
         var result = UIState.Instance()->IsUnlockLinkUnlockedOrQuestCompleted(
-            (uint)this._unlockLinkNumber,
-            (byte)(this._unlockLinkA3 ? 1 : 0)
+            (uint)_unlockLinkNumber,
+            (byte)(_unlockLinkA3 ? 1 : 0)
         );
 
         ImGui.TextColored(
             result ? ImGuiColors.HealerGreen : ImGuiColors.DPSRed,
-            $"ID {this._unlockLinkNumber}: {(result ? "UNLOCKED" : "LOCKED")}"
+            $"ID {_unlockLinkNumber}: {(result ? "UNLOCKED" : "LOCKED")}"
         );
 
         ImGui.Unindent();

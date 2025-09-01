@@ -33,10 +33,10 @@ public class CollectorWindow : Window
         DevTab devTab
     ) : base(WindowKey)
     {
-        this.SizeCondition = ImGuiCond.FirstUseEver;
-        this.SizeConstraints = new WindowSizeConstraints {MinimumSize = new Vector2(640, 480), MaximumSize = new Vector2(1024, 768)};
+        SizeCondition = ImGuiCond.FirstUseEver;
+        SizeConstraints = new WindowSizeConstraints {MinimumSize = new Vector2(640, 480), MaximumSize = new Vector2(1024, 768)};
 
-        this._tabs =
+        _tabs =
         [
             overviewTab,
             dataTabs["Emote"],
@@ -54,7 +54,7 @@ public class CollectorWindow : Window
             settingsTab,
         ];
 #if DEBUG
-        this._tabs.Add(devTab);
+        _tabs.Add(devTab);
 #endif
     }
 
@@ -66,10 +66,10 @@ public class CollectorWindow : Window
 
     public override void Draw()
     {
-        this.WindowName = WindowKey;
+        WindowName = WindowKey;
         var pbs = ImGuiHelpers.GetButtonSize(".");
 
-        if (!this.ClientState.IsLoggedIn || this.ClientState.LocalPlayer == null)
+        if (!ClientState.IsLoggedIn || ClientState.LocalPlayer == null)
         {
             using (ImRaii.PushColor(ImGuiCol.Text, ImGuiColors.DalamudOrange))
             {
@@ -79,11 +79,13 @@ public class CollectorWindow : Window
 
         using (ImRaii.TabBar("mainBar", ImGuiTabBarFlags.FittingPolicyScroll | ImGuiTabBarFlags.ListPopupButton))
         {
-            foreach (var tab in this._tabs)
+            foreach (var tab in _tabs)
             {
                 using var tabItem = ImRaii.TabItem($"{tab.Name}###{tab.GetType().Name}");
                 if (!tabItem)
+                {
                     continue;
+                }
 
                 var childSize = ImGui.GetContentRegionAvail();
                 var style = ImGui.GetStyle();
@@ -93,8 +95,8 @@ public class CollectorWindow : Window
 
                 var tabToDraw = tab;
 
-                this._stopwatch.Start();
-                if (this._crashTabs.TryGetValue(tab, out var crashTab))
+                _stopwatch.Start();
+                if (_crashTabs.TryGetValue(tab, out var crashTab))
                 {
                     tabToDraw = crashTab;
                 }
@@ -106,29 +108,32 @@ public class CollectorWindow : Window
                 catch (Exception ex)
                 {
                     // check if things are ***really*** broken
-                    if (tabToDraw is CrashTab) throw;
+                    if (tabToDraw is CrashTab)
+                    {
+                        throw;
+                    }
 
-                    this.PluginLog.Error(ex, $"Error drawing tab {tabToDraw.Name}!");
-                    this._crashTabs[tab] = new CrashTab(tab, ex);
+                    PluginLog.Error(ex, $"Error drawing tab {tabToDraw.Name}!");
+                    _crashTabs[tab] = new CrashTab(tab, ex);
                 }
 
-                this._stopwatch.Stop();
+                _stopwatch.Stop();
             }
         }
 
         ImGui.Separator();
 
-        ImGui.TextColored(ImGuiColors.DalamudGrey2, $"v{this._versionString}");
+        ImGui.TextColored(ImGuiColors.DalamudGrey2, $"v{_versionString}");
 
-        if (this.PluginInterface.IsDevMenuOpen || this.PluginInterface.IsDev)
+        if (PluginInterface.IsDevMenuOpen || PluginInterface.IsDev)
         {
             ImGui.SameLine();
-            var stopwatchTime = this._stopwatch.ElapsedTicks / (double)10000;
+            var stopwatchTime = _stopwatch.ElapsedTicks / (double)10000;
             var framerate = ImGui.GetIO().Framerate;
             var framesWasted = stopwatchTime / (1000 / framerate);
             ImGui.Text($"TAB RENDER: {stopwatchTime:F4}ms ({framesWasted:F2} frames @ {framerate:F0}fps)");
         }
 
-        this._stopwatch.Reset();
+        _stopwatch.Reset();
     }
 }

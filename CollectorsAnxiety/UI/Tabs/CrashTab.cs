@@ -17,8 +17,8 @@ public class CrashTab : ITab
 
     public CrashTab(ITab tab, Exception ex)
     {
-        this._crashedTab = tab;
-        this._exceptionRecord = RenderExceptionText(ex);
+        _crashedTab = tab;
+        _exceptionRecord = RenderExceptionText(ex);
     }
 
     public void Draw()
@@ -31,7 +31,7 @@ public class CrashTab : ITab
 
         ImGuiHelpers.ScaledDummy(10f);
 
-        ImGui.TextWrapped($"It appears as though there was a problem drawing the {this._crashedTab.Name} tab. " +
+        ImGui.TextWrapped($"It appears as though there was a problem drawing the {_crashedTab.Name} tab. " +
                           "Please report this error to Kaz, and be sure to include your dalamud.log file in any " +
                           "reports. This message may not be dismissed; you must reload the plugin or restart your " +
                           "game in order to use this tab again.");
@@ -50,7 +50,7 @@ public class CrashTab : ITab
         {
             using (ImRaii.Child("##exception", ImGui.GetContentRegionAvail(), false, ImGuiWindowFlags.HorizontalScrollbar))
             {
-                ImGui.TextUnformatted(this._exceptionRecord);
+                ImGui.TextUnformatted(_exceptionRecord);
             }
         }
     }

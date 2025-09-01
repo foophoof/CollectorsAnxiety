@@ -11,32 +11,32 @@ public class MountEntry : Unlockable<Mount>
 
     public MountEntry(Mount excelRow, UnlockItemCache unlockItemCache) : base(excelRow)
     {
-        this.UnlockItem = unlockItemCache.GetItemForObject(this.LuminaEntry);
+        UnlockItem = unlockItemCache.GetItemForObject(LuminaEntry);
 
-        this.NumberSeats = this.LuminaEntry.ExtraSeats + 1;
-        this.HasActions = this.LuminaEntry.MountAction.RowId != 0;
+        NumberSeats = LuminaEntry.ExtraSeats + 1;
+        HasActions = LuminaEntry.MountAction.RowId != 0;
     }
 
     public override Item? UnlockItem { get; }
 
-    public override string Name => this.LuminaEntry.Singular.ToDalamudString().ToTitleCase();
+    public override string Name => LuminaEntry.Singular.ToDalamudString().ToTitleCase();
 
-    public override uint? IconId => this.LuminaEntry.Icon;
+    public override uint? IconId => LuminaEntry.Icon;
 
-    public override uint SortKey => (uint)((this.LuminaEntry.UIPriority << 8) + this.LuminaEntry.Order);
+    public override uint SortKey => (uint)((LuminaEntry.UIPriority << 8) + LuminaEntry.Order);
 
     public int NumberSeats { get; }
     public bool HasActions { get; }
 
-    public bool HasUniqueMusic => this.UniqueMusicMounts.HasUniqueMusic(this.LuminaEntry);
+    public bool HasUniqueMusic => UniqueMusicMounts.HasUniqueMusic(LuminaEntry);
 
     public override bool IsUnlocked()
     {
-        return GameState.IsMountUnlocked(this.Id);
+        return GameState.IsMountUnlocked(Id);
     }
 
     public override bool IsValid()
     {
-        return this.LuminaEntry.UIPriority != 0;
+        return LuminaEntry.UIPriority != 0;
     }
 }

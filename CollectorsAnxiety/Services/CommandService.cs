@@ -11,7 +11,7 @@ public class CommandService(ICommandManager commandManager, CollectorWindow coll
 {
     public Task StartAsync(CancellationToken cancellationToken)
     {
-        commandManager.AddHandler("/panxiety", new CommandInfo(this.HandleCommand) {HelpMessage = "Open the Collector's Anxiety main window.",});
+        commandManager.AddHandler("/panxiety", new CommandInfo(HandleCommand) {HelpMessage = "Open the Collector's Anxiety main window."});
         return Task.CompletedTask;
     }
 

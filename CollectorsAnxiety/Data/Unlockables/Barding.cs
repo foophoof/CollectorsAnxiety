@@ -7,24 +7,24 @@ public class BardingEntry : Unlockable<BuddyEquip>
 {
     public BardingEntry(BuddyEquip excelRow, UnlockItemCache unlockItemCache) : base(excelRow)
     {
-        this.UnlockItem = unlockItemCache.GetItemForObject(excelRow);
+        UnlockItem = unlockItemCache.GetItemForObject(excelRow);
     }
 
-    public override string Name => this.LuminaEntry.Name.ExtractText();
+    public override string Name => LuminaEntry.Name.ExtractText();
 
-    public override uint? IconId => this.LuminaEntry.IconHead;
+    public override uint? IconId => LuminaEntry.IconHead;
 
     public override Item? UnlockItem { get; }
 
-    public override uint SortKey => this.LuminaEntry.Order;
+    public override uint SortKey => LuminaEntry.Order;
 
     public override bool IsUnlocked()
     {
-        return GameState.IsBuddyEquipUnlocked(this.Id);
+        return GameState.IsBuddyEquipUnlocked(Id);
     }
 
     public override bool IsValid()
     {
-        return this.LuminaEntry.Order != 0;
+        return LuminaEntry.Order != 0;
     }
 }

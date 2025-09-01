@@ -38,8 +38,8 @@ public class OverviewTab(IIndex<string, IDataTab> dataTabs) : ITab
         var grandTotalItems = 0;
         var tainted = false;
 
-        var labelWidth = this.DataTabs.Max(t => ImGui.CalcTextSize(t.Name).X) + 10;
-        var forceShowHidden = this.PluginConfig.CountHiddenItemsInOverview;
+        var labelWidth = DataTabs.Max(t => ImGui.CalcTextSize(t.Name).X) + 10;
+        var forceShowHidden = PluginConfig.CountHiddenItemsInOverview;
 
         using (var table = ImRaii.Table("##overview", 2))
         {
@@ -50,9 +50,12 @@ public class OverviewTab(IIndex<string, IDataTab> dataTabs) : ITab
                 // ImGui.TableHeadersRow();
                 ImGui.TableNextRow();
 
-                foreach (var tab in this.DataTabs)
+                foreach (var tab in DataTabs)
                 {
-                    if (!tab.ShowInOverview) continue;
+                    if (!tab.ShowInOverview)
+                    {
+                        continue;
+                    }
 
                     var controller = tab.GetController();
                     var counts = controller.GetCounts(!forceShowHidden);

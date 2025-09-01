@@ -38,13 +38,17 @@ public class Controller<TEntry, TSheet> : IController where TEntry : Unlockable<
         var unlockedCount = 0;
         var totalCount = 0;
 
-        foreach (var item in this.GetItems())
+        foreach (var item in GetItems())
         {
-            if (respectHidden && this.PluginConfig.IsItemHidden(item))
+            if (respectHidden && PluginConfig.IsItemHidden(item))
+            {
                 continue;
+            }
 
             if (item.IsUnlocked())
+            {
                 unlockedCount += 1;
+            }
 
             totalCount += 1;
         }
@@ -52,24 +56,24 @@ public class Controller<TEntry, TSheet> : IController where TEntry : Unlockable<
         return (unlockedCount, totalCount);
     }
 
-    public bool ParseTainted => this.PluginConfig.HiddenItems
+    public bool ParseTainted => PluginConfig.HiddenItems
         .ContainsKey(typeof(TEntry).Name);
 
     public virtual ImmutableList<TEntry> GetItems(bool useCache = true)
     {
-        if (this._itemCache != null && useCache)
+        if (_itemCache != null && useCache)
         {
-            return this._itemCache;
+            return _itemCache;
         }
 
-        this.PluginLog.Debug($"Cache miss or invalidated getting items for {typeof(TEntry).Name}, regenerating list");
+        PluginLog.Debug($"Cache miss or invalidated getting items for {typeof(TEntry).Name}, regenerating list");
 
-        this._itemCache = this.Sheet
-            .Select(this.EntryFactory)
+        _itemCache = Sheet
+            .Select(EntryFactory)
             .Where(entry => entry.IsValid())
             .OrderBy(entry => entry.SortKey)
             .ToImmutableList();
 
-        return this._itemCache;
+        return _itemCache;
     }
 }

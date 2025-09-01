@@ -9,7 +9,7 @@ public class UniqueMusicMounts
 {
     public UniqueMusicMounts(ExcelSheet<Mount> mountSheet)
     {
-        this.UniqueMounts = mountSheet
+        UniqueMounts = mountSheet
             .GroupBy(n => n.RideBGM.RowId)
             .Where(g => g.Count() == 1)
             .Select(g => g.First())
@@ -20,6 +20,6 @@ public class UniqueMusicMounts
 
     public bool HasUniqueMusic(Mount mount)
     {
-        return this.UniqueMounts.Contains(mount);
+        return UniqueMounts.Contains(mount);
     }
 }

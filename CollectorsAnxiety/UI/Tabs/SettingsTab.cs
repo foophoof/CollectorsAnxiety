@@ -23,11 +23,11 @@ public class SettingsTab : ITab
 
     public SettingsTab(PluginConfig pluginConfig, ConfigurationLoaderService configurationLoaderService)
     {
-        this._config = pluginConfig;
-        this._configurationLoaderService = configurationLoaderService;
+        _config = pluginConfig;
+        _configurationLoaderService = configurationLoaderService;
 
-        this._hideSpoilers = this._config.HideSpoilers;
-        this._hiddenItemsInOverview = this._config.CountHiddenItemsInOverview;
+        _hideSpoilers = _config.HideSpoilers;
+        _hiddenItemsInOverview = _config.CountHiddenItemsInOverview;
     }
 
     public void Draw()
@@ -45,19 +45,19 @@ public class SettingsTab : ITab
 
             using (ImRaii.PushIndent())
             {
-                if (ImGui.Checkbox("Spoiler-Free Mode", ref this._hideSpoilers))
+                if (ImGui.Checkbox("Spoiler-Free Mode", ref _hideSpoilers))
                 {
-                    this._config.HideSpoilers = this._hideSpoilers;
-                    this._configurationLoaderService.Save();
+                    _config.HideSpoilers = _hideSpoilers;
+                    _configurationLoaderService.Save();
                 }
 
                 ImGuiComponents.HelpMarker(
                     "When enabled, this feature will mask all non-collected items with a special icon and spoiler text. Uncollected items will still show in counts. Turning this off may reveal items that are not yet available or otherwise spoil certain experiences.");
 
-                if (ImGui.Checkbox("Count Hidden Items in Overview", ref this._hiddenItemsInOverview))
+                if (ImGui.Checkbox("Count Hidden Items in Overview", ref _hiddenItemsInOverview))
                 {
-                    this._config.CountHiddenItemsInOverview = this._hiddenItemsInOverview;
-                    this._configurationLoaderService.Save();
+                    _config.CountHiddenItemsInOverview = _hiddenItemsInOverview;
+                    _configurationLoaderService.Save();
                 }
 
                 ImGuiComponents.HelpMarker(
@@ -71,13 +71,16 @@ public class SettingsTab : ITab
             {
                 if (ImGui.Button("Unhide All Items"))
                 {
-                    this._config.HiddenItems.Clear();
-                    this._configurationLoaderService.Save();
+                    _config.HiddenItems.Clear();
+                    _configurationLoaderService.Save();
                 }
             }
         }
 
         // Footer buttons
-        if (ImGui.Button("Plugin GitHub")) Dalamud.Utility.Util.OpenLink(Constants.GITHUB_URL);
+        if (ImGui.Button("Plugin GitHub"))
+        {
+            Dalamud.Utility.Util.OpenLink(Constants.GITHUB_URL);
+        }
     }
 }

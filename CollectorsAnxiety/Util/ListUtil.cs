@@ -13,12 +13,19 @@ public static class ListUtil
         foreach (var element in sequence)
         {
             chunk.Add(element);
-            if (chunk.Count != size) continue;
+            if (chunk.Count != size)
+            {
+                continue;
+            }
+
             yield return chunk;
             chunk = new List<T>(size);
         }
 
-        if (chunk.Count > 0) yield return chunk;
+        if (chunk.Count > 0)
+        {
+            yield return chunk;
+        }
     }
 
 }

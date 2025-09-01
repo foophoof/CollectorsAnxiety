@@ -18,10 +18,14 @@ public class HairstyleTab : DataTab<HairstyleEntry, CharaMakeCustomize>
         base.DrawEntryIcons(entry);
 
         if (entry.WearableByMale && !entry.WearableByFemale)
+        {
             ImGuiUtil.HoverMarker(FontAwesomeIcon.Mars, "Limited to male characters");
+        }
 
         if (entry.WearableByFemale && !entry.WearableByMale)
+        {
             ImGuiUtil.HoverMarker(FontAwesomeIcon.Venus, "Limited to female characters");
+        }
 
         var maleHrothgar = entry.WearableByMaleRaceIDs.Contains(GameCompat.PlayerRace.Hrothgar);
         var femaleHrothgar = entry.WearableByFemaleRaceIDs.Contains(GameCompat.PlayerRace.Hrothgar);

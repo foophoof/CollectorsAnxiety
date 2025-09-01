@@ -10,11 +10,11 @@ public class OrchestrionEntry : Unlockable<Orchestrion>
     public OrchestrionEntry(Orchestrion excelRow, UnlockItemCache unlockItemCache, ExcelSheet<OrchestrionUiparam> orchestrionUiparamsSheet) :
         base(excelRow)
     {
-        this.UnlockItem = unlockItemCache.GetItemForObject(excelRow);
-        this.Category = orchestrionUiparamsSheet.GetRow(excelRow.RowId).OrchestrionCategory.Value.Name.ToString();
+        UnlockItem = unlockItemCache.GetItemForObject(excelRow);
+        Category = orchestrionUiparamsSheet.GetRow(excelRow.RowId).OrchestrionCategory.Value.Name.ToString();
     }
 
-    public override string Name => this.LuminaEntry.Name.ExtractText().ToTitleCase();
+    public override string Name => LuminaEntry.Name.ExtractText().ToTitleCase();
 
     public override uint? IconId => 25945;
 
@@ -24,11 +24,11 @@ public class OrchestrionEntry : Unlockable<Orchestrion>
 
     public override bool IsUnlocked()
     {
-        return GameState.IsOrchestrionUnlocked(this.Id);
+        return GameState.IsOrchestrionUnlocked(Id);
     }
 
     public override bool IsValid()
     {
-        return this.Id > 0 && this.Name != "";
+        return Id > 0 && Name != "";
     }
 }

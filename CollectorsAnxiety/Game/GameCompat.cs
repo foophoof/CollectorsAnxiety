@@ -11,12 +11,12 @@ public class GameCompat
         Roegadyn = 5,
         AuRa = 6,
         Hrothgar = 7,
-        Viera = 8
+        Viera = 8,
     }
 
     public enum PlayerGender : sbyte
     {
         Male = 0,
-        Female = 1
+        Female = 1,
     }
 }

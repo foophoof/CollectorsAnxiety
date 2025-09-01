@@ -39,8 +39,8 @@ public sealed class CollectorsAnxietyPlugin : HostedPlugin
             chatGui,
             textureProvider)
     {
-        this.CreateHost();
-        this.Start();
+        CreateHost();
+        Start();
     }
 
     public override void ConfigureContainer(ContainerBuilder containerBuilder)
