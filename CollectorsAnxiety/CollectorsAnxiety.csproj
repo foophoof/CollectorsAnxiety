@@ -4,7 +4,7 @@
         <Version>0.0.12</Version>
     </PropertyGroup>
     <ItemGroup>
-        <PackageReference Include="DalaMock.Host" Version="2.2.5"/>
-        <PackageReference Include="DalaMock.Shared" Version="2.2.6"/>
+        <PackageReference Include="DalaMock.Host" Version="4.0.0"/>
+        <PackageReference Include="DalaMock.Shared" Version="4.0.0"/>
     </ItemGroup>
 </Project>
