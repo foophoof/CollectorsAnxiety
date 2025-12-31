@@ -40,8 +40,7 @@ public class UnlockItemCache
             }
 
             var itemAction = item.ItemAction.Value;
-
-            switch (itemAction.Type)
+            switch (itemAction.Action.RowId)
             {
                 case 0xA49: // Unlock Link (Emote, Hairstyle)
                     _cache[("UnlockLink", itemAction.Data[0])] = item;

@@ -37,8 +37,6 @@ public class DutyEntry : Unlockable<ContentFinderCondition>
 
     public int MinLevel => LuminaEntry.ClassJobLevelRequired;
 
-    public string? UnlockQuestName => LuminaEntry.UnlockQuest.Value.Name.ToString();
-
     private uint GetIconId()
     {
         if (LuminaEntry.Icon != 0)

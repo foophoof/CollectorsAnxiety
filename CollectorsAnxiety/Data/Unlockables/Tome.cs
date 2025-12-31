@@ -30,6 +30,6 @@ public class TomeEntry : Unlockable<Item>
 
     public override bool IsValid()
     {
-        return LuminaEntry.ItemAction.Value is {Type: 0x100B or 0x858};
+        return LuminaEntry.ItemAction.Value is {Action.RowId: 0x100B or 0x858};
     }
 }
