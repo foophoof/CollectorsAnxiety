@@ -69,7 +69,7 @@ public class CollectorWindow : Window
         WindowName = WindowKey;
         var pbs = ImGuiHelpers.GetButtonSize(".");
 
-        if (!ClientState.IsLoggedIn || ClientState.LocalPlayer == null)
+        if (!ClientState.IsLoggedIn)
         {
             using (ImRaii.PushColor(ImGuiCol.Text, ImGuiColors.DalamudOrange))
             {

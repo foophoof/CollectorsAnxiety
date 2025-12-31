@@ -123,4 +123,9 @@ public sealed class CollectorsAnxietyPlugin : HostedPlugin
         serviceCollection.AddHostedService(p => p.GetRequiredService<TippyIPC>());
         serviceCollection.AddHostedService(p => p.GetRequiredService<WindowService>());
     }
+
+    public override HostedPluginOptions ConfigureOptions()
+    {
+        return new HostedPluginOptions();
+    }
 }
