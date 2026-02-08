@@ -1,7 +1,7 @@
 <Project Sdk="Dalamud.NET.Sdk/14.0.1">
     <PropertyGroup>
         <PackageProjectUrl>https://github.com/foophoof/CollectorsAnxiety</PackageProjectUrl>
-        <Version>0.0.12</Version>
+        <Version>0.0.13</Version>
         <Author>foophoof</Author>
         <Name>Collector's Anxiety</Name>
         <Punchline>Hey guys, Famous YouTuber here. Do you ever get Collector's Anxiety?</Punchline>
