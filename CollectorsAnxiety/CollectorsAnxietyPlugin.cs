@@ -21,23 +21,9 @@ namespace CollectorsAnxiety;
 public sealed class CollectorsAnxietyPlugin : HostedPlugin
 {
     public CollectorsAnxietyPlugin(
-        IDalamudPluginInterface pluginInterface,
-        IPluginLog pluginLog,
-        ICommandManager commandManager,
-        IGameInteropProvider gameInteropProvider,
-        IDataManager dataManager,
-        IClientState clientState,
-        IChatGui chatGui,
-        ITextureProvider textureProvider)
+        IDalamudPluginInterface pluginInterface)
         : base(
-            pluginInterface,
-            pluginLog,
-            commandManager,
-            gameInteropProvider,
-            dataManager,
-            clientState,
-            chatGui,
-            textureProvider)
+            pluginInterface)
     {
         CreateHost();
         Start();

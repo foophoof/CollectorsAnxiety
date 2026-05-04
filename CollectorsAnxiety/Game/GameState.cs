@@ -1,3 +1,4 @@
+using Dalamud.Plugin.Services;
 using FFXIVClientStructs.FFXIV.Client.Game.UI;
 using Lumina.Excel.Sheets;
 
@@ -60,7 +61,7 @@ public unsafe class GameState
 
     internal static bool IsInArmoire(uint armoireEntryId)
     {
-        return UIState.Instance()->Cabinet.IsItemInCabinet((int)armoireEntryId);
+        return UIState.Instance()->Cabinet.IsItemInCabinet(armoireEntryId);
     }
 
     internal static bool IsArmoirePopulated()
