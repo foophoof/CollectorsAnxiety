@@ -9,6 +9,6 @@
         <RepoUrl>https://github.com/foophoof/CollectorsAnxiety</RepoUrl>
     </PropertyGroup>
     <ItemGroup>
-        <PackageReference Include="DalaMock.Host" Version="5.1.0"/>
+        <PackageReference Include="DalaMock.Host" Version="6.0.0"/>
     </ItemGroup>
 </Project>
